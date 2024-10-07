@@ -1,0 +1,167 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Web Dev",
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"build",
+				"web",
+				"--wasm",
+				"--target=lib/main_dev.dart"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "",
+			"dependsOn": [
+				"Clean project cache",
+				"Sync Dev",
+			],
+		},
+		{
+			"label": "Deploy Web Dev",
+			"type": "shell",
+			"command": "firebase deploy -P dev",
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "Deploy web to dev environment",
+			"dependsOn": [
+				"Build Web Dev",
+			],
+		},
+		{
+			"label": "Build Web Prod",
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"build",
+				"web",
+				"--wasm",
+				"--target=lib/main_prod.dart"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "",
+			"dependsOn": [
+				"Clean project cache",
+				"Sync Prod",
+			],
+		},
+		{
+			"label": "Deploy Web Prod",
+			"type": "shell",
+			"command": "firebase deploy -P prod",
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "Deploy web to prod environment",
+			"dependsOn": [
+				"Build Web Prod",
+			],
+		},
+		{
+			"label": "Sync Dev",
+			"detail": "Sync Dev environment",
+			"dependsOn": [
+				"Sync Dev Env",
+			],
+			"presentation": {
+				"reveal": "silent",
+				"close": true,
+			},
+			"hide": true,
+		},
+		{
+			"label": "Sync Prod",
+			"detail": "Sync Prod environment",
+			"dependsOn": [
+				"Sync Prod Env",
+			],
+			"presentation": {
+				"reveal": "silent",
+				"close": true,
+			},
+			"hide": true,
+		},
+		{
+			"label": "Sync Dev Env",
+			"type": "shell",
+			"command": "cp .config/dev/.env .env",
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "Sync Dev env file",
+			"presentation": {
+				"reveal": "silent",
+				"close": true
+			},
+			"hide": true,
+		},
+		{
+			"label": "Sync Prod Env",
+			"type": "shell",
+			"command": "cp .config/prod/.env .env",
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "Sync Prod env file",
+			"presentation": {
+				"reveal": "silent",
+				"close": true
+			},
+			"hide": true,
+		},
+		{
+			"label": "Clean project cache",
+			"type": "shell",
+			"command": "echo Success!",
+			"problemMatcher": [],
+			"detail": "Clean Flutter project cache, update packages & rebuild mobx files",
+			"dependsOn": [
+				"Clean",
+				"Sync packages",
+				// "Build-runner build"	// Enable if we want to re-run build runner while clean project cache
+			],
+			"dependsOrder": "sequence",
+		},
+		{
+			"label": "Clean",
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"clean",
+			],
+			"problemMatcher": [],
+			"detail": "Clean Flutter project cache",
+			"presentation": {
+				"focus": true,
+				"panel": "shared",
+			},
+			"hide": true,
+		},
+		{
+			"label": "Sync packages",
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"packages",
+				"get",
+			],
+			"problemMatcher": [],
+			"detail": "Sync Flutter packages",
+			"hide": true,
+		},
+		{
+			"label": "Build-runner build",
+			"type": "shell",
+			"command": "dart",
+			"args": [
+				"run",
+				"build_runner",
+				"build",
+				"--delete-conflicting-outputs"
+			],
+			"problemMatcher": [],
+			"detail": "Generate mobx g.dart files",
+			"hide": true,
+		},
+	]
+}
