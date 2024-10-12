@@ -43,7 +43,7 @@ class CustomText extends StatelessWidget {
     final defaultStyle = TextStyle(
       fontSize: 16.spMin,
       color: context.color.textColor,
-      fontFamily: Font.sfPro,
+      fontFamily: Font.poppins,
       shadows: enableGlow
           ? [
               Shadow(
