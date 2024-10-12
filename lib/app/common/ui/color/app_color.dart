@@ -5,6 +5,9 @@ abstract class AppColor {
   /// The primary background color.
   Color get primaryBackground;
 
+  /// The primary color.
+  Color get primaryColor;
+
   /// The accent color.
   Color get accentColor;
 
