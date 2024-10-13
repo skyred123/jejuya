@@ -1,3 +1,6 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_controller.dart';
@@ -40,11 +43,34 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
   Widget get _tabBar => Builder(
         builder: (context) {
           final ctrl = globalController<HomeController>();
-          return ListenableProvider(
-            key: const Key('bottom-tab-bar'),
-            create: (_) => ctrl.bottomTabBarState,
-            child: const BottomTabBar().marginAll(5.hMin),
-          );
+          return Container(
+            color: Colors.white,
+            child: GNav(
+              gap: 8,
+              color: Colors.grey,
+              activeColor: Colors.white,
+              tabBackgroundColor: context.color.primaryColor,
+              padding: const EdgeInsets.all(8),
+              tabs: [
+                GButton(
+                  icon: Icons.home,
+                  text: 'Home',
+                ),
+                GButton(
+                  icon: Icons.heat_pump_rounded,
+                  text: 'Likes',
+                ),
+                GButton(
+                  icon: Icons.search,
+                  text: 'Search',
+                ),
+                GButton(
+                  icon: Icons.star,
+                  text: 'Profile',
+                )
+              ],
+            ).paddingSymmetric(vertical: 16.hMin, horizontal: 20.rMin),
+          ).paddingOnly(bottom: 20.hMin, left: 16.hMin, right: 16.hMin);
         },
       );
 
