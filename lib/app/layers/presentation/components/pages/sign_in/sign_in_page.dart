@@ -21,28 +21,30 @@ class SignInPage extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: _body,
-      ),
+      resizeToAvoidBottomInset: true,
+      body: _body,
     );
   }
 
   Widget get _body => Builder(
         builder: (context) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _logo,
-              _headerText,
-              _signInInfo,
-              _signInBtn,
-              Expanded(child: _signUpBtn),
-            ],
-          ).paddingOnly(
-            top: 70.hMin,
-            right: 25.wMin,
-            left: 25.wMin,
-            bottom: 30.hMin,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _logo,
+                _headerText,
+                _signInInfo,
+                _signInBtn,
+                Expanded(child: _signUpBtn),
+              ],
+            ).paddingOnly(
+              top: 30.hMin,
+              right: 25.wMin,
+              left: 25.wMin,
+              bottom: 30.hMin,
+            ),
           );
         },
       );
@@ -164,6 +166,6 @@ class SignInPage extends StatelessWidget
               width: 70.wMin,
             ),
           ],
-        );
+        ).paddingOnly(top: 10.hMin);
       });
 }

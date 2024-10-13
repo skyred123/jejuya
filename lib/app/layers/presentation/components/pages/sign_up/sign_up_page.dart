@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
+import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/text_field/custom_text_field.dart';
@@ -19,28 +20,29 @@ class SignUpPage extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: _body,
-      ),
+      body: _body,
     );
   }
 
   Widget get _body => Builder(
         builder: (context) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _logo,
-              _headerText,
-              _signInInfo,
-              _signInBtn,
-              Expanded(child: _signUpBtn),
-            ],
-          ).paddingOnly(
-            top: 70.hMin,
-            right: 25.wMin,
-            left: 25.wMin,
-            bottom: 30.hMin,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _logo,
+                _headerText,
+                _signInInfo,
+                _signInBtn,
+                Expanded(child: _signUpBtn),
+              ],
+            ).paddingOnly(
+              top: 30.hMin,
+              right: 25.wMin,
+              left: 25.wMin,
+              bottom: 30.hMin,
+            ),
           );
         },
       );
@@ -89,7 +91,7 @@ class SignUpPage extends StatelessWidget
                   .paddingOnly(bottom: 16.hMin),
               _textField(ctrl.passwordController, "Mật Khẩu")
                   .paddingOnly(bottom: 16.hMin),
-              _textField(ctrl.passwordController, "Xác Nhận Mật Khẩu"),
+              _textField(ctrl.confirmPasswordController, "Xác Nhận Mật Khẩu"),
             ],
           ).paddingOnly(top: 60.hMin);
         },
@@ -140,7 +142,9 @@ class SignUpPage extends StatelessWidget
               ),
             ),
             BouncesAnimatedButton(
-              onPressed: () {},
+              onPressed: () {
+                nav.back();
+              },
               leading: Text(
                 'Đăng Nhập',
                 style: TextStyle(
