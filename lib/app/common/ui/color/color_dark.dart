@@ -5,7 +5,10 @@ import 'package:jejuya/app/common/utils/extension/string/string_to_color.dart';
 /// A class that defines the dark theme colors for the app.
 class DarkAppColor extends AppColor {
   @override
-  Color get primaryBackground => '#161B27'.toColor;
+  Color get primaryBackground => '#FAFAFA'.toColor;
+
+  @override
+  Color get primaryColor => '#4B8B8B'.toColor;
 
   @override
   Color get accentColor => '#E0C0CC'.toColor;

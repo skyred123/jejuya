@@ -9,6 +9,9 @@ class LightAppColor extends AppColor {
       const Color(0xFFE8F6F1); // const Color(0xFFE4DED5)
 
   @override
+  Color get primaryColor => '#4B8B8B'.toColor;
+
+  @override
   Color get accentColor => '#008080'.toColor;
 
   @override
