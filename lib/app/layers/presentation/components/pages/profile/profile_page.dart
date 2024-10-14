@@ -13,7 +13,10 @@ class ProfilePage extends StatelessWidget
     return const Scaffold(
       body: SafeArea(
         child: Center(
-          child: Text('Profile Page'),
+          child: Text(
+            "Profile",
+            style: TextStyle(fontSize: 30, color: Colors.black),
+          ),
         ),
       ),
     );

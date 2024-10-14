@@ -3,6 +3,7 @@ import 'package:jejuya/app/layers/presentation/components/widgets/tab_bar/bottom
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
 
 /// Controller for the home page
 class HomeController extends BaseController with GlobalControllerProvider {
@@ -13,6 +14,8 @@ class HomeController extends BaseController with GlobalControllerProvider {
 
   /// State management for the bottom tab bar in the home page.
   late final bottomTabBarState = BottomTabBarState();
+
+  final tabBarIndex = listenable<int>(0);
 
   /// PageController to manage page transitions when a tab is selected.
   PageController? pageController;
