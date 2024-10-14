@@ -11,32 +11,26 @@ class DarkAppColor extends AppColor {
   Color get primaryColor => '#4B8B8B'.toColor;
 
   @override
-  Color get accentColor => '#E0C0CC'.toColor;
+  Color get black => '#131314'.toColor;
 
   @override
-  Color get containerBackground => '#747480'.toColor.withOpacity(0.12);
+  Color get info => '#B8BABE'.toColor;
 
   @override
-  Color get snackBarColor => '#55555555'.toColor;
+  Color get white => '#FAFAFA'.toColor;
 
   @override
-  Color get textColor => '#FFFFFF'.toColor;
+  Color get white2 => '#FFFFFF'.toColor;
 
   @override
-  Color get errorTextColor => '#FF5252'.toColor;
+  Color get containerBackground => '#F1F0F0'.toColor;
 
   @override
-  Color get subTextColor => '#B3FFFFFF'.toColor;
+  Color get red => '#F03E31'.toColor;
 
   @override
-  Color get warningTextColor => '#F4ADAD'.toColor;
+  Color get darkRed => '#9C140A'.toColor;
 
   @override
-  Color get bottomSheetBackground => '#2C2C2E'.toColor;
-
-  @override
-  Color get tabBarLabelColor => '#424242'.toColor;
-
-  @override
-  Color get tabBarLabelSelectedColor => '#FFFFFF'.toColor;
+  Color get primaryLight => '#A5C5C5'.toColor;
 }

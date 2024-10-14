@@ -106,7 +106,7 @@ class GetxNavigator with GlobalControllerProvider implements nav.Navigator {
       snapSizes: snapSizes,
       shouldCloseWhenDraggedFromTop: shouldCloseWhenDraggedFromTop,
       child: bottomsheet,
-      backgroundColor: backgroundColor ?? context.color.bottomSheetBackground,
+      backgroundColor: backgroundColor ?? context.color.containerBackground,
       isShowIndicator: isShowIndicator,
       isDynamicSheet: isDynamicSheet,
       draggableSheetWithoutScrollWrapper: isScrollControlled,
@@ -197,7 +197,7 @@ class GetxNavigator with GlobalControllerProvider implements nav.Navigator {
             message: parsedMessage,
             titleText: titleText,
             messageText: messageText,
-            backgroundColor: context.color.snackBarColor,
+            backgroundColor: context.color.containerBackground,
             barBlur: 10,
             icon: icon,
             onTap: (_) {

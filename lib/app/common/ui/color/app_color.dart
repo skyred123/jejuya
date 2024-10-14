@@ -8,33 +8,27 @@ abstract class AppColor {
   /// The primary color.
   Color get primaryColor;
 
-  /// The accent color.
-  Color get accentColor;
+  /// The black color.
+  Color get black;
 
-  /// The container background color.
+  /// The info color.
+  Color get info;
+
+  /// The white color.
+  Color get white;
+
+  /// The white2 color.
+  Color get white2;
+
+  /// The containerBackground color.
   Color get containerBackground;
 
-  /// The color of the snackbar.
-  Color get snackBarColor;
+  /// The red color.
+  Color get red;
 
-  /// The text color.
-  Color get textColor;
+  /// The darkRed color.
+  Color get darkRed;
 
-  /// The error text color.
-  Color get errorTextColor;
-
-  /// The subtext color.
-  Color get subTextColor;
-
-  /// The warning text color.
-  Color get warningTextColor;
-
-  /// The bottom sheet background color.
-  Color get bottomSheetBackground;
-
-  /// The tab bar label color.
-  Color get tabBarLabelColor;
-
-  /// The tab bar label selected color.
-  Color get tabBarLabelSelectedColor;
+  /// The primaryLight color.
+  Color get primaryLight;
 }

@@ -34,14 +34,14 @@ class BottomSheetActionItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 22.spMin, color: context.color.textColor).marginOnly(
+          Icon(icon, size: 22.spMin, color: context.color.black).marginOnly(
             right: 10.wMin,
           ),
           Text(
             title,
             style: TextStyle(
               fontSize: 16.spMin,
-              color: context.color.textColor,
+              color: context.color.black,
             ),
           ).tr(),
         ],

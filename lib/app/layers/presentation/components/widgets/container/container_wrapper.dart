@@ -101,7 +101,7 @@ class ContainerWrapper extends StatelessWidget {
       return CupertinoTheme(
         data: CupertinoThemeData(
           primaryColor: context
-              .color.textColor, // This affects the default text color of button
+              .color.black, // This affects the default text color of button
         ),
         child: CupertinoButton(
           padding: hitTargetPadding ?? EdgeInsets.zero,

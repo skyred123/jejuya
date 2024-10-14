@@ -42,13 +42,13 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     final defaultStyle = TextStyle(
       fontSize: 16.spMin,
-      color: context.color.textColor,
+      color: context.color.black,
       fontFamily: Font.poppins,
       shadows: enableGlow
           ? [
               Shadow(
                 blurRadius: 5.0.spMin,
-                color: context.color.textColor,
+                color: context.color.black,
               ),
             ]
           : null,

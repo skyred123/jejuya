@@ -90,7 +90,7 @@ class SmartRefreshContainer<T> extends StatelessWidget {
               CustomText(
                 tr('smart_refresh.empty_description'),
                 style: TextStyle(
-                  color: context.color.subTextColor,
+                  color: context.color.black,
                   fontSize: 16.spMin,
                 ),
               ),
@@ -108,7 +108,7 @@ class SmartRefreshContainer<T> extends StatelessWidget {
               CustomText(
                 tr('smart_refresh.error_description'),
                 style: TextStyle(
-                  color: context.color.subTextColor,
+                  color: context.color.black,
                   fontSize: 16.spMin,
                 ),
               ).paddingOnly(bottom: 5.hMin),
@@ -123,7 +123,7 @@ class SmartRefreshContainer<T> extends StatelessWidget {
                     tr('smart_refresh.btn_try_again'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: context.color.textColor,
+                      color: context.color.black,
                       fontSize: 12.spMin,
                     ),
                   ),
@@ -168,7 +168,7 @@ class SmartRefreshContainer<T> extends StatelessWidget {
                   child: Text(
                     'Could not load more. Please try again!',
                     style: TextStyle(
-                      color: context.color.textColor.withOpacity(0.6),
+                      color: context.color.black.withOpacity(0.6),
                     ),
                   ),
                 );

@@ -86,7 +86,7 @@ class BottomSheetWrapper extends StatelessWidget {
                     if (isShowIndicator)
                       Container(
                         decoration: BoxDecoration(
-                          color: context.color.subTextColor,
+                          color: context.color.containerBackground,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(5)),
                         ),
@@ -115,8 +115,8 @@ class BottomSheetWrapper extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      backgroundColor ?? context.color.bottomSheetBackground,
-                      (backgroundColor ?? context.color.bottomSheetBackground)
+                      backgroundColor ?? context.color.containerBackground,
+                      (backgroundColor ?? context.color.containerBackground)
                           .withOpacity(0),
                     ],
                     begin: Alignment.topCenter,
@@ -144,8 +144,8 @@ class BottomSheetWrapper extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      backgroundColor ?? context.color.bottomSheetBackground,
-                      (backgroundColor ?? context.color.bottomSheetBackground)
+                      backgroundColor ?? context.color.containerBackground,
+                      (backgroundColor ?? context.color.containerBackground)
                           .withOpacity(0),
                     ],
                     begin: Alignment.bottomCenter,

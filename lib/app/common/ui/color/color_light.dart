@@ -5,39 +5,32 @@ import 'package:jejuya/app/common/utils/extension/string/string_to_color.dart';
 /// A class that defines the light color scheme for the app.
 class LightAppColor extends AppColor {
   @override
-  Color get primaryBackground =>
-      const Color(0xFFE8F6F1); // const Color(0xFFE4DED5)
+  Color get primaryBackground => '#FAFAFA'.toColor;
 
   @override
   Color get primaryColor => '#4B8B8B'.toColor;
 
   @override
-  Color get accentColor => '#008080'.toColor;
+  Color get black => '#131314'.toColor;
 
   @override
-  Color get containerBackground => Colors.black.withOpacity(0.04);
+  Color get info => '#B8BABE'.toColor;
 
   @override
-  Color get snackBarColor => '#55555555'.toColor;
+  Color get white => '#FAFAFA'.toColor;
 
   @override
-  Color get subTextColor => '#666666'.toColor;
+  Color get white2 => '#FFFFFF'.toColor;
 
   @override
-  Color get warningTextColor => '#F4ADAD'.toColor;
+  Color get containerBackground => '#F1F0F0'.toColor;
 
   @override
-  Color get errorTextColor => '#8B0000'.toColor;
+  Color get red => '#F03E31'.toColor;
 
   @override
-  Color get textColor => '#333333'.toColor;
+  Color get darkRed => '#9C140A'.toColor;
 
   @override
-  Color get bottomSheetBackground => '#2C2C2E'.toColor;
-
-  @override
-  Color get tabBarLabelColor => '#424242'.toColor;
-
-  @override
-  Color get tabBarLabelSelectedColor => '#FFFFFF'.toColor;
+  Color get primaryLight => '#A5C5C5'.toColor;
 }

@@ -130,8 +130,8 @@ class BottomTabBarItem extends StatelessWidget {
               fontSize: 14.spMin,
               fontWeight: FontWeight.w500,
               color: selectedTab != tab
-                  ? context.color.tabBarLabelColor
-                  : context.color.tabBarLabelSelectedColor,
+                  ? context.color.white
+                  : context.color.primaryLight,
             ),
           ),
         ],

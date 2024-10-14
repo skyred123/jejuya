@@ -57,7 +57,7 @@ class BottomSheetHeader extends StatelessWidget {
                   icon: Icon(
                     CupertinoIcons.xmark_circle_fill,
                     size: 25.rMin,
-                    color: context.color.textColor,
+                    color: context.color.black,
                   ),
                 ),
               ],
