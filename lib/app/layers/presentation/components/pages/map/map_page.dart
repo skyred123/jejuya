@@ -3,8 +3,7 @@ import 'package:jejuya/app/layers/presentation/components/pages/map/map_controll
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 
 /// Page widget for the Map feature
-class MapPage extends StatelessWidget
-    with ControllerProvider<MapController> {
+class MapPage extends StatelessWidget with ControllerProvider<MapController> {
   /// Default constructor for the MapPage.
   const MapPage({super.key});
 
@@ -12,7 +11,12 @@ class MapPage extends StatelessWidget
   Widget build(BuildContext context) {
     return const Scaffold(
       body: SafeArea(
-        child: SizedBox.shrink(),
+        child: Center(
+          child: Text(
+            "Map",
+            style: TextStyle(fontSize: 30, color: Colors.black),
+          ),
+        ),
       ),
     );
   }

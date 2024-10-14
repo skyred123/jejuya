@@ -1,5 +1,9 @@
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/map/map_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/map/map_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/notification/notification_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/notification/notification_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/notification_detail/notification_detail_controller.dart';
@@ -10,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jejuya/app/core_impl/navigation/custom_get_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
@@ -32,6 +38,15 @@ class PredefinedRoute {
 
   /// Home page route.
   static const String home = '/home';
+
+  /// Schedule page route.
+  static const String map = '/map';
+
+  /// Schedule page route.
+  static const String schedule = '/schedule';
+
+  /// Favorite page route.
+  static const String favorite = '/favorite';
 
   /// Profile page route.
   static const String profile = '/profile';
@@ -62,6 +77,18 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.home,
       page: () => nav.home,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.map,
+      page: () => nav.map,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.schedule,
+      page: () => nav.schedule,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.favorite,
+      page: () => nav.favorite,
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.profile,
@@ -113,6 +140,24 @@ extension NavPredefined on navi.Navigator {
         child: HomePage(),
       );
 
+  /// Home page widget.
+  Widget get map => BaseProvider(
+        ctrl: MapController(),
+        child: const MapPage(),
+      );
+
+  /// Home page widget.
+  Widget get schedule => BaseProvider(
+        ctrl: ScheduleController(),
+        child: const SchedulePage(),
+      );
+
+  /// Home page widget.
+  Widget get favorite => BaseProvider(
+        ctrl: FavoriteController(),
+        child: const FavoritePage(),
+      );
+
   /// Profile page widget.
   Widget get profile => BaseProvider(
         ctrl: ProfileController(),
@@ -151,6 +196,26 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to the home page.
   Future<T?>? toHome<T>() => toNamed(
         PredefinedRoute.home,
+      );
+
+  /// Navigate to the map page.
+  Future<T?>? toMap<T>() => toNamed(
+        PredefinedRoute.map,
+      );
+
+  /// Navigate to the schedule page.
+  Future<T?>? toSchedule<T>() => toNamed(
+        PredefinedRoute.schedule,
+      );
+
+  /// Navigate to the home page.
+  Future<T?>? toFavorite<T>() => toNamed(
+        PredefinedRoute.favorite,
+      );
+
+  /// Navigate to the home page.
+  Future<T?>? toProfile<T>() => toNamed(
+        PredefinedRoute.profile,
       );
 
   Future<T?>? toNotificationDetail<T>({required num? notificationId}) =>

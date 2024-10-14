@@ -12,7 +12,12 @@ class SchedulePage extends StatelessWidget
   Widget build(BuildContext context) {
     return const Scaffold(
       body: SafeArea(
-        child: SizedBox.shrink(),
+        child: Center(
+          child: Text(
+            "Schedule",
+            style: TextStyle(fontSize: 30, color: Colors.black),
+          ),
+        ),
       ),
     );
   }

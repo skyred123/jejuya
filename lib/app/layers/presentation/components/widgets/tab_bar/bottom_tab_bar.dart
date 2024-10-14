@@ -1,4 +1,4 @@
-import 'package:jejuya/app/common/ui/image/image_local.dart';
+import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/media/media_loader.dart';
@@ -12,16 +12,28 @@ import 'package:provider/provider.dart';
 /// An enum representing the different tabs available in the bottom tab bar.
 enum TabBarItem {
   /// Represents the "Profile" tab with its icon, selected icon, and label.
-  profile(
-    icon: LocalImageRes.profileIcon,
-    selectedIcon: LocalImageRes.profileSelectedIcon,
+  home(
+    icon: LocalSvgRes.home,
+    selectedIcon: LocalSvgRes.home,
     label: 'bottom_tab_bar.label_profile',
   ),
 
-  notification(
-    icon: LocalImageRes.notificationIcon,
-    selectedIcon: LocalImageRes.notificationSelectedIcon,
+  schedule(
+    icon: LocalSvgRes.schedule,
+    selectedIcon: LocalSvgRes.schedule,
+    label: 'bottom_tab_bar.label_profile',
+  ),
+
+  favorite(
+    icon: LocalSvgRes.like,
+    selectedIcon: LocalSvgRes.like,
     label: 'bottom_tab_bar.label_notification',
+  ),
+
+  profile(
+    icon: LocalSvgRes.schedule,
+    selectedIcon: LocalSvgRes.schedule,
+    label: 'bottom_tab_bar.label_profile',
   );
 
   /// Constructor to initialize the enum with associated properties.
@@ -57,10 +69,16 @@ class BottomTabBar extends StatelessWidget {
         child: const Row(
           children: [
             Expanded(
-              child: BottomTabBarItem(tab: TabBarItem.profile),
+              child: BottomTabBarItem(tab: TabBarItem.home),
             ),
             Expanded(
-              child: BottomTabBarItem(tab: TabBarItem.notification),
+              child: BottomTabBarItem(tab: TabBarItem.schedule),
+            ),
+            Expanded(
+              child: BottomTabBarItem(tab: TabBarItem.favorite),
+            ),
+            Expanded(
+              child: BottomTabBarItem(tab: TabBarItem.profile),
             ),
           ],
         ),
@@ -134,7 +152,7 @@ class BottomTabBarState extends ChangeNotifier {
   /// The list of available tabs.
 
   /// The currently selected tab. Defaults to the boost tab.
-  TabBarItem selectedTab = TabBarItem.profile;
+  TabBarItem selectedTab = TabBarItem.home;
 
   /// The controller for the page view.
   PageController? _pageController;

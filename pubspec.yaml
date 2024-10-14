@@ -106,6 +106,9 @@ dependencies:
   # [Lottie] A Flutter package for displaying Lottie animations.
   lottie: ^3.1.2
 
+  # [Google Navigation Bar] A Flutter package for navigation bar.
+  google_nav_bar: ^5.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
