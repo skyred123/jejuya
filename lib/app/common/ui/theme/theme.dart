@@ -16,7 +16,7 @@ class AppTheme {
   static final dark = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: darkAppColor.primaryBackground,
     textTheme: Typography().white.apply(
-          fontFamily: Font.sfPro,
+          fontFamily: Font.poppins,
         ),
     extensions: [CustomThemeExt(appColor: darkAppColor)],
   );
@@ -25,7 +25,7 @@ class AppTheme {
   static final light = ThemeData.light().copyWith(
     scaffoldBackgroundColor: lightAppColor.primaryBackground,
     textTheme: Typography().black.apply(
-          fontFamily: Font.sfPro,
+          fontFamily: Font.poppins,
         ),
     extensions: [CustomThemeExt(appColor: lightAppColor)],
   );

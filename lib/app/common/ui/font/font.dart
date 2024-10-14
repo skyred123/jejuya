@@ -2,4 +2,5 @@
 class Font {
   /// The name of the SF Pro font.
   static const sfPro = 'SFPro';
+  static const poppins = 'Poppins';
 }

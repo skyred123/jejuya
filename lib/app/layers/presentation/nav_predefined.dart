@@ -10,6 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jejuya/app/core_impl/navigation/custom_get_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/splash/splash_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/splash/splash_page.dart';
 import 'package:jejuya/core/arch/presentation/view/base_provider.dart';
@@ -19,6 +23,12 @@ import 'package:jejuya/core/navigation/navigator.dart' as navi;
 class PredefinedRoute {
   /// Splash page route.
   static const String splash = '/';
+
+  /// Splash page route.
+  static const String signIn = '/sign_in';
+
+  /// Splash page route.
+  static const String signUp = '/sign_up';
 
   /// Home page route.
   static const String home = '/home';
@@ -40,6 +50,14 @@ class PredefinedPage {
     GetPageEnsureNotAuth(
       name: PredefinedRoute.splash,
       page: () => nav.splash,
+    ),
+    GetPageEnsureNotAuth(
+      name: PredefinedRoute.signIn,
+      page: () => nav.signIn,
+    ),
+    GetPageEnsureNotAuth(
+      name: PredefinedRoute.signUp,
+      page: () => nav.signUp,
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.home,
@@ -77,6 +95,18 @@ extension NavPredefined on navi.Navigator {
         child: const SplashPage(),
       );
 
+  /// Sign in page widget.
+  Widget get signIn => BaseProvider(
+        ctrl: SignInController(),
+        child: const SignInPage(),
+      );
+
+  /// Sign in page widget.
+  Widget get signUp => BaseProvider(
+        ctrl: SignUpController(),
+        child: const SignUpPage(),
+      );
+
   /// Home page widget.
   Widget get home => BaseProvider(
         ctrl: HomeController(),
@@ -108,6 +138,14 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to the splash page.
   Future<T?>? toSplash<T>() => toNamed(
         PredefinedRoute.splash,
+      );
+
+  Future<T?>? toSignIn<T>() => toNamed(
+        PredefinedRoute.signIn,
+      );
+
+  Future<T?>? toSignUp<T>() => toNamed(
+        PredefinedRoute.signUp,
       );
 
   /// Navigate to the home page.
