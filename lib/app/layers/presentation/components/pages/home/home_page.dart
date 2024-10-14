@@ -138,7 +138,7 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
         },
       );
 
-  Widget get _pageView => Observer(
+  Widget get _pageView => Builder(
         builder: (context) {
           final ctrl = globalController<HomeController>();
           return PageView(
