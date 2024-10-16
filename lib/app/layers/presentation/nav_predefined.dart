@@ -1,4 +1,6 @@
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_controller.dart';
@@ -56,6 +58,9 @@ class PredefinedRoute {
 
   /// Notification detail page route.
   static const String notificationDetail = '/notification_detail?.*';
+
+  /// Desitnation detail page route.
+  static const String destinationDetail = '/destination_detail';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -105,6 +110,10 @@ class PredefinedPage {
             Uri.tryParse(Get.currentRoute)!.queryParameters['notication_id']!);
         return nav.notificationDetail(notificationId: id);
       },
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.destinationDetail,
+      page: () => nav.destinationDetail,
     ),
   ];
 }
@@ -170,6 +179,12 @@ extension NavPredefined on navi.Navigator {
         child: const NotificationPage(),
       );
 
+  /// Notification page widget.
+  Widget get destinationDetail => BaseProvider(
+        ctrl: DestinationDetailController(),
+        child: const DestinationDetailPage(),
+      );
+
   /// Notification detail page widget.
   Widget notificationDetail({required num? notificationId}) => BaseProvider(
         ctrl: NotificationDetailController(notificationId: notificationId),
@@ -216,6 +231,11 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to the home page.
   Future<T?>? toProfile<T>() => toNamed(
         PredefinedRoute.profile,
+      );
+
+  /// Navigate to the home page.
+  Future<T?>? toDestinationDetail<T>() => toNamed(
+        PredefinedRoute.destinationDetail,
       );
 
   Future<T?>? toNotificationDetail<T>({required num? notificationId}) =>
