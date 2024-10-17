@@ -28,23 +28,21 @@ class SignInPage extends StatelessWidget
 
   Widget get _body => Builder(
         builder: (context) {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _logo,
-                _headerText,
-                _signInInfo,
-                _signInBtn,
-                Expanded(child: _signUpBtn),
-              ],
-            ).paddingOnly(
-              top: 30.hMin,
-              right: 25.wMin,
-              left: 25.wMin,
-              bottom: 30.hMin,
-            ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _logo,
+              _headerText,
+              _signInInfo,
+              _signInBtn,
+              Expanded(child: _signUpBtn),
+            ],
+          ).paddingOnly(
+            top: 30.hMin,
+            right: 25.wMin,
+            left: 25.wMin,
+            bottom: 30.hMin,
           );
         },
       );

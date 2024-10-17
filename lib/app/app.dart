@@ -6,7 +6,7 @@ import 'package:jejuya/app/layers/presentation/global_controllers/loading_overla
 import 'package:jejuya/app/layers/presentation/global_controllers/setting/setting_controller.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
-import 'package:jejuya/flavors.dart';
+// import 'package:jejuya/flavors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -46,7 +46,7 @@ class App extends StatelessWidget with GlobalControllerProvider {
             }
 
             return GetMaterialApp(
-              title: F.title,
+              title: "Jejuya",
               debugShowCheckedModeBanner: false,
               localizationsDelegates: [
                 ...context.localizationDelegates,
@@ -58,7 +58,7 @@ class App extends StatelessWidget with GlobalControllerProvider {
               theme: theme.themeData,
               themeMode: theme.themeMode,
               navigatorObservers: [navigatorObserver].nonNulls.toList(),
-              onGenerateTitle: (context) => F.title,
+              onGenerateTitle: (context) => "Jejuya",
               logWriterCallback: (text, {bool isError = false}) =>
                   isError ? log.error(text) : log.verbose(text),
               builder: (context, child) {
