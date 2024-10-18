@@ -108,6 +108,8 @@ dependencies:
 
   # [Google Navigation Bar] A Flutter package for navigation bar.
   google_nav_bar: ^5.0.6
+  flutter_staggered_grid_view: ^0.7.0
+  image_network: ^2.5.6
 
 dev_dependencies:
   flutter_test:
@@ -128,7 +130,6 @@ dev_dependencies:
 
   # [Flavor] A flutter package that helps you setup multiple flavors easily
   flutter_flavorizr: ^2.2.3
-
   # [Json Serializable] This package is a code generator that simplifies the process of serializing and deserializing JSON in Dart.
   json_serializable: ^6.8.0
 

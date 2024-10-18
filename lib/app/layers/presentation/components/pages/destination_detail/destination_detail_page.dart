@@ -95,7 +95,7 @@ class DestinationDetailPage extends StatelessWidget
             "Nohyung Supermarket",
             style: TextStyle(
               color: context.color.black,
-              fontSize: 20,
+              fontSize: 20.spMin,
               fontWeight: FontWeight.w600,
             ),
           );
@@ -108,7 +108,7 @@ class DestinationDetailPage extends StatelessWidget
             "Beyond the boundary between the everyday and the extraordinary, For Garden Door, the starting point of leaving for an unknown space.",
             style: TextStyle(
               color: context.color.info,
-              fontSize: 12,
+              fontSize: 12.spMin,
             ),
           ).paddingOnly(top: 10.hMin);
         },
@@ -123,7 +123,7 @@ class DestinationDetailPage extends StatelessWidget
                 "Thông Tin",
                 style: TextStyle(
                   color: context.color.black,
-                  fontSize: 14,
+                  fontSize: 14.spMin,
                   fontWeight: FontWeight.w600,
                 ),
               ).paddingOnly(top: 10.hMin, bottom: 16.hMin),
@@ -169,7 +169,7 @@ class DestinationDetailPage extends StatelessWidget
                 item.name,
                 style: TextStyle(
                   color: context.color.black,
-                  fontSize: 12,
+                  fontSize: 12.spMin,
                 ),
               ),
             ],
@@ -186,7 +186,7 @@ class DestinationDetailPage extends StatelessWidget
                 name,
                 style: TextStyle(
                   color: context.color.black,
-                  fontSize: 14,
+                  fontSize: 14.spMin,
                   fontWeight: FontWeight.w600,
                 ),
               ).paddingOnly(top: 10.hMin, bottom: 16.hMin),
@@ -213,7 +213,7 @@ class DestinationDetailPage extends StatelessWidget
               name,
               style: TextStyle(
                 color: context.color.white,
-                fontSize: 12,
+                fontSize: 12.spMin,
               ),
             ).paddingSymmetric(
               horizontal: 10.hMin,
@@ -232,7 +232,7 @@ class DestinationDetailPage extends StatelessWidget
                 "Hình Ảnh",
                 style: TextStyle(
                   color: context.color.black,
-                  fontSize: 14,
+                  fontSize: 14.spMin,
                   fontWeight: FontWeight.w600,
                 ),
               ).paddingOnly(top: 10.hMin, bottom: 16.hMin),
