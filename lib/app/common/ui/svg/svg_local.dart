@@ -9,4 +9,8 @@ class LocalSvgRes {
   static const String address = 'images/svg/ic_address.svg';
   static const String time = 'images/svg/ic_time.svg';
   static const String phone = 'images/svg/ic_phone.svg';
+  static const String search = 'images/svg/ic_search.svg';
+  static const String delete = 'images/svg/ic_delete.svg';
+  static const String warning = 'images/svg/ic_warning.svg';
+  static const String scheduleAdd = 'images/svg/ic_schedule_add.svg';
 }
