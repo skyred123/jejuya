@@ -27,7 +27,7 @@ class SettingController extends BaseController {
   /// The setting of current theme
   final theme = ObsSetting<ThemeSupported>(
     key: LSKeyPredefinedExt.theme,
-    initValue: ThemeSupported.dark,
+    initValue: ThemeSupported.light,
   );
 
   @override

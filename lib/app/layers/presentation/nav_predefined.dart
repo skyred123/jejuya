@@ -1,3 +1,4 @@
+import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_page.dart';
@@ -18,12 +19,17 @@ import 'package:jejuya/app/core_impl/navigation/custom_get_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/splash/splash_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/splash/splash_page.dart';
+import 'package:jejuya/app/layers/presentation/components/sheet/destination_info/destination_info_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/sheet/destination_info/destination_info_sheet.dart';
 import 'package:jejuya/core/arch/presentation/view/base_provider.dart';
 import 'package:jejuya/core/navigation/navigator.dart' as navi;
 
@@ -47,6 +53,9 @@ class PredefinedRoute {
   /// Schedule page route.
   static const String schedule = '/schedule';
 
+  /// Schedule detail page route.
+  static const String scheduleDetail = '/schedule_detail';
+
   /// Favorite page route.
   static const String favorite = '/favorite';
 
@@ -61,6 +70,9 @@ class PredefinedRoute {
 
   /// Desitnation detail page route.
   static const String destinationDetail = '/destination_detail';
+
+  /// Desitnation detail page route.
+  static const String destinationInfo = '/destination_info';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -90,6 +102,10 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.schedule,
       page: () => nav.schedule,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.scheduleDetail,
+      page: () => nav.scheduleDetail,
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.favorite,
@@ -162,6 +178,12 @@ extension NavPredefined on navi.Navigator {
       );
 
   /// Home page widget.
+  Widget get scheduleDetail => BaseProvider(
+        ctrl: ScheduleDetailController(),
+        child: const ScheduleDetailPage(),
+      );
+
+  /// Home page widget.
   Widget get favorite => BaseProvider(
         ctrl: FavoriteController(),
         child: const FavoritePage(),
@@ -223,6 +245,11 @@ extension ToPagePredefined on navi.Navigator {
         PredefinedRoute.schedule,
       );
 
+  /// Navigate to the schedule page.
+  Future<T?>? toScheduleDetail<T>() => toNamed(
+        PredefinedRoute.scheduleDetail,
+      );
+
   /// Navigate to the home page.
   Future<T?>? toFavorite<T>() => toNamed(
         PredefinedRoute.favorite,
@@ -264,4 +291,19 @@ extension DialogPredefined on navi.Navigator {
 //         mainSheet,
 //         routeName: 'sheet-main',
 //       );
+  /// Show destination info sheet
+  Future<T?>? showDetinationInfoSheet<T>({Location? location}) {
+    return bottomSheet(
+      BaseProvider(
+        ctrl: DestinationInfoController(location: location),
+        child: const DestinationInfoSheet(),
+      ),
+      routeName: PredefinedRoute.destinationInfo,
+      isDismissible: true,
+      enableDrag: false,
+      isShowIndicator: true,
+      backgroundColor: const Color(0xFF747480).withValues(alpha: 0.24),
+      isDynamicSheet: true,
+    );
+  }
 }

@@ -3,7 +3,6 @@ import 'package:jejuya/app/layers/presentation/components/widgets/container/cont
 import 'package:jejuya/app/layers/presentation/components/widgets/text/custom_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -168,7 +167,7 @@ class SmartRefreshContainer<T> extends StatelessWidget {
                   child: Text(
                     'Could not load more. Please try again!',
                     style: TextStyle(
-                      color: context.color.black.withOpacity(0.6),
+                      color: context.color.black.withValues(alpha: 0.6),
                     ),
                   ),
                 );
