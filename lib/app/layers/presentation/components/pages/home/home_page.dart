@@ -85,6 +85,8 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
+                                    textColor: context.color.white,
+
                   text: 'Trang chủ',
                 ),
                 GButton(
@@ -98,6 +100,7 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
+                  textColor: context.color.white,
                   text: 'Lịch Trình',
                 ),
                 GButton(
@@ -111,6 +114,8 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
+                                    textColor: context.color.white,
+
                   text: 'Yêu Thích',
                 ),
                 GButton(
@@ -124,6 +129,8 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
+                                    textColor: context.color.white,
+
                   text: 'Profile',
                 )
               ],
