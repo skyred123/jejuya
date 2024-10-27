@@ -72,7 +72,10 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
               tabBackgroundColor: context.color.primaryColor,
               padding: const EdgeInsets.all(6),
               textSize: 12.spMin,
-              textStyle: const TextStyle(fontWeight: FontWeight.w300),
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w300,
+                color: context.color.white,
+              ),
               tabs: [
                 GButton(
                   icon: Icons.home,
@@ -85,8 +88,6 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                                    textColor: context.color.white,
-
                   text: 'Trang chủ',
                 ),
                 GButton(
@@ -100,7 +101,6 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                  textColor: context.color.white,
                   text: 'Lịch Trình',
                 ),
                 GButton(
@@ -114,8 +114,6 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                                    textColor: context.color.white,
-
                   text: 'Yêu Thích',
                 ),
                 GButton(
@@ -129,8 +127,6 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                                    textColor: context.color.white,
-
                   text: 'Profile',
                 )
               ],
