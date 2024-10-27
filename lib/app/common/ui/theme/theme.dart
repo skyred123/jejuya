@@ -28,5 +28,6 @@ class AppTheme {
           fontFamily: Font.poppins,
         ),
     extensions: [CustomThemeExt(appColor: lightAppColor)],
+    primaryColor: const Color(0xFFFAFAFA),
   );
 }

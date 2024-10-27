@@ -131,7 +131,6 @@ dev_dependencies:
 
   # [Flavor] A flutter package that helps you setup multiple flavors easily
   flutter_flavorizr: ^2.2.3
-
   # [Json Serializable] This package is a code generator that simplifies the process of serializing and deserializing JSON in Dart.
   json_serializable: ^6.8.0
 

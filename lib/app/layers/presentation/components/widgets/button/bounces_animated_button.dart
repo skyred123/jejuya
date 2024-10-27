@@ -113,7 +113,7 @@ class _BouncesAnimatedButtonState extends State<BouncesAnimatedButton>
                   widget.disabled && widget.shouldOpacityOnDisabled ? 0.3 : 1.0,
               child: ColoredBox(
                 // Workaround to expand button hit target
-                color: Colors.white.withOpacity(0.0001),
+                color: Colors.white.withValues(alpha: 0.0001),
                 child: Container(
                   alignment: widget.alignment,
                   width: widget.width,

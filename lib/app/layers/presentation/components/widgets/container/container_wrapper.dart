@@ -148,8 +148,8 @@ class ContainerWrapper extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          const Color(0xFFFFFFFF).withOpacity(0.1),
-                          const Color(0xFFFFFFFF).withOpacity(0.05),
+                          const Color(0xFFFFFFFF).withValues(alpha: 0.1),
+                          const Color(0xFFFFFFFF).withValues(alpha: 0.05),
                         ],
                         stops: const [
                           0.1,
@@ -164,9 +164,9 @@ class ContainerWrapper extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          const Color(0xFFFFFFFF).withOpacity(0.1),
-                          const Color(0xFFFFFFFF).withOpacity(0.05),
-                          const Color(0xFFFFFFFF).withOpacity(0.1),
+                          const Color(0xFFFFFFFF).withValues(alpha: 0.1),
+                          const Color(0xFFFFFFFF).withValues(alpha: 0.05),
+                          const Color(0xFFFFFFFF).withValues(alpha: 0.1),
                         ],
                       ),
                   child: Container(
