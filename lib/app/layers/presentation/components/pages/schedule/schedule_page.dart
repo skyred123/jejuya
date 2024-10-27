@@ -8,10 +8,13 @@ import 'package:jejuya/app/common/ui/image/image_remote.dart';
 import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
+import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/dialog/custom_dialog.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/dialog/dialog_type_enum.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/text_field/custom_search_bar.dart';
+import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -137,90 +140,94 @@ class SchedulePage extends StatelessWidget
                 ),
               );
             },
-            child: Container(
-              width: context.width,
-              decoration: BoxDecoration(
-                border: Border(
-                  left: BorderSide(
-                    color: context.color.primaryLight,
-                    width: 5.0,
+            child: BouncesAnimatedButton(
+              width: context.width.hMin,
+              height: 140.hMin,
+              onPressed: () => nav.toScheduleDetail(),
+              leading: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: context.color.primaryLight,
+                      width: 5.0,
+                    ),
+                    top: BorderSide(
+                      color: context.color.primaryLight,
+                      width: 1.0,
+                    ),
+                    right: BorderSide(
+                      color: context.color.primaryLight,
+                      width: 1.0,
+                    ),
+                    bottom: BorderSide(
+                      color: context.color.primaryLight,
+                      width: 1.0,
+                    ),
                   ),
-                  top: BorderSide(
-                    color: context.color.primaryLight,
-                    width: 1.0,
-                  ),
-                  right: BorderSide(
-                    color: context.color.primaryLight,
-                    width: 1.0,
-                  ),
-                  bottom: BorderSide(
-                    color: context.color.primaryLight,
-                    width: 1.0,
-                  ),
+                  borderRadius: BorderRadius.circular(15.rMin),
                 ),
-                borderRadius: BorderRadius.circular(15.rMin),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    ImageNetwork(
-                      image: RemoteImageRes.background,
-                      height: 80.rMin,
-                      width: 80.rMin,
-                      duration: 1500,
-                      curve: Curves.easeIn,
-                      fitWeb: BoxFitWeb.cover,
-                      onLoading: const CircularProgressIndicator(
-                        color: Colors.indigoAccent,
-                      ),
-                      onError: const Icon(
-                        Icons.error,
-                        color: Colors.red,
-                      ),
-                      borderRadius: BorderRadius.circular(15.rMin),
-                    ).paddingOnly(right: 30.wMin),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              LocalSvgRes.schedule,
-                              colorFilter: ColorFilter.mode(
-                                context.color.primaryLight,
-                                BlendMode.srcIn,
-                              ),
-                            ).paddingOnly(right: 10.wMin),
-                            Text(
-                              "12/10/2024 - 20/10/2024",
-                              style: TextStyle(
-                                color: context.color.primaryLight,
-                                fontSize: 12.spMin,
-                              ),
-                            )
-                          ],
-                        ).paddingOnly(bottom: 10.hMin),
-                        Text(
-                          "Lịch trình 1",
-                          style: TextStyle(
-                            color: context.color.black,
-                            fontSize: 12.spMin,
-                          ),
-                        ).paddingOnly(bottom: 10.hMin),
-                        Text(
-                          "Hotel Honey Crown",
-                          style: TextStyle(
-                            color: context.color.black,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12.spMin,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ).paddingSymmetric(horizontal: 15.wMin, vertical: 20.hMin),
-              ),
-            ).paddingSymmetric(vertical: 10.hMin),
+                child: Center(
+                  child: Row(
+                    children: [
+                      ImageNetwork(
+                        image: RemoteImageRes.background,
+                        height: 80.rMin,
+                        width: 80.rMin,
+                        duration: 1500,
+                        curve: Curves.easeIn,
+                        fitWeb: BoxFitWeb.cover,
+                        onLoading: const CircularProgressIndicator(
+                          color: Colors.indigoAccent,
+                        ),
+                        onError: const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                        borderRadius: BorderRadius.circular(15.rMin),
+                      ).paddingOnly(right: 30.wMin),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                LocalSvgRes.schedule,
+                                colorFilter: ColorFilter.mode(
+                                  context.color.primaryLight,
+                                  BlendMode.srcIn,
+                                ),
+                              ).paddingOnly(right: 10.wMin),
+                              Text(
+                                "12/10/2024 - 20/10/2024",
+                                style: TextStyle(
+                                  color: context.color.primaryLight,
+                                  fontSize: 12.spMin,
+                                ),
+                              )
+                            ],
+                          ).paddingOnly(bottom: 10.hMin),
+                          Text(
+                            "Lịch trình 1",
+                            style: TextStyle(
+                              color: context.color.black,
+                              fontSize: 12.spMin,
+                            ),
+                          ).paddingOnly(bottom: 10.hMin),
+                          Text(
+                            "Hotel Honey Crown",
+                            style: TextStyle(
+                              color: context.color.black,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 12.spMin,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ).paddingSymmetric(horizontal: 15.wMin, vertical: 20.hMin),
+                ),
+              ).paddingSymmetric(vertical: 10.hMin),
+            ),
           );
         },
       );
