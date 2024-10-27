@@ -76,7 +76,7 @@ class BasicListItem<T> extends StatelessWidget {
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 16.spMin,
-                color: context.color.black.withOpacity(0.5),
+                color: context.color.black.withValues(alpha: 0.5),
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,

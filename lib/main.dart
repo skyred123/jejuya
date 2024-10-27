@@ -9,8 +9,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Set system UI mode for Android devices
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   if (GetPlatform.isAndroid) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,

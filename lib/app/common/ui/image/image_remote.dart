@@ -1,5 +1,5 @@
 /// A class that contains the URL of the remote image resource.
 class RemoteImageRes {
-  static final String background =
+  static const String background =
       'https://firebasestorage.googleapis.com/v0/b/pbox-b4a17.appspot.com/o/ShopImage%2Fmaycha.jpeg?alt=media&token=49f622b8-0a37-4146-b9ac-01ada78afdb4';
 }

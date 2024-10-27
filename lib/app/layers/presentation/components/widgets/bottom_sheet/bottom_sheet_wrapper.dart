@@ -86,13 +86,13 @@ class BottomSheetWrapper extends StatelessWidget {
                     if (isShowIndicator)
                       Container(
                         decoration: BoxDecoration(
-                          color: context.color.containerBackground,
+                          color: context.color.black,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(5)),
                         ),
-                        width: 32.wMin,
-                        height: 4.hMin,
-                      ).marginOnly(top: 10.hMin),
+                        width: 70.wMin,
+                        height: 5.hMin,
+                      ).marginOnly(top: 16.hMin),
                   ],
                 ),
                 blurBottomSheet(showFadeOnBottom: showFadeOnBottom),
@@ -117,7 +117,7 @@ class BottomSheetWrapper extends StatelessWidget {
                     colors: [
                       backgroundColor ?? context.color.containerBackground,
                       (backgroundColor ?? context.color.containerBackground)
-                          .withOpacity(0),
+                          .withValues(alpha: 0),
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -146,7 +146,7 @@ class BottomSheetWrapper extends StatelessWidget {
                     colors: [
                       backgroundColor ?? context.color.containerBackground,
                       (backgroundColor ?? context.color.containerBackground)
-                          .withOpacity(0),
+                          .withValues(alpha: 0),
                     ],
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,

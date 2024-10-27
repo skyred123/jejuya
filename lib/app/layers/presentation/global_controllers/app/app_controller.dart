@@ -22,7 +22,7 @@ class AppController extends BaseController
 
   /// Initial route
   String get initialRoute {
-    return PredefinedRoute.home;
+    return PredefinedRoute.scheduleDetail;
   }
 
   // --- State Variables ---
