@@ -22,6 +22,8 @@ import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedul
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/search_page/search_page_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/search_page/search_page_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
@@ -73,6 +75,9 @@ class PredefinedRoute {
 
   /// Desitnation detail page route.
   static const String destinationInfo = '/destination_info';
+
+  ///Search page route.
+  static const String search = '/search';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -130,6 +135,10 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.destinationDetail,
       page: () => nav.destinationDetail,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.search,
+      page: () => nav.search,
     ),
   ];
 }
@@ -207,6 +216,12 @@ extension NavPredefined on navi.Navigator {
         child: const DestinationDetailPage(),
       );
 
+  /// Notification page widget.
+  Widget get search => BaseProvider(
+        ctrl: SearchPageController(),
+        child: const SearchPagePage(),
+      );
+
   /// Notification detail page widget.
   Widget notificationDetail({required num? notificationId}) => BaseProvider(
         ctrl: NotificationDetailController(notificationId: notificationId),
@@ -263,6 +278,11 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to the home page.
   Future<T?>? toDestinationDetail<T>() => toNamed(
         PredefinedRoute.destinationDetail,
+      );
+
+  /// Navigate to the home page.
+  Future<T?>? toSearch<T>() => toNamed(
+        PredefinedRoute.search,
       );
 
   Future<T?>? toNotificationDetail<T>({required num? notificationId}) =>
