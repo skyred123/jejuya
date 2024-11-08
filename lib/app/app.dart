@@ -21,9 +21,6 @@ class App extends StatelessWidget with GlobalControllerProvider {
   @override
   Widget build(BuildContext context) {
     NavigatorObserver? navigatorObserver;
-    // try {
-    //   navigatorObserver = inj.get<FirebaseAnalyticsObserver>();
-    // } catch (_) {}
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
