@@ -20,7 +20,7 @@ class LocalSvgRes {
   static const String clock = 'images/svg/ic_clock.svg';
   static const String desAddress = 'images/svg/ic_destination_address.svg';
   static const String desPhone = 'images/svg/ic_destination_phone.svg';
-
   static const String filter = 'images/svg/ic_filter.svg';
   static const String radius = 'images/svg/ic_radius.svg';
+  static const String cancel = 'images/svg/ic_cancel.svg';
 }
