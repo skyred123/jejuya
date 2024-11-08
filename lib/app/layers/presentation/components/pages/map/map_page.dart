@@ -7,9 +7,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
+import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/map/map_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/text_field/custom_search_bar.dart';
+import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 
 /// Page widget for the Map feature
@@ -47,7 +49,9 @@ class _MapPageState extends State<MapPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _iconButton(LocalSvgRes.filter, () {}),
+                        _iconButton(LocalSvgRes.filter, () {
+                          nav.showFilterSheet();
+                        }),
                         _iconButton(LocalSvgRes.radius, () {
                           widget.controller(context).toggleRadiusSlider();
                         }).marginOnly(

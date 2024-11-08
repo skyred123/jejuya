@@ -113,4 +113,39 @@ abstract interface class Navigator {
     Widget? mainButton,
     dynamic error,
   });
+
+  /// Shows a side sheet.
+  ///
+  /// [sideSheet] - The widget representing the side sheet.
+  /// [isShowIndicator] - Whether to show the indicator.
+  /// [persistent] - Whether the side sheet is persistent.
+  /// [isDismissible] - Whether the side sheet is dismissible.
+  /// [enableDrag] - Whether dragging is enabled.
+  /// [isScrollControlled] - Whether scrolling is controlled.
+  /// [isDynamicSheet] - Whether the side sheet is dynamic width.
+  /// [barrierColor] - The color of the barrier.
+  /// [backgroundColor] - The background color of the side sheet.
+  /// [initialChildSize] - The initial size of the child.
+  /// [shouldCloseWhenDraggedFromTop] - Whether to close when dragged from top.
+  /// [snapSizes] - The sizes to snap to during dragging.
+  /// [routeName] - The name of the route.
+  /// [padding] - The padding of the side sheet.
+  /// [enableKeyboardSafeArea] - Whether to enable the keyboard safe area.
+  Future<T?> sideSheet<T>(
+    Widget sideSheet, {
+    bool isShowIndicator = true,
+    bool persistent = true,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    bool isScrollControlled = true,
+    bool isDynamicSheet = false,
+    Color? barrierColor,
+    Color? backgroundColor,
+    double initialChildSize = 0.5,
+    bool shouldCloseWhenDraggedFromTop = true,
+    List<double>? snapSizes = const [0.5, 0.8],
+    String? routeName,
+    EdgeInsets? padding,
+    bool enableKeyboardSafeArea = false,
+  });
 }
