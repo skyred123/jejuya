@@ -119,6 +119,15 @@ dependencies:
   # [Geolocator] A Flutter plugin for handling location services.
   geolocator: ^13.0.1
 
+  # [Calendar Date Picker] A flutter package for selecting date and time
+  calendar_date_picker2: ^1.1.7
+
+  # [Intl] A Dart package for internationalizing Flutter apps.
+  intl: ^0.19.0
+
+  # [Number Picker] A flutter package for selecting numbers
+  numberpicker: ^2.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

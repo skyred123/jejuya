@@ -107,6 +107,9 @@ class ScheduleDetailPage extends StatelessWidget
               BouncesAnimatedButton(
                 width: 40.rMin,
                 height: 40.rMin,
+                onPressed: () {
+                  nav.toCreateSchedule();
+                },
                 leading: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
