@@ -8,6 +8,7 @@ import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/common/utils/extension/string/string_to_color.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
@@ -96,6 +97,7 @@ class CreateSchedulePage extends StatelessWidget
   }
 
   Widget get _header => Builder(builder: (context) {
+        final ctrl = controller(context);
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -121,6 +123,7 @@ class CreateSchedulePage extends StatelessWidget
               softWrap: true,
             ),
             BouncesAnimatedButton(
+              onPressed: () => ctrl.fetchRecommendedDestinations(),
               width: 40.rMin,
               height: 40.rMin,
               leading: Container(
@@ -259,7 +262,9 @@ class CreateSchedulePage extends StatelessWidget
   Widget get _listDay => Observer(
         builder: (context) {
           final ctrl = controller(context);
-          final listDay = ctrl.schedules;
+          final listDay = ctrl.groupDestinationsByDate(ctrl.destinations.value);
+          final dates = ctrl.extractDates(listDay);
+          // final listDay = ctrl.schedules;
           return SizedBox(
             height: 100,
             child: ListView.builder(
@@ -272,7 +277,7 @@ class CreateSchedulePage extends StatelessWidget
                   onPressed: () {
                     ctrl.updateSelectedDay(index);
                   },
-                  leading: _dayItem(listDay[index].date, index),
+                  leading: _dayItem(dates[index], index),
                 );
               },
             ).paddingSymmetric(horizontal: 10.wMin),
@@ -367,11 +372,13 @@ class CreateSchedulePage extends StatelessWidget
           builder: (BuildContext context) {
             final ctrl = controller(context);
             final current =
-                ctrl.schedules[ctrl.selectedDayIndex.value].locations;
+                ctrl.extractDestinations(ctrl.selectedDayIndex.value);
+            // final current =
+            //     ctrl.schedules[ctrl.selectedDayIndex.value].locations;
             return SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) => Dismissible(
-                  key: Key(current[index].name),
+                  key: Key(current[index].id),
                   background: Container(
                     color: Colors.red,
                     alignment: Alignment.centerRight,
@@ -383,9 +390,8 @@ class CreateSchedulePage extends StatelessWidget
                     // Handle delete action
                     ctrl.deleteLocation(index);
                   },
-                  child: BouncesAnimatedButton(
-                    height: 170.hMin,
-                    leading: _destinationItem(current[index], index)
+                  child: GestureDetector(
+                    child: _destinationItem(current[index], index)
                         .paddingSymmetric(horizontal: 15.wMin),
                   ),
                 ),
@@ -396,7 +402,7 @@ class CreateSchedulePage extends StatelessWidget
         );
       });
 
-  Widget _destinationItem(Location location, int index) => Observer(
+  Widget _destinationItem(Destination destination, int index) => Observer(
         builder: (context) {
           return Container(
             decoration: BoxDecoration(
@@ -417,21 +423,21 @@ class CreateSchedulePage extends StatelessWidget
                     children: [
                       _iconText(
                         LocalSvgRes.node,
-                        location.name,
+                        destination.businessNameEnglish,
                         true,
                       ).paddingOnly(
                         bottom: 16.hMin,
                       ),
                       _iconText(
                         LocalSvgRes.marker,
-                        location.address,
+                        destination.businessNameEnglish,
                         false,
                       ).paddingOnly(
                         bottom: 16.hMin,
                       ),
                       _iconText(
                         LocalSvgRes.clock,
-                        location.time,
+                        destination.startTime.toString(),
                         false,
                       ),
                     ],
@@ -505,6 +511,8 @@ class CreateSchedulePage extends StatelessWidget
                   ),
                   textAlign: TextAlign.start,
                   softWrap: true,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

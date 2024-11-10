@@ -2,8 +2,13 @@ import 'dart:async';
 
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
+import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/recommend_destination_usecase.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule_mockup_api.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
@@ -15,6 +20,7 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
   /// Default constructor for the CreateScheduleController.
   CreateScheduleController() {
     schedules = Schedule.fromJsonList(scheduleMockup);
+    // fetchRecommendedDestinations();
   }
 
   // --- Member Variables ---
@@ -34,15 +40,23 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
 
   /// Time End Controller
   final TextEditingController timeEndController = TextEditingController();
+
+  static const LatLng jejuIsland = LatLng(33.363646, 126.545454);
   // --- Computed Variables ---
   // --- State Variables ---
 
   final selectedDayIndex = listenable<int>(0);
   final selectedHour = listenable<int>(0);
   final selectedMinute = listenable<int>(0);
-  // --- State Computed ---
+
+  final destinations = listenable<List<Destination>>([]);
+
+  final fetchState =
+      listenable<RecommendDestinationState>(RecommendDestinationState.none);
+
   // --- Usecases ---
-  // --- Methods ---
+  late final _recommendDestinationsUseCase =
+      usecase<RecommendDestinationsUseCase>();
 
   void updateSelectedDay(int index) {
     selectedDayIndex.value = index;
@@ -151,6 +165,79 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
     final formattedRange =
         '${startDate != null ? dateFormat.format(startDate) : ''} - ${endDate != null ? dateFormat.format(endDate) : ''}';
     dateController.text = formattedRange;
+  }
+
+  Future<void> fetchRecommendedDestinations() async {
+    try {
+      fetchState.value = RecommendDestinationState.loading;
+      await _recommendDestinationsUseCase
+          .execute(
+        RecommendDestinationsRequest(
+          longitude: jejuIsland.longitude,
+          latitude: jejuIsland.latitude,
+          radius: 20,
+          fromDate: "2024-11-10",
+          toDate: "2024-11-11",
+        ),
+      )
+          .then((response) {
+        destinations.value = response.destinations;
+      });
+      fetchState.value = RecommendDestinationState.done;
+
+      final locationsAtIndex1 =
+          groupDestinationsByDate(destinations.value)[1]['destinations'];
+      print(extractDestinations(1));
+    } catch (e, s) {
+      log.error(
+        '[RecommendDestinationsController] Failed to fetch recommended destinations:',
+        error: e,
+        stackTrace: s,
+      );
+      fetchState.value = RecommendDestinationState.error;
+      nav.showSnackBar(error: e);
+    }
+  }
+
+  List<Map<String, dynamic>> groupDestinationsByDate(
+      List<Destination> destinations) {
+    final Map<String, List<Destination>> groupedByDate = {};
+
+    for (var destination in destinations) {
+      final DateTime? date = destination.startTime?.toLocal();
+
+      if (date != null) {
+        final String formattedDate = DateFormat('dd/MM/yyyy').format(date);
+
+        if (groupedByDate.containsKey(formattedDate)) {
+          groupedByDate[formattedDate]!.add(destination);
+        } else {
+          groupedByDate[formattedDate] = [destination];
+        }
+      }
+    }
+
+    final List<Map<String, dynamic>> result =
+        groupedByDate.entries.map((entry) {
+      return {
+        'date': entry.key,
+        'destinations': entry.value,
+      };
+    }).toList();
+
+    return result;
+  }
+
+  List<String> extractDates(List<Map<String, dynamic>> groupedData) {
+    return groupedData.map((entry) => entry['date'] as String).toList();
+  }
+
+  List<Destination> extractDestinations(int index) {
+    final groupedData = groupDestinationsByDate(destinations.value);
+    if (index < 0 || index >= groupedData.length) {
+      return [];
+    }
+    return groupDestinationsByDate(destinations.value)[index]['destinations'];
   }
 
   @override
