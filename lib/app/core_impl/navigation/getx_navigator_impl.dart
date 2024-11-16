@@ -138,20 +138,6 @@ class GetxNavigator with GlobalControllerProvider implements nav.Navigator {
         }
       },
     ).whenComplete(_refocus);
-
-    // return Get.bottomSheet<T?>(
-    //   wrappedDragableSheet,
-    //   backgroundColor: Colors.transparent,
-    //   barrierColor: barrierColor,
-    //   elevation: 0,
-    //   persistent: persistent,
-    //   isScrollControlled: true,
-    //   isDismissible: isDismissible,
-    //   enableDrag: enableDrag,
-    //   settings: RouteSettings(name: routeName),
-    //   enterBottomSheetDuration: const Duration(milliseconds: 300),
-    //   exitBottomSheetDuration: const Duration(milliseconds: 300),
-    // ).whenComplete(_refocus);
   }
 
   @override
@@ -257,6 +243,81 @@ class GetxNavigator with GlobalControllerProvider implements nav.Navigator {
     /// Refocus the cached focus state
     _cachedFocus?.requestFocus();
     _cachedFocus = null;
+  }
+
+  @override
+  Future<T?> sideSheet<T>(
+    Widget sideSheet, {
+    bool isShowIndicator = true,
+    bool persistent = true,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    bool isScrollControlled = true,
+    bool isDynamicSheet = false,
+    Color? barrierColor = Colors.black54,
+    Color? backgroundColor,
+    double initialChildSize = 0.5,
+    bool shouldCloseWhenDraggedFromTop = true,
+    List<double>? snapSizes = const [0.5, 0.8],
+    String? routeName,
+    EdgeInsets? padding,
+    bool enableKeyboardSafeArea = false,
+  }) async {
+    final context = Get.overlayContext;
+    final globalRouteName = Get.routing.route?.settings.name;
+    if (context == null) throw CommonError.missingContext;
+    if (globalRouteName == routeName) return null;
+
+    _unfocus();
+    return showGeneralDialog<T>(
+      context: context,
+      barrierDismissible: isDismissible,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: barrierColor ?? Colors.black54,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width * initialChildSize,
+            color: backgroundColor ?? context.color.containerBackground,
+            child: Column(
+              children: [
+                if (isShowIndicator)
+                  Container(
+                    margin: EdgeInsets.all(8.rMin),
+                    width: 40.wMin,
+                    height: 4.hMin,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(2.rMin),
+                    ),
+                  ),
+                Expanded(
+                  child: Padding(
+                    padding: padding ?? EdgeInsets.zero,
+                    child: sideSheet,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1.0, 0.0),
+            end: Offset.zero,
+          ).animate(CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOut,
+          )),
+          child: child,
+        );
+      },
+    ).whenComplete(_refocus);
   }
 }
 

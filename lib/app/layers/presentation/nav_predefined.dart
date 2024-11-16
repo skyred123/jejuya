@@ -1,4 +1,3 @@
-import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_page.dart';
@@ -30,6 +29,10 @@ import 'package:jejuya/app/layers/presentation/components/pages/splash/splash_co
 import 'package:jejuya/app/layers/presentation/components/pages/splash/splash_page.dart';
 import 'package:jejuya/app/layers/presentation/components/sheet/destination_info/destination_info_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/sheet/destination_info/destination_info_sheet.dart';
+import 'package:jejuya/app/layers/presentation/components/sheet/filter/filter_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/sheet/filter/filter_sheet.dart';
+import 'package:jejuya/app/layers/presentation/components/sheet/select_destination/select_destination_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/sheet/select_destination/select_destination_sheet.dart';
 import 'package:jejuya/core/arch/presentation/view/base_provider.dart';
 import 'package:jejuya/core/navigation/navigator.dart' as navi;
 
@@ -73,6 +76,12 @@ class PredefinedRoute {
 
   /// Desitnation detail page route.
   static const String destinationInfo = '/destination_info';
+
+  /// Filter sheet route.
+  static const String filter = '/filter';
+
+  /// Select destination sheet route.
+  static const String selectDestination = '/select_destination';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -297,6 +306,39 @@ extension DialogPredefined on navi.Navigator {
       BaseProvider(
         ctrl: DestinationInfoController(location: location),
         child: const DestinationInfoSheet(),
+      ),
+      routeName: PredefinedRoute.destinationInfo,
+      isDismissible: true,
+      enableDrag: false,
+      isShowIndicator: true,
+      backgroundColor: const Color(0xFF747480).withValues(alpha: 0.24),
+      isDynamicSheet: true,
+    );
+  }
+
+  /// Show filter sheet
+  Future<T?>? showFilterSheet<T>() {
+    return sideSheet(
+      BaseProvider(
+        ctrl: FilterController(),
+        child: const FilterSheet(),
+      ),
+      routeName: PredefinedRoute.filter,
+      isDismissible: true,
+      enableDrag: false,
+      initialChildSize: 0.6,
+      isShowIndicator: false,
+      backgroundColor: const Color(0xFF747480).withValues(alpha: 0.24),
+      isDynamicSheet: true,
+    );
+  }
+
+  /// Show select destination sheet
+  Future<T?>? showSelectDestinationSheet<T>() {
+    return bottomSheet(
+      BaseProvider(
+        ctrl: SelectDestinationController(),
+        child: const SelectDestinationSheet(),
       ),
       routeName: PredefinedRoute.destinationInfo,
       isDismissible: true,

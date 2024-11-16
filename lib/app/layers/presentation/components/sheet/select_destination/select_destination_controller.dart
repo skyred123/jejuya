@@ -1,22 +1,19 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jejuya/app/common/ui/image/image_local.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
-import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/map/mockup/hotel_location_mockup_api.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/map/mockup/tourist_location_mockup_api.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
-import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
 
-/// Controller for the Map page
-class MapController extends BaseController with UseCaseProvider {
-  /// Default constructor for the MapController.
-  MapController() {
+/// Controller for the Select destination sheet
+class SelectDestinationController extends BaseController with UseCaseProvider {
+  /// Default constructor for the SelectDestinationController.
+  SelectDestinationController() {
     initialize();
   }
 
@@ -31,23 +28,21 @@ class MapController extends BaseController with UseCaseProvider {
 
   // --- Member Variables ---
 
-  /// Completer<GoogleMapController>
-  final Completer<GoogleMapController> _mapController = Completer();
-
   /// Search Controller
   final TextEditingController searchController = TextEditingController();
 
+  /// Completer<GoogleMapController>
+  final Completer<GoogleMapController> _mapController = Completer();
+
   /// Jeju Island's coordinates
   static const LatLng jejuIsland = LatLng(33.363646, 126.545454);
-
   // --- Computed Variables ---
 
   /// Jeju Island's camera position
   CameraPosition get initialCameraPosition => const CameraPosition(
         target: jejuIsland,
-        zoom: 11,
+        zoom: 11.0,
       );
-
   // --- State Variables ---
 
   /// Marker Icons
@@ -92,15 +87,7 @@ class MapController extends BaseController with UseCaseProvider {
           markerId: MarkerId(location['id'].toString()),
           position: LatLng(location['Latitude'], location['Longitude']),
           icon: touristMarkerIcon.value,
-          onTap: () {
-            nav.showDetinationInfoSheet(
-              location: Location(
-                name: location['BusinessNameEnglish'],
-                address: location['LocationEnglish'],
-                time: location['Contact'],
-              ),
-            );
-          });
+          onTap: () {});
     }).toList();
 
     // Hotel Location markers
@@ -120,13 +107,6 @@ class MapController extends BaseController with UseCaseProvider {
             : hotelMarkerIcon.value,
         onTap: () {
           setSelectedMarker(location);
-          nav.showDetinationInfoSheet(
-            location: Location(
-              name: location['BusinessNameEnglish'],
-              address: location['LocationEnglish'],
-              time: location['Contact'],
-            ),
-          );
         },
       );
     }).toList();
@@ -134,7 +114,6 @@ class MapController extends BaseController with UseCaseProvider {
     // Return a list containing both the main marker and the location markers
     return [mainMarker, ...locationMarkers, ...hotelMarkers];
   }
-
   // --- State Computed ---
   // --- Usecases ---
   // --- Methods ---
@@ -199,8 +178,5 @@ class MapController extends BaseController with UseCaseProvider {
   }
 
   @override
-  FutureOr<void> onDispose() async {
-    final controller = await _mapController.future;
-    controller.dispose();
-  }
+  FutureOr<void> onDispose() async {}
 }

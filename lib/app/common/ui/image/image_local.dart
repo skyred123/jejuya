@@ -14,4 +14,16 @@ class LocalImageRes {
   /// The Notification Selected Icon.
   static const String notificationSelectedIcon =
       'assets/images/tab_bar/notification_selected.png';
+
+  /// The Hotel Marker Icon.
+  static const String hotelMarkerIcon =
+      'assets/images/markers/ic_hotel_marker.png';
+
+  /// The Tourist Marker Icon.
+  static const String touristMarkerIcon =
+      'assets/images/markers/ic_tourist_marker.png';
+
+  /// The Hotel Selected Marker Icon.
+  static const String hotelSelectedMarkerIcon =
+      'assets/images/markers/ic_hotel_marker_selected.png';
 }

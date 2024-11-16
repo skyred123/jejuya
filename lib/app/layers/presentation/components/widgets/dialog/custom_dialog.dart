@@ -8,7 +8,6 @@ import 'package:jejuya/app/common/utils/extension/string/string_to_color.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/dialog/dialog_type_enum.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDialog extends StatefulWidget {
   const CustomDialog({super.key, required this.dialogType});
