@@ -23,4 +23,7 @@ class LocalSvgRes {
   static const String filter = 'images/svg/ic_filter.svg';
   static const String radius = 'images/svg/ic_radius.svg';
   static const String cancel = 'images/svg/ic_cancel.svg';
+  static const String generate = 'images/svg/ic_generate.svg';
+  static const String calendar = 'images/svg/ic_calendar.svg';
+  static const String tag = 'images/svg/ic_tag.svg';
 }

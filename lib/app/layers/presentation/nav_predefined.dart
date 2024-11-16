@@ -1,4 +1,6 @@
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_controller.dart';
@@ -82,6 +84,9 @@ class PredefinedRoute {
 
   /// Select destination sheet route.
   static const String selectDestination = '/select_destination';
+
+  /// Create schedule page route.
+  static const String createSchedule = '/create_schedule';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -140,6 +145,10 @@ class PredefinedPage {
       name: PredefinedRoute.destinationDetail,
       page: () => nav.destinationDetail,
     ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.createSchedule,
+      page: () => nav.createSchedule,
+    )
   ];
 }
 
@@ -221,6 +230,12 @@ extension NavPredefined on navi.Navigator {
         ctrl: NotificationDetailController(notificationId: notificationId),
         child: NotificationDetailPage(),
       );
+
+  /// Create schedule page widget.
+  Widget get createSchedule => BaseProvider(
+        ctrl: CreateScheduleController(),
+        child: const CreateSchedulePage(),
+      );
 }
 
 /// The [ToPagePredefined] extension defines methods for navigating to
@@ -279,6 +294,11 @@ extension ToPagePredefined on navi.Navigator {
         PredefinedRoute.notificationDetail
             .replaceAll('.*', 'notication_id=$notificationId'),
         arguments: notificationId,
+      );
+
+  /// Navigate to create schedule page.
+  Future<T?>? toCreateSchedule<T>() => toNamed(
+        PredefinedRoute.createSchedule,
       );
 }
 
