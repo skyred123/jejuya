@@ -29,19 +29,21 @@ class DestinationInfoSheet extends StatelessWidget
 
   Widget get _body => Builder(
         builder: (context) {
-          return Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(child: _info),
-                  _headerBtn,
-                ],
-              ).paddingOnly(top: 30.hMin, bottom: 40.hMin),
-              _image,
-              _seeMoreBtn
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: _info),
+                    _headerBtn,
+                  ],
+                ).paddingOnly(top: 30.hMin, bottom: 40.hMin),
+                _image,
+                _seeMoreBtn
+              ],
+            ),
           );
         },
       ).paddingAll(20.rMin);
@@ -143,14 +145,16 @@ class DestinationInfoSheet extends StatelessWidget
                   BlendMode.srcIn,
                 ),
               ).paddingOnly(right: 7.hMin),
-              Text(
-                text,
-                style: TextStyle(
-                  fontSize: 14.spMin,
-                  color: context.color.black,
+              Expanded(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 14.spMin,
+                    color: context.color.black,
+                  ),
+                  textAlign: TextAlign.start,
+                  softWrap: true,
                 ),
-                textAlign: TextAlign.start,
-                softWrap: true,
               ),
             ],
           );
