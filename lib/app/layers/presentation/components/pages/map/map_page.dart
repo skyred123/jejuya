@@ -91,7 +91,8 @@ class _MapPageState extends State<MapPage> {
               myLocationButtonEnabled: true,
               zoomControlsEnabled: true,
               mapType: MapType.normal,
-              markers: Set<Marker>.from(widget.controller(context).markers),
+              markers:
+                  Set<Marker>.from(widget.controller(context).markers.value),
               circles: {
                 Circle(
                   circleId: const CircleId('current_location_radius'),

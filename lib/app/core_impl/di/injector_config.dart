@@ -22,6 +22,8 @@ import 'package:jejuya/core/arch/domain/repository/base_repository.dart';
 import 'package:jejuya/core/arch/domain/usecase/base_usecase.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
 
+import '../../layers/domain/usecases/destination/get_nearby_destination_usecase.dart';
+
 /// Configuration for the dependency injection.
 class InjectorConfig {
   /// Decalre all the api services here for the dependency injection.
@@ -69,5 +71,6 @@ class InjectorConfig {
     RemoveNotificationUseCase: RemoveNotificationUseCase.new,
     NotificationDetailUseCase: NotificationDetailUseCase.new,
     RecommendDestinationsUseCase: RecommendDestinationsUseCase.new,
+    GetNearbyDestinationUsecase: GetNearbyDestinationUsecase.new,
   };
 }

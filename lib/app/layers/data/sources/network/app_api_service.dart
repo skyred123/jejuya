@@ -30,12 +30,19 @@ abstract class AppApiService extends BaseApiService {
     String? fromDate,
     String? toDate,
   });
+
+  Future<List<Destination>> fetchNearbyDestinations({
+    double? longitude,
+    double? latitude,
+    int? radius,
+  });
 }
 
 /// Implementation of the [AppApiService] class.
 class AppApiServiceImpl extends AppApiService {
   @override
   String get baseUrl => '${AppConfig.apiHost}/api/';
+
   // String get baseUrl => 'https://jsonplaceholder.typicode.com/';
 
   @override
@@ -124,6 +131,36 @@ class AppApiServiceImpl extends AppApiService {
           }
         } else {
           throw Exception('Unexpected response format: expected a map.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<List<Destination>> fetchNearbyDestinations({
+    double? longitude,
+    double? latitude,
+    int? radius,
+  }) {
+    return performGet(
+      'tourist-spot/near',
+      query: {
+        'longitude': longitude,
+        'latitude': latitude,
+        'radius': radius,
+      },
+      decoder: (data) {
+        print("OOOOOOOOOOOOOOOOOOOOOOOOO");
+        print(data);
+
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
         }
       },
     );

@@ -11,4 +11,10 @@ abstract class DestinationRepository extends BaseRepository {
     required String fromDate,
     required String toDate,
   });
+
+  Future<List<Destination>> fetchNearbyDestinations({
+    required double longitude,
+    required double latitude,
+    required int radius,
+  });
 }

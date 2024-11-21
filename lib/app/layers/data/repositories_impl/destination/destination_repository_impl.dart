@@ -23,4 +23,11 @@ class DestinationRepositoryImpl extends DestinationRepository
         fromDate: fromDate,
         toDate: toDate,
       );
+
+  @override
+  Future<List<Destination>> fetchNearbyDestinations({required double longitude,
+    required double latitude,
+    required int radius}) async =>
+      apiService<AppApiService>().fetchNearbyDestinations(
+          longitude: longitude, latitude: latitude, radius: radius);
 }
