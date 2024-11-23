@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -7,8 +8,10 @@ import 'package:jejuya/app/common/ui/image/image_remote.dart';
 import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
+import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/sheet/destination_info/destination_info_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
+import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 
 /// Sheet widget for the Destination info feature
@@ -48,7 +51,7 @@ class DestinationInfoSheet extends StatelessWidget
         },
       ).paddingAll(20.rMin);
 
-  Widget get _info => Builder(
+  Widget get _info => Observer(
         builder: (context) {
           final ctrl = controller(context);
           return Column(
@@ -56,7 +59,7 @@ class DestinationInfoSheet extends StatelessWidget
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "${ctrl.location?.name}",
+                "${ctrl.destination?.businessNameEnglish}",
                 style: TextStyle(
                   fontSize: 23.spMin,
                   fontWeight: FontWeight.bold,
@@ -64,11 +67,11 @@ class DestinationInfoSheet extends StatelessWidget
               ).paddingOnly(bottom: 20.hMin),
               _iconText(
                 LocalSvgRes.desAddress,
-                "${ctrl.location?.address}",
+                "${ctrl.destinationDetail.value?.locationEnglish}",
               ).paddingOnly(bottom: 20.hMin),
               _iconText(
                 LocalSvgRes.desPhone,
-                "${ctrl.location?.time}",
+                "${ctrl.destinationDetail.value?.contact}",
               ),
             ],
           );
@@ -184,7 +187,11 @@ class DestinationInfoSheet extends StatelessWidget
 
   Widget get _seeMoreBtn => Builder(
         builder: (context) {
+          final ctrl = controller(context);
           return BouncesAnimatedButton(
+            onPressed: () => nav.toDestinationDetail(
+              destinationId: ctrl.destination?.id,
+            ),
             leading: Text(
               "See More >",
               style: TextStyle(

@@ -1,6 +1,7 @@
 import 'package:jejuya/app/common/app_config.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/notification/notification.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/user/user.dart';
 import 'package:jejuya/core/arch/data/network/base_api_service.dart';
@@ -29,6 +30,10 @@ abstract class AppApiService extends BaseApiService {
     int? radius,
     String? fromDate,
     String? toDate,
+  });
+
+  Future<DestinationDetail> fetchDestinationDetail({
+    required String? destinationDetailId,
   });
 }
 
@@ -125,6 +130,19 @@ class AppApiServiceImpl extends AppApiService {
         } else {
           throw Exception('Unexpected response format: expected a map.');
         }
+      },
+    );
+  }
+
+  @override
+  Future<DestinationDetail> fetchDestinationDetail(
+      {String? destinationDetailId}) {
+    return performGet(
+      'tourist-spot/detail?id=$destinationDetailId',
+      // decoder: (data) =>
+      //     DestinationDetail.fromJson(data as Map<String, dynamic>),
+      decoder: (data) {
+        return DestinationDetail.fromJson(data["data"] as Map<String, dynamic>);
       },
     );
   }

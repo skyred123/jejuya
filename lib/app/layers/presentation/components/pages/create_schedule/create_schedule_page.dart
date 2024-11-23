@@ -404,87 +404,93 @@ class CreateSchedulePage extends StatelessWidget
 
   Widget _destinationItem(Destination destination, int index) => Observer(
         builder: (context) {
-          return Container(
-            decoration: BoxDecoration(
-              color: context.color.white,
-              borderRadius: BorderRadius.circular(20.rMin),
-              border: Border(
-                top: BorderSide(width: 1, color: context.color.primaryLight),
-                left: BorderSide(width: 13, color: context.color.primaryLight),
-                right: BorderSide(width: 1, color: context.color.primaryLight),
-                bottom: BorderSide(width: 1, color: context.color.primaryLight),
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _iconText(
-                        LocalSvgRes.node,
-                        destination.businessNameEnglish,
-                        true,
-                      ).paddingOnly(
-                        bottom: 16.hMin,
-                      ),
-                      _iconText(
-                        LocalSvgRes.marker,
-                        destination.businessNameEnglish,
-                        false,
-                      ).paddingOnly(
-                        bottom: 16.hMin,
-                      ),
-                      _iconText(
-                        LocalSvgRes.clock,
-                        destination.startTime.toString(),
-                        false,
-                      ),
-                    ],
-                  ),
+          return GestureDetector(
+            onTap: () => nav.showDetinationInfoSheet(destination: destination),
+            child: Container(
+              decoration: BoxDecoration(
+                color: context.color.white,
+                borderRadius: BorderRadius.circular(20.rMin),
+                border: Border(
+                  top: BorderSide(width: 1, color: context.color.primaryLight),
+                  left:
+                      BorderSide(width: 13, color: context.color.primaryLight),
+                  right:
+                      BorderSide(width: 1, color: context.color.primaryLight),
+                  bottom:
+                      BorderSide(width: 1, color: context.color.primaryLight),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 31.rMin,
-                      height: 31.rMin,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.rMin),
-                        color:
-                            context.color.primaryLight.withValues(alpha: 0.3),
-                      ),
-                      child: SvgPicture.asset(
-                        LocalSvgRes.clock,
-                        colorFilter: ColorFilter.mode(
-                          context.color.primaryColor,
-                          BlendMode.srcIn,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _iconText(
+                          LocalSvgRes.node,
+                          destination.businessNameEnglish,
+                          true,
+                        ).paddingOnly(
+                          bottom: 16.hMin,
                         ),
-                      ).paddingAll(7.rMin),
+                        _iconText(
+                          LocalSvgRes.marker,
+                          destination.businessNameEnglish,
+                          false,
+                        ).paddingOnly(
+                          bottom: 16.hMin,
+                        ),
+                        _iconText(
+                          LocalSvgRes.clock,
+                          destination.startTime.toString(),
+                          false,
+                        ),
+                      ],
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.rMin),
-                        color:
-                            context.color.primaryLight.withValues(alpha: 0.3),
-                      ),
-                      child: Text(
-                        "Experience",
-                        style: TextStyle(
-                          color: context.color.primaryColor,
-                          fontSize: 12.spMin,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 31.rMin,
+                        height: 31.rMin,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.rMin),
+                          color:
+                              context.color.primaryLight.withValues(alpha: 0.3),
                         ),
-                      ).paddingAll(5.rMin),
-                    ).paddingOnly(top: 30.hMin),
-                  ],
-                )
-              ],
-            ).paddingOnly(
-              left: 20.wMin,
-              right: 10.wMin,
-              top: 16.hMin,
-              bottom: 16.hMin,
+                        child: SvgPicture.asset(
+                          LocalSvgRes.clock,
+                          colorFilter: ColorFilter.mode(
+                            context.color.primaryColor,
+                            BlendMode.srcIn,
+                          ),
+                        ).paddingAll(7.rMin),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.rMin),
+                          color:
+                              context.color.primaryLight.withValues(alpha: 0.3),
+                        ),
+                        child: Text(
+                          "Experience",
+                          style: TextStyle(
+                            color: context.color.primaryColor,
+                            fontSize: 12.spMin,
+                          ),
+                        ).paddingAll(5.rMin),
+                      ).paddingOnly(top: 30.hMin),
+                    ],
+                  )
+                ],
+              ).paddingOnly(
+                left: 20.wMin,
+                right: 10.wMin,
+                top: 16.hMin,
+                bottom: 16.hMin,
+              ),
             ),
           );
         },
