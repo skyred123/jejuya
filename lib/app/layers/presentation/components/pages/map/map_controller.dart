@@ -4,7 +4,10 @@ import 'package:jejuya/app/common/ui/image/image_local.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_detail_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/get_nearby_destination_usecase.dart';
+import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,7 +24,7 @@ class MapController extends BaseController with UseCaseProvider {
     _loadHotelMarkerIcon();
     _loadTouristMarkerIcon();
     _loadSelectedHotelMarkerIcon();
-    await fetchNearbyDestinations();
+    await _fetchNearbyDestinations();
     return super.initialize();
   }
 
@@ -70,53 +73,14 @@ class MapController extends BaseController with UseCaseProvider {
 
   void setRadius(double newRadius) async {
     radiusInMeters.value = newRadius;
-
-    // Main marker
-    Marker mainMarker = Marker(
-      markerId: const MarkerId('main_marker'),
-      position: selectedMarkerPosition.value,
-      icon: selectedHotelMarkerId == null
-          ? hotelMarkerIcon.value
-          : selectedHotelMarkerIcon.value,
-    );
-
-    // Clear existing markers
-    markers.value = [];
-
-    // Fetch new data using the use case
-    final request = GetNearbyDestinationRequest(
-      longitude: selectedMarkerPosition.value.longitude,
-      latitude: selectedMarkerPosition.value.latitude,
-      radius: (newRadius / 1000).toInt(), // Convert meters to kilometers
-    );
-
-    final response =
-        await usecase<GetNearbyDestinationUsecase>().execute(request);
-
-    // Rebuild markers from the API response
-    final updatedMarkers = response.destinations.map((destination) {
-      return Marker(
-        markerId: MarkerId(destination.id.toString()),
-        position: LatLng(double.parse(destination.latitude),
-            double.parse(destination.longitude)),
-        icon: touristMarkerIcon.value,
-        onTap: () {
-          log.info('Selected destination: ${destination.businessNameEnglish}');
-        },
-      );
-    }).toList();
-
-    // Update the markers observable
-    markers.value = updatedMarkers;
-
-    markers.value = [mainMarker, ...updatedMarkers];
+    await _fetchNearbyDestinations();
   }
 
   void toggleRadiusSlider() {
     isRadiusSliderVisible.value = !isRadiusSliderVisible.value;
   }
 
-  Future<void> fetchNearbyDestinations() async {
+  Future<void> _fetchNearbyDestinations() async {
     try {
       final radiusInKm = (radiusInMeters.value / 1000).toInt();
       final position = selectedMarkerPosition.value;
@@ -130,14 +94,30 @@ class MapController extends BaseController with UseCaseProvider {
       );
 
       destinations.value = response.destinations;
-      updateMarkers();
+      _updateMarkers();
     } catch (e, s) {
       log.error('[MapController] Error fetching nearby destinations',
           error: e, stackTrace: s);
     }
   }
 
-  void updateMarkers() {
+  Future<DestinationDetail> _fetchDestinationDetail(String id) async {
+    try {
+      final response = await GetDestinationDetailUsecase().execute(
+        GetDestinationDetailRequest(id: id),
+      );
+
+      return response.destinationDetail;
+    } catch (e, s) {
+      log.error('Error fetching destination details', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  void _updateMarkers() {
+    // Clear existing markers
+    markers.value = [];
+
     // Main marker
     Marker mainMarker = Marker(
       markerId: const MarkerId('main_marker'),
@@ -156,8 +136,13 @@ class MapController extends BaseController with UseCaseProvider {
           double.parse(destination.longitude),
         ),
         icon: touristMarkerIcon.value,
-        onTap: () {
-          log.info('Selected Destination: ${destination.businessNameEnglish}');
+        onTap: () async {
+          final destinationDetail =
+              await _fetchDestinationDetail(destination.id);
+
+          log.error(destination.id);
+          log.error(destinationDetail.businessNameEnglish);
+          nav.showDetinationInfoSheet(destinationDetail: destinationDetail);
         },
       );
     }).toList();

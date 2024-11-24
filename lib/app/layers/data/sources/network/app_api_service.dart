@@ -1,6 +1,7 @@
 import 'package:jejuya/app/common/app_config.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/notification/notification.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/user/user.dart';
 import 'package:jejuya/core/arch/data/network/base_api_service.dart';
@@ -36,6 +37,8 @@ abstract class AppApiService extends BaseApiService {
     double? latitude,
     int? radius,
   });
+
+  Future<DestinationDetail> fetchDestinationDetail({String? id});
 }
 
 /// Implementation of the [AppApiService] class.
@@ -150,9 +153,6 @@ class AppApiServiceImpl extends AppApiService {
         'radius': radius,
       },
       decoder: (data) {
-        print("OOOOOOOOOOOOOOOOOOOOOOOOO");
-        print(data);
-
         // Check if the data is a Map and contains the 'data' key
         if (data is Map && data['data'] is List) {
           // Map the 'data' list into Destination objects
@@ -161,6 +161,24 @@ class AppApiServiceImpl extends AppApiService {
               .toList();
         } else {
           throw Exception('Unexpected response format: data is not a list.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<DestinationDetail> fetchDestinationDetail({String? id}) {
+    return performGet(
+      'tourist-spot/detail',
+      query: {
+        'id': id,
+      },
+      decoder: (data) {
+        if (data is Map<String, dynamic>) {
+          // Ensure the data is a map and parse it to a DestinationDetail
+          return DestinationDetail.fromJson(data['data']);
+        } else {
+          throw Exception('Unexpected response format: expected a map.');
         }
       },
     );

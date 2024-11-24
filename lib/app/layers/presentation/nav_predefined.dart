@@ -1,4 +1,5 @@
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
@@ -20,7 +21,6 @@ import 'package:jejuya/app/core_impl/navigation/custom_get_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
@@ -143,7 +143,10 @@ class PredefinedPage {
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.destinationDetail,
-      page: () => nav.destinationDetail,
+      page: () {
+        final destinationDetail = Get.arguments as DestinationDetail?;
+        return nav.destinationDetail(destinationDetail: destinationDetail);
+      },
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.createSchedule,
@@ -220,8 +223,11 @@ extension NavPredefined on navi.Navigator {
       );
 
   /// Notification page widget.
-  Widget get destinationDetail => BaseProvider(
-        ctrl: DestinationDetailController(),
+  Widget destinationDetail({required DestinationDetail? destinationDetail}) =>
+      BaseProvider(
+        ctrl: DestinationDetailController(
+          destinationDetail: destinationDetail,
+        ),
         child: const DestinationDetailPage(),
       );
 
@@ -285,8 +291,10 @@ extension ToPagePredefined on navi.Navigator {
       );
 
   /// Navigate to the home page.
-  Future<T?>? toDestinationDetail<T>() => toNamed(
+  Future<T?>? toDestinationDetail<T>({DestinationDetail? destinationDetail}) =>
+      toNamed(
         PredefinedRoute.destinationDetail,
+        arguments: destinationDetail,
       );
 
   Future<T?>? toNotificationDetail<T>({required num? notificationId}) =>
@@ -321,10 +329,11 @@ extension DialogPredefined on navi.Navigator {
 //         routeName: 'sheet-main',
 //       );
   /// Show destination info sheet
-  Future<T?>? showDetinationInfoSheet<T>({Location? location}) {
+  Future<T?>? showDetinationInfoSheet<T>(
+      {DestinationDetail? destinationDetail}) {
     return bottomSheet(
       BaseProvider(
-        ctrl: DestinationInfoController(location: location),
+        ctrl: DestinationInfoController(destinationDetail: destinationDetail),
         child: const DestinationInfoSheet(),
       ),
       routeName: PredefinedRoute.destinationInfo,

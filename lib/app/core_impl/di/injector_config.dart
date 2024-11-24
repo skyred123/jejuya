@@ -7,6 +7,7 @@ import 'package:jejuya/app/layers/domain/repositories/destination/destination_re
 import 'package:jejuya/app/layers/domain/repositories/notification/notification_repository.dart';
 import 'package:jejuya/app/layers/domain/repositories/notification_detail/notification_detail_repository.dart';
 import 'package:jejuya/app/layers/domain/repositories/user/user_repository.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_detail_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/recommend_destination_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification/fetch_notifications_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification/remove_notification_usecase.dart';
@@ -72,5 +73,6 @@ class InjectorConfig {
     NotificationDetailUseCase: NotificationDetailUseCase.new,
     RecommendDestinationsUseCase: RecommendDestinationsUseCase.new,
     GetNearbyDestinationUsecase: GetNearbyDestinationUsecase.new,
+    GetDestinationDetailUsecase: GetDestinationDetailUsecase.new,
   };
 }

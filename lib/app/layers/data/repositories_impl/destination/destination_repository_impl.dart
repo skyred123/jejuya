@@ -1,4 +1,5 @@
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/app/layers/data/sources/network/app_api_service.dart';
 import 'package:jejuya/app/layers/domain/repositories/destination/destination_repository.dart';
 import 'package:jejuya/core/arch/data/network/api_service_provider.dart';
@@ -25,9 +26,15 @@ class DestinationRepositoryImpl extends DestinationRepository
       );
 
   @override
-  Future<List<Destination>> fetchNearbyDestinations({required double longitude,
-    required double latitude,
-    required int radius}) async =>
+  Future<List<Destination>> fetchNearbyDestinations(
+          {required double longitude,
+          required double latitude,
+          required int radius}) async =>
       apiService<AppApiService>().fetchNearbyDestinations(
           longitude: longitude, latitude: latitude, radius: radius);
+
+  @override
+  Future<DestinationDetail> fetchDestinationDetail(
+          {required String id}) async =>
+      apiService<AppApiService>().fetchDestinationDetail(id: id);
 }

@@ -1,4 +1,5 @@
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/core/arch/domain/repository/base_repository.dart';
 
 /// Repository for the destination
@@ -16,5 +17,9 @@ abstract class DestinationRepository extends BaseRepository {
     required double longitude,
     required double latitude,
     required int radius,
+  });
+
+  Future<DestinationDetail> fetchDestinationDetail({
+    required String id,
   });
 }
