@@ -10,11 +10,11 @@ import 'package:jejuya/app/common/utils/extension/string/string_to_color.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
+import 'package:jejuya/app/layers/presentation/components/widgets/placeholder_widget/placeholder_widget.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 /// Page widget for the Create schedule feature
 class CreateSchedulePage extends StatelessWidget
@@ -265,23 +265,26 @@ class CreateSchedulePage extends StatelessWidget
           final listDay = ctrl.groupDestinationsByDate(ctrl.destinations.value);
           final dates = ctrl.extractDates(listDay);
           // final listDay = ctrl.schedules;
-          return SizedBox(
-            height: 100,
-            child: ListView.builder(
-              itemCount: listDay.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return BouncesAnimatedButton(
-                  width: 70.rMin,
-                  height: 70.hMin,
-                  onPressed: () {
-                    ctrl.updateSelectedDay(index);
-                  },
-                  leading: _dayItem(dates[index], index),
+          return ctrl.fetchState.value == RecommendDestinationState.loading
+              ? const PlaceholderWidget(
+                  type: PlaceholderType.dayCard,
+                )
+              : SizedBox(
+                  height: 100.hMin,
+                  child: ListView.builder(
+                    itemCount: listDay.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return BouncesAnimatedButton(
+                        width: 70.rMin,
+                        onPressed: () {
+                          ctrl.updateSelectedDay(index);
+                        },
+                        leading: _dayItem(dates[index], index),
+                      );
+                    },
+                  ).paddingSymmetric(horizontal: 10.wMin),
                 );
-              },
-            ).paddingSymmetric(horizontal: 10.wMin),
-          );
         },
       );
 
@@ -375,29 +378,31 @@ class CreateSchedulePage extends StatelessWidget
                 ctrl.extractDestinations(ctrl.selectedDayIndex.value);
             // final current =
             //     ctrl.schedules[ctrl.selectedDayIndex.value].locations;
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => Dismissible(
-                  key: Key(current[index].id),
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.only(right: 20.wMin),
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {
-                    // Handle delete action
-                    ctrl.deleteLocation(index);
-                  },
-                  child: GestureDetector(
-                    child: _destinationItem(current[index], index)
-                        .paddingSymmetric(horizontal: 15.wMin),
-                  ),
-                ),
-                childCount: current.length,
-              ),
-            );
+            return ctrl.fetchState.value == RecommendDestinationState.loading
+                ? SliverToBoxAdapter(child: _destinationPlaceholer)
+                : SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => Dismissible(
+                        key: Key(current[index].id),
+                        background: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(right: 20.wMin),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        direction: DismissDirection.endToStart,
+                        onDismissed: (direction) {
+                          // Handle delete action
+                          // ctrl.deleteLocation(index);
+                        },
+                        child: GestureDetector(
+                          child: _destinationItem(current[index], index)
+                              .paddingSymmetric(horizontal: 15.wMin),
+                        ),
+                      ),
+                      childCount: current.length,
+                    ),
+                  );
           },
         );
       });
@@ -489,6 +494,30 @@ class CreateSchedulePage extends StatelessWidget
           );
         },
       ).paddingSymmetric(vertical: 10.hMin);
+
+  Widget get _destinationPlaceholer => Builder(
+        builder: (context) {
+          return Column(
+            children: [
+              const PlaceholderWidget(
+                type: PlaceholderType.destinationCard,
+              ).paddingSymmetric(
+                vertical: 5.hMin,
+              ),
+              const PlaceholderWidget(
+                type: PlaceholderType.destinationCard,
+              ).paddingSymmetric(
+                vertical: 5.hMin,
+              ),
+              const PlaceholderWidget(
+                type: PlaceholderType.destinationCard,
+              ).paddingSymmetric(
+                vertical: 5.hMin,
+              ),
+            ],
+          );
+        },
+      );
 
   Widget _iconText(String image, String text, bool isTitle) => Builder(
         builder: (context) {
