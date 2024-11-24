@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/user/user.dart';
@@ -22,7 +23,7 @@ class AppController extends BaseController
 
   /// Initial route
   String get initialRoute {
-    return PredefinedRoute.home;
+    return checkLoginStatus() ? PredefinedRoute.home : PredefinedRoute.signIn;
   }
 
   // --- State Variables ---
@@ -55,7 +56,7 @@ class AppController extends BaseController
   /// Handle Login
   Future<void> login() async {
     final response = await _loginUseCase.execute(LoginRequest());
-    freshUser(response.user);
+    // freshUser(response.user);
   }
 
   /// Initialize the app state
@@ -81,9 +82,15 @@ class AppController extends BaseController
   }
 
   /// Fresh app user
-  void freshUser(User latestUser) {
-    user.value = latestUser;
-    isFreshedUser.value = true;
+  // void freshUser(User latestUser) {
+  //   user.value = latestUser;
+  //   isFreshedUser.value = true;
+  // }
+
+  bool checkLoginStatus() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) return true;
+    return false;
   }
 
   @override

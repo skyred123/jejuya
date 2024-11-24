@@ -127,6 +127,8 @@ dependencies:
 
   # [Number Picker] A flutter package for selecting numbers
   numberpicker: ^2.1.2
+  firebase_core: ^3.8.0
+  firebase_auth: ^5.3.3
 
 dev_dependencies:
   flutter_test:
