@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -28,21 +29,23 @@ class SignInPage extends StatelessWidget
 
   Widget get _body => Builder(
         builder: (context) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _logo,
-              _headerText,
-              _signInInfo,
-              _signInBtn,
-              Expanded(child: _signUpBtn),
-            ],
-          ).paddingOnly(
-            top: 30.hMin,
-            right: 25.wMin,
-            left: 25.wMin,
-            bottom: 30.hMin,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _logo,
+                _headerText,
+                _signInInfo,
+                _signInBtn,
+                _signUpBtn,
+              ],
+            ).paddingOnly(
+              top: 30.hMin,
+              right: 25.wMin,
+              left: 25.wMin,
+              bottom: 30.hMin,
+            ),
           );
         },
       );
@@ -87,40 +90,54 @@ class SignInPage extends StatelessWidget
           final ctrl = controller(context);
           return Column(
             children: [
-              _textField(ctrl.emailController, "Email")
+              _textField(ctrl.emailController, "Email", false)
                   .paddingOnly(bottom: 16.hMin),
-              _textField(ctrl.passwordController, "Mật Khẩu"),
+              _textField(ctrl.passwordController, "Mật Khẩu", true),
             ],
           ).paddingOnly(top: 60.hMin);
         },
       );
 
-  Widget _textField(TextEditingController controller, String hint) =>
+  Widget _textField(
+          TextEditingController controller, String hint, bool obscureText) =>
       Builder(builder: (context) {
         return CustomTextField(
           editingController: controller,
           color: context.color.primaryColor,
           hint: hint,
           fontSize: 16.spMin,
+          obscureText: obscureText,
         );
       });
 
-  Widget get _signInBtn => Builder(
+  Widget get _signInBtn => Observer(
         builder: (context) {
+          final ctrl = controller(context);
           return Column(
             children: [
               BouncesAnimatedButton(
-                onPressed: () {},
+                onPressed: () => ctrl.login(),
                 decoration: BoxDecoration(
                   color: context.color.primaryColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
-                leading: const Text(
-                  'Đăng Nhập',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+                leading: ctrl.isLoading.value == true
+                    ? SizedBox(
+                        width: 20.rMin,
+                        height: 20.rMin,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            context.color.white,
+                          ),
+                          strokeWidth: 2.0,
+                        ),
+                      )
+                    : const Text(
+                        'Đăng Nhập',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
               ).paddingOnly(top: 50.hMin),
               BouncesAnimatedButton(
                 onPressed: () {},
@@ -137,33 +154,35 @@ class SignInPage extends StatelessWidget
         },
       );
 
-  Widget get _signUpBtn => Builder(builder: (context) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Không có tài khoản?',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.spMin,
-              ),
-            ),
-            BouncesAnimatedButton(
-              onPressed: () {
-                nav.toSignUp();
-              },
-              leading: Text(
-                'Đăng Ký',
+  Widget get _signUpBtn => Builder(
+        builder: (context) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Không có tài khoản?',
                 style: TextStyle(
-                  color: context.color.primaryColor,
+                  color: Colors.black,
                   fontSize: 14.spMin,
                 ),
               ),
-              height: 20.hMin,
-              width: 70.wMin,
-            ),
-          ],
-        ).paddingOnly(top: 10.hMin);
-      });
+              BouncesAnimatedButton(
+                onPressed: () {
+                  nav.toSignUp();
+                },
+                leading: Text(
+                  'Đăng Ký',
+                  style: TextStyle(
+                    color: context.color.primaryColor,
+                    fontSize: 14.spMin,
+                  ),
+                ),
+                height: 20.hMin,
+                width: 70.wMin,
+              ),
+            ],
+          ).paddingOnly(top: 10.hMin);
+        },
+      );
 }

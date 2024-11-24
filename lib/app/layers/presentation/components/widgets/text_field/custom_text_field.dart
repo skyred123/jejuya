@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final double borderWidth;
   final double fontSize;
   final String icon;
+  final bool obscureText;
 
   const CustomTextField({
     super.key,
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
     this.borderWidth = 1,
     required this.fontSize,
     this.icon = "",
+    this.obscureText = false,
   });
 
   @override
@@ -48,6 +50,7 @@ class CustomTextField extends StatelessWidget {
           fontSize: fontSize,
         ),
       ),
+      obscureText: obscureText,
       cursorColor: color,
       style: TextStyle(color: color, fontSize: fontSize),
     );
