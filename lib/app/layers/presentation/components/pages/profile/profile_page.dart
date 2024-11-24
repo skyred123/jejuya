@@ -8,8 +8,10 @@ import 'package:jejuya/app/common/ui/image/image_remote.dart';
 import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
+import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/profile/profile_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
+import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -123,6 +125,9 @@ class ProfilePage extends StatelessWidget
                 ),
               ),
               BouncesAnimatedButton(
+                onPressed: () {
+                  nav.toProfileSetting();
+                },
                 width: 30.rMin,
                 height: 30.rMin,
                 leading: SvgPicture.asset(

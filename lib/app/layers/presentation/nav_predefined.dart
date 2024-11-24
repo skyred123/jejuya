@@ -20,6 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jejuya/app/core_impl/navigation/custom_get_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/profile_setting/profile_setting_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/profile_setting/profile_setting_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
@@ -89,6 +91,9 @@ class PredefinedRoute {
 
   /// Create schedule page route.
   static const String createSchedule = '/create_schedule';
+
+  /// Create schedule page route.
+  static const String profileSetting = '/profile_setting';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -157,7 +162,11 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.createSchedule,
       page: () => nav.createSchedule,
-    )
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.profileSetting,
+      page: () => nav.profileSetting,
+    ),
   ];
 }
 
@@ -254,6 +263,11 @@ extension NavPredefined on navi.Navigator {
         ctrl: CreateScheduleController(),
         child: const CreateSchedulePage(),
       );
+
+  Widget get profileSetting => BaseProvider(
+        ctrl: ProfileSettingController(),
+        child: ProfileSettingPage(),
+      );
 }
 
 /// The [ToPagePredefined] extension defines methods for navigating to
@@ -324,6 +338,10 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to create schedule page.
   Future<T?>? toCreateSchedule<T>() => toNamed(
         PredefinedRoute.createSchedule,
+      );
+
+  Future<T?>? toProfileSetting<T>() => toNamed(
+        PredefinedRoute.profileSetting,
       );
 }
 

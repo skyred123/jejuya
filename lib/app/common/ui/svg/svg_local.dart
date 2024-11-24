@@ -27,4 +27,9 @@ class LocalSvgRes {
   static const String calendar = 'images/svg/ic_calendar.svg';
   static const String tag = 'images/svg/ic_tag.svg';
   static const String setting = 'images/svg/ic_setting.svg';
+
+  static const String vector = 'images/svg/ic_vector.svg';
+  static const String chat = 'images/svg/ic_chat.svg';
+  static const String user = 'images/svg/ic_user.svg';
+  static const String logout = 'images/svg/ic_logout.svg';
 }
