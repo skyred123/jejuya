@@ -1,15 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:jejuya/app/app.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/platform/platform.dart';
+import 'package:jejuya/firebase_options.dart';
 
-void main() {
+Future<void> main() async {
   // Ensure Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
 
   // Set system UI mode for Android devices
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   if (GetPlatform.isAndroid) {
     SystemChrome.setSystemUIOverlayStyle(
