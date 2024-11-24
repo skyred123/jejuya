@@ -5,6 +5,8 @@ import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/error/error.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/error/error_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_controller.dart';
@@ -92,8 +94,11 @@ class PredefinedRoute {
   /// Create schedule page route.
   static const String createSchedule = '/create_schedule';
 
-  /// Create schedule page route.
+  /// Create profile setting page route.
   static const String profileSetting = '/profile_setting';
+
+  /// Create error page route.
+  static const String error = '/error';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -166,6 +171,10 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.profileSetting,
       page: () => nav.profileSetting,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.error,
+      page: () => nav.error,
     ),
   ];
 }
@@ -268,6 +277,11 @@ extension NavPredefined on navi.Navigator {
         ctrl: ProfileSettingController(),
         child: ProfileSettingPage(),
       );
+
+  Widget get error => BaseProvider(
+        ctrl: ErrorController(),
+        child: ErrorPage(),
+      );
 }
 
 /// The [ToPagePredefined] extension defines methods for navigating to
@@ -342,6 +356,10 @@ extension ToPagePredefined on navi.Navigator {
 
   Future<T?>? toProfileSetting<T>() => toNamed(
         PredefinedRoute.profileSetting,
+      );
+
+  Future<T?>? toError<T>() => toNamed(
+        PredefinedRoute.error,
       );
 }
 

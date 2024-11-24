@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -8,15 +10,16 @@ import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/home/home_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/profile_setting/profile_setting_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
+import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
 /// Page widget for the profile feature
-class ProfileSettingPage extends StatelessWidget
-    with ControllerProvider<ProfileSettingController> {
+class ProfileSettingPage extends StatelessWidget with GlobalControllerProvider {
   /// Default constructor
   ProfileSettingPage({super.key});
 
@@ -58,9 +61,10 @@ class ProfileSettingPage extends StatelessWidget
     },
     {
       "icon": LocalSvgRes.logout,
-      "title": "Thông tin",
+      "title": "Đăng xuất",
       "onTap": () {
-        print("Thông tin được chọn");
+        FirebaseAuth.instance.signOut();
+        nav.toSignIn();
       },
     },
   ];
