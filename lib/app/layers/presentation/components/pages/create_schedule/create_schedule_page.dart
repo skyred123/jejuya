@@ -12,7 +12,9 @@ import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
+import 'package:jejuya/app/layers/presentation/components/widgets/placeholder_widget/placeholder_widget.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/placeholder_widget/placeholder_widget.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
@@ -480,6 +482,30 @@ class CreateSchedulePage extends StatelessWidget
           );
         },
       ).paddingSymmetric(vertical: 10.hMin);
+
+  Widget get _destinationPlaceholer => Builder(
+        builder: (context) {
+          return Column(
+            children: [
+              const PlaceholderWidget(
+                type: PlaceholderType.destinationCard,
+              ).paddingSymmetric(
+                vertical: 5.hMin,
+              ),
+              const PlaceholderWidget(
+                type: PlaceholderType.destinationCard,
+              ).paddingSymmetric(
+                vertical: 5.hMin,
+              ),
+              const PlaceholderWidget(
+                type: PlaceholderType.destinationCard,
+              ).paddingSymmetric(
+                vertical: 5.hMin,
+              ),
+            ],
+          );
+        },
+      );
 
   Widget _iconText(String image, String text, bool isTitle) => Builder(
         builder: (context) {

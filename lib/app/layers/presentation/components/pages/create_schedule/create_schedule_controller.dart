@@ -173,6 +173,8 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
     dateController.text = formattedRange;
     this.startDate = startDate.toString();
     this.endDate = endDate.toString();
+    this.startDate = startDate.toString();
+    this.endDate = endDate.toString();
   }
 
   Future<void> fetchRecommendedDestinations() async {
@@ -184,6 +186,8 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
           longitude: jejuIsland.longitude,
           latitude: jejuIsland.latitude,
           radius: 20,
+          fromDate: startDate,
+          toDate: endDate,
           fromDate: startDate,
           toDate: endDate,
         ),

@@ -123,7 +123,6 @@ class AppApiServiceImpl extends AppApiService {
       decoder: (data) {
         if (data is Map<String, dynamic>) {
           var destinationsData = data['data'];
-
           if (destinationsData is List) {
             return destinationsData
                 .map((destination) =>
