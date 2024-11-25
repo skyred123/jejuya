@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -191,7 +192,7 @@ class DestinationInfoSheet extends StatelessWidget
           final ctrl = controller(context);
           return BouncesAnimatedButton(
             leading: Text(
-              "See More >",
+              tr("destination_info_sheet.see_more"),
               style: TextStyle(
                 fontSize: 12.spMin,
               ),

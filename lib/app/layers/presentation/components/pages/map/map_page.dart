@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,7 +100,7 @@ class _MapPageState extends State<MapPage> {
                   center:
                       widget.controller(context).selectedMarkerPosition.value,
                   radius: widget.controller(context).radiusInMeters.value,
-                  fillColor: Colors.blue.withOpacity(0.3),
+                  fillColor: Colors.blue.withValues(alpha: 0.3),
                   strokeColor: Colors.blue,
                   strokeWidth: 1,
                 ),
@@ -121,7 +122,7 @@ class _MapPageState extends State<MapPage> {
               child: IgnorePointer(
                 child: CustomSearchBar(
                   editingController: ctrl.searchController,
-                  hint: "Tìm kiếm",
+                  hint: tr("map.search"),
                   color: context.color.primaryColor,
                   fontSize: 14.spMin,
                   suffixIcon: LocalSvgRes.search,

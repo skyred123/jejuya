@@ -12,6 +12,7 @@ import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces
 import 'package:jejuya/app/layers/presentation/components/widgets/text_field/custom_text_field.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Page widget for the Sign in feature
 class SignInPage extends StatelessWidget
@@ -55,7 +56,7 @@ class SignInPage extends StatelessWidget
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Chào mừng trở lại!",
+                tr("sign_in.welcome_back"),
                 style: TextStyle(
                   color: context.color.primaryColor,
                   fontSize: 33.spMin,
@@ -63,7 +64,7 @@ class SignInPage extends StatelessWidget
                 ),
               ),
               Text(
-                "Đăng Nhập",
+                tr("sign_in.sign_in"),
                 style: TextStyle(
                   color: context.color.primaryColor,
                   fontSize: 33.spMin,
@@ -90,9 +91,9 @@ class SignInPage extends StatelessWidget
           final ctrl = controller(context);
           return Column(
             children: [
-              _textField(ctrl.emailController, "Email", false)
+              _textField(ctrl.emailController, tr("sign_in.email"), false)
                   .paddingOnly(bottom: 16.hMin),
-              _textField(ctrl.passwordController, "Mật Khẩu", true),
+              _textField(ctrl.passwordController, tr("sign_in.password"), true),
             ],
           ).paddingOnly(top: 60.hMin);
         },
@@ -132,9 +133,9 @@ class SignInPage extends StatelessWidget
                           strokeWidth: 2.0,
                         ),
                       )
-                    : const Text(
-                        'Đăng Nhập',
-                        style: TextStyle(
+                    : Text(
+                        tr("sign_in.sign_in"),
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
@@ -142,7 +143,7 @@ class SignInPage extends StatelessWidget
               BouncesAnimatedButton(
                 onPressed: () {},
                 leading: Text(
-                  'Quên mật khẩu',
+                  tr("sign_in.forgot_password"),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 12.spMin,
@@ -161,7 +162,7 @@ class SignInPage extends StatelessWidget
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Không có tài khoản?',
+                tr("sign_in.dont_have_account"),
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14.spMin,
@@ -172,7 +173,7 @@ class SignInPage extends StatelessWidget
                   nav.toSignUp();
                 },
                 leading: Text(
-                  'Đăng Ký',
+                  tr("sign_in.sign_up"),
                   style: TextStyle(
                     color: context.color.primaryColor,
                     fontSize: 14.spMin,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -59,7 +60,7 @@ class CreateSchedulePage extends StatelessWidget
             ),
             SliverToBoxAdapter(
               child: Text(
-                "Thêm điểm đến mới",
+                tr("create_schedule.add_new"),
                 style: TextStyle(
                   fontSize: 14.spMin,
                   color: context.color.black,
@@ -101,7 +102,7 @@ class CreateSchedulePage extends StatelessWidget
               ),
             ),
             Text(
-              "Tạo lịch trình",
+              tr("create_schedule.title"),
               style: TextStyle(
                 fontSize: 20.spMin,
                 color: context.color.black,
@@ -148,7 +149,7 @@ class CreateSchedulePage extends StatelessWidget
           children: [
             _inputField(
               controller(context).nameController,
-              "Tên lịch trình",
+              tr("create_schedule.schedule_name"),
               context.color.info,
               1,
               12.spMin,
@@ -156,7 +157,7 @@ class CreateSchedulePage extends StatelessWidget
             ),
             _inputField(
               controller(context).locationController,
-              "Chỗ ở",
+              tr("create_schedule.accommodation"),
               context.color.info,
               1,
               12.spMin,
@@ -543,7 +544,7 @@ class CreateSchedulePage extends StatelessWidget
           children: [
             _inputField(
               controller(context).nameController,
-              "Địa chỉ",
+              tr("create_schedule.accommodation"),
               context.color.info,
               1,
               12.spMin,
@@ -558,7 +559,7 @@ class CreateSchedulePage extends StatelessWidget
                 Expanded(
                   child: _inputField(
                     controller(context).timeStartController,
-                    "Thời gian bắt đầu",
+                    tr("create_schedule.start_time"),
                     context.color.info,
                     1,
                     12.spMin,
@@ -573,7 +574,7 @@ class CreateSchedulePage extends StatelessWidget
                 Expanded(
                   child: _inputField(
                     controller(context).timeEndController,
-                    "Thời gian kết thúc",
+                    tr("create_schedule.end_time"),
                     context.color.info,
                     1,
                     12.spMin,
@@ -588,7 +589,7 @@ class CreateSchedulePage extends StatelessWidget
             ).paddingSymmetric(vertical: 15.hMin),
             _inputField(
               controller(context).nameController,
-              "Danh mục",
+              tr("create_schedule.type"),
               context.color.info,
               1,
               12.spMin,
@@ -634,9 +635,9 @@ class CreateSchedulePage extends StatelessWidget
                     strokeWidth: 2.0,
                   ),
                 )
-              : const Text(
-                  'Thêm',
-                  style: TextStyle(
+              : Text(
+                  tr("create_schedule.create_btn"),
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),

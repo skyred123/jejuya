@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
@@ -31,24 +32,25 @@ class SignInController extends BaseController with UseCaseProvider {
   Future<void> login() async {
     try {
       isLoading.value = true;
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      print(token);
       nav.toHome();
     } on FirebaseAuthException catch (e) {
       isLoading.value = false;
       String errorMessage = '';
       switch (e.code) {
         case 'user-not-found':
-          errorMessage = 'Không tìm thấy người dùng với email này.';
+          errorMessage = tr("sign_in.user_not_found");
           break;
         case 'wrong-password':
-          errorMessage = 'Mật khẩu không đúng.';
+          errorMessage = tr("sign_in.wrong_password");
           break;
         default:
-          errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại.';
+          errorMessage = tr("sign_in.have_error");
           break;
       }
       nav.showSnackBar(message: errorMessage);

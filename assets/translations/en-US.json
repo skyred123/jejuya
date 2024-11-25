@@ -65,5 +65,71 @@
     "empty_description": "Nothing here",
     "error_description": "An error has been occurred",
     "btn_try_again": "TRY AGAIN"
+  },
+
+  "sign_in": {
+    "welcome_back": "Welcome back!",
+    "sign_in": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot password?",
+    "dont_have_account": "Don’t  have account?",
+    "sign_up": "Sign Up",
+    "user_not_found": "User Not Found",
+    "wrong_password": "Wrong Password",
+    "have_error": "Error. Please Try Again."
+  },
+
+  "sign_up": {
+    "start_your_journey": "Start Your Journey!",
+    "sign_in": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "already_have_account": "Already have an account?",
+    "next": "Next",
+    "sign_up": "Sign Up"
+  },
+
+  "home": {
+    "home": "Home",
+    "schedule": "Schedule",
+    "favorite": "Favorite",
+    "profile": "Profile"
+  },
+
+  "map": {
+    "search": "Search"
+  },
+
+  "schedule": {
+    "schedule_list": "Schedule List",
+    "search": "Search"
+  },
+
+  "favorite": {
+    "favorite_list": "Favorite List",
+    "search": "Search",
+    "schedule": "Schedules",
+    "destination": "Destinations"
+  },
+
+  "destination_info_sheet": {
+    "see_more": "See More >"
+  },
+
+  "destination_detail": {
+    "day": "Day"
+  },
+
+  "create_schedule": {
+    "title": "Create a schedule",
+    "schedule_name": "Schedule name",
+    "accommodation": "Accommodation",
+    "add_new": "Add new destination",
+    "start_time": "Start time",
+    "end_time": "End time",
+    "type": "Type",
+    "create_btn": "Add"
   }
 }
