@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,7 +57,7 @@ class SignUpPage extends StatelessWidget
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Bắt Đầu Hành Trình!",
+                tr("sign_up.start_your_journey"),
                 style: TextStyle(
                   color: context.color.primaryColor,
                   fontSize: 33.spMin,
@@ -64,7 +65,7 @@ class SignUpPage extends StatelessWidget
                 ),
               ),
               Text(
-                "Đăng Ký",
+                tr("sign_up.sign_up"),
                 style: TextStyle(
                   color: context.color.primaryColor,
                   fontSize: 33.spMin,
@@ -91,12 +92,12 @@ class SignUpPage extends StatelessWidget
           final ctrl = controller(context);
           return Column(
             children: [
-              _textField(ctrl.emailController, "Email", false)
+              _textField(ctrl.emailController, tr("sign_up.email"), false)
                   .paddingOnly(bottom: 16.hMin),
-              _textField(ctrl.passwordController, "Mật Khẩu", true)
+              _textField(ctrl.passwordController, tr("sign_up.password"), true)
                   .paddingOnly(bottom: 16.hMin),
-              _textField(
-                  ctrl.confirmPasswordController, "Xác Nhận Mật Khẩu", true),
+              _textField(ctrl.confirmPasswordController,
+                  tr("sign_up.confirm_password"), true),
             ],
           ).paddingOnly(top: 60.hMin);
         },
@@ -138,9 +139,9 @@ class SignUpPage extends StatelessWidget
                           strokeWidth: 2.0,
                         ),
                       )
-                    : const Text(
-                        'Đăng Ký',
-                        style: TextStyle(
+                    : Text(
+                        tr("sign_up.sign_up"),
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
@@ -157,7 +158,7 @@ class SignUpPage extends StatelessWidget
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Đã có tài khoản?',
+                tr("sign_up.already_have_account"),
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14.spMin,
@@ -168,7 +169,7 @@ class SignUpPage extends StatelessWidget
                   nav.toSignIn();
                 },
                 leading: Text(
-                  'Đăng Nhập',
+                  tr("sign_up.sign_in"),
                   style: TextStyle(
                     color: context.color.primaryColor,
                     fontSize: 14.spMin,

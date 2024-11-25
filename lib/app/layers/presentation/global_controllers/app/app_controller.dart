@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
-import 'package:jejuya/app/layers/data/sources/local/model/user/user.dart';
 import 'package:jejuya/app/layers/domain/usecases/user/login_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/user/logout_usecase.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';

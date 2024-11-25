@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,7 +56,7 @@ class SchedulePage extends StatelessWidget
   Widget get _headerText => Builder(
         builder: (context) {
           return Text(
-            "Danh Sách Lịch Trình",
+            tr("schedule.schedule_list"),
             style: TextStyle(
               fontSize: 22.spMin,
               color: context.color.black,
@@ -70,7 +71,7 @@ class SchedulePage extends StatelessWidget
           final ctrl = controller(context);
           return CustomSearchBar(
             editingController: ctrl.searchController,
-            hint: "Tìm kiếm",
+            hint: tr("schedule.search"),
             color: context.color.primaryColor,
             fontSize: 14.spMin,
             suffixIcon: LocalSvgRes.search,
