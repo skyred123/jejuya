@@ -11,6 +11,7 @@ import 'package:jejuya/app/common/utils/extension/string/string_to_color.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/create_schedule_state.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
@@ -619,7 +620,7 @@ class CreateSchedulePage extends StatelessWidget
         },
       );
 
-  Widget get _createBtn => Builder(builder: (context) {
+  Widget get _createBtn => Observer(builder: (context) {
         final ctrl = controller(context);
         return BouncesAnimatedButton(
           onPressed: () => ctrl.createSchedule(),
@@ -628,12 +629,23 @@ class CreateSchedulePage extends StatelessWidget
             color: context.color.primaryColor,
             borderRadius: BorderRadius.circular(30),
           ),
-          leading: const Text(
-            'Thêm',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
+          leading: ctrl.createState.value == CreateScheduleState.loading
+              ? SizedBox(
+                  width: 20.rMin,
+                  height: 20.rMin,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      context.color.white,
+                    ),
+                    strokeWidth: 2.0,
+                  ),
+                )
+              : const Text(
+                  'Thêm',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
         ).paddingSymmetric(
           horizontal: 15.wMin,
           vertical: 10.hMin,

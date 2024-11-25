@@ -14,10 +14,10 @@ class NotificationDetailRepositoryImpl extends NotificationDetailRepository
   ) async =>
       apiService<AppApiService>().fetchNotificationDetail(notificationId!);
 
-  @override
-  Future<DestinationDetail> fetchDestinationDetail(
-    String? destinationDetailId,
-  ) async =>
-      apiService<AppApiService>()
-          .fetchDestinationDetail(destinationDetailId: destinationDetailId!);
+  // @override
+  // Future<DestinationDetail> fetchDestinationDetail(
+  //   String? destinationDetailId,
+  // ) async =>
+  //     apiService<AppApiService>()
+  //         .fetchDestinationDetail(destinationDetailId: destinationDetailId!);
 }

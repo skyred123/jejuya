@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
+import 'package:jejuya/app/layers/presentation/components/sheet/filter/enum/filter_categories.dart';
 import 'package:jejuya/app/layers/presentation/components/sheet/filter/filter_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
@@ -27,23 +28,8 @@ class _FilterSheetState extends State<FilterSheet> {
           children: [
             Expanded(
               child: _categoryList(
-                [
-                  "A",
-                  "B",
-                  "C",
-                  "D",
-                  "E",
-                  "F",
-                  "G",
-                  "H",
-                  "I",
-                  "J",
-                  "K",
-                  "L",
-                  "M",
-                  "N"
-                ],
-                ["O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+                FilterCategory.values.map((e) => e.label).toList(),
+                FilterDetailedCategory.values.map((e) => e.label).toList(),
               ),
             ),
 
@@ -61,7 +47,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       color: context.color.red,
                       borderRadius: BorderRadius.circular(8.rMin),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.controller(context).selectedCategories.clear();
+                    },
                   ),
                 ),
                 SizedBox(width: 10.wMin),
@@ -76,7 +64,11 @@ class _FilterSheetState extends State<FilterSheet> {
                       color: context.color.primaryColor,
                       borderRadius: BorderRadius.circular(8.rMin),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      final destinations = await widget
+                          .controller(context)
+                          .fetchDestinationsByCategory();
+                    },
                   ),
                 ),
               ],
@@ -129,6 +121,7 @@ class _FilterSheetState extends State<FilterSheet> {
   Widget _categoryCard(String cardName, List<String> categories) => Builder(
         builder: (context) {
           return Container(
+            width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.all(16.wMin),
             decoration: BoxDecoration(
               color: Colors.grey.shade200,
@@ -148,27 +141,18 @@ class _FilterSheetState extends State<FilterSheet> {
                   softWrap: true,
                 ),
                 SizedBox(height: 10.hMin),
-
-                // GridView.builder for the items within each category
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    double itemWidth = 50.wMin;
-                    int crossAxisCount =
-                        (constraints.maxWidth / itemWidth).floor();
-
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        mainAxisSpacing: 8.hMin,
-                        crossAxisSpacing: 8.wMin,
-                        childAspectRatio: 2,
-                      ),
-                      itemCount: categories.length,
-                      itemBuilder: (context, index) {
-                        return _categoryItem(categories[index]);
-                      },
+                    return Wrap(
+                      spacing: 8.wMin,
+                      runSpacing: 8.hMin,
+                      children: categories
+                          .map((category) => IntrinsicWidth(
+                                child: SizedBox(
+                                  child: _categoryItem(category),
+                                ),
+                              ))
+                          .toList(),
                     );
                   },
                 ),
@@ -188,12 +172,11 @@ class _FilterSheetState extends State<FilterSheet> {
                 controller.toggleCategorySelection(category);
               },
               child: Container(
-                width: 50.wMin,
                 decoration: BoxDecoration(
                   color: controller.selectedCategories.contains(category)
                       ? context.color.primaryColor
                       : Colors.white,
-                  borderRadius: BorderRadius.circular(20.rMin),
+                  borderRadius: BorderRadius.circular(15.rMin),
                   border: Border.all(
                     color: context.color.primaryColor,
                     width: 1.5,
@@ -211,6 +194,9 @@ class _FilterSheetState extends State<FilterSheet> {
                   ),
                   textAlign: TextAlign.center,
                   softWrap: true,
+                ).paddingSymmetric(
+                  horizontal: 10.wMin,
+                  vertical: 8.hMin,
                 ),
               ),
             ),

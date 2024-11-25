@@ -1,5 +1,6 @@
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
-import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+// import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
 import 'package:jejuya/app/layers/domain/repositories/destination/destination_repository.dart';
 import 'package:jejuya/core/arch/domain/repository/repository_provider.dart';
 import 'package:jejuya/core/arch/domain/usecase/base_usecase.dart';
@@ -15,7 +16,7 @@ class DestinationDetailUseCase
   Future<DestinationDetailResponse> execute(
       DestinationDetailRequest request) async {
     final destination = await repository<DestinationRepository>()
-        .fetchDestinationDetail(request.destinationId);
+        .fetchDestinationDetail(destinationId: request.destinationId);
     return DestinationDetailResponse(destinationDetail: destination);
   }
 }

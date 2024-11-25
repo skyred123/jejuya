@@ -1,19 +1,19 @@
 import 'dart:async';
-
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jejuya/app/common/ui/image/image_local.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/map/mockup/hotel_location_mockup_api.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/map/mockup/tourist_location_mockup_api.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_detail_usecase.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_nearby_destination_usecase.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
 
-/// Controller for the Map page
 class MapController extends BaseController with UseCaseProvider {
   /// Default constructor for the MapController.
   MapController() {
@@ -25,58 +25,101 @@ class MapController extends BaseController with UseCaseProvider {
     _loadHotelMarkerIcon();
     _loadTouristMarkerIcon();
     _loadSelectedHotelMarkerIcon();
-
+    await _fetchNearbyDestinations();
+    //await getCurrentLocation();
     return super.initialize();
   }
 
   // --- Member Variables ---
-
-  /// Completer<GoogleMapController>
   final Completer<GoogleMapController> _mapController = Completer();
-
-  /// Search Controller
   final TextEditingController searchController = TextEditingController();
-
-  /// Jeju Island's coordinates
   static const LatLng jejuIsland = LatLng(33.363646, 126.545454);
 
-  // --- Computed Variables ---
+  /// Usecase for fetching nearby destinations
+  late final _getNearbyDestinationUsecase =
+      usecase<GetNearbyDestinationUsecase>();
 
-  /// Jeju Island's camera position
+  // --- Computed Variables ---
   CameraPosition get initialCameraPosition => const CameraPosition(
         target: jejuIsland,
         zoom: 11,
       );
 
   // --- State Variables ---
-
-  /// Marker Icons
   final hotelMarkerIcon = listenable<BitmapDescriptor>(
     BitmapDescriptor.defaultMarker,
   );
-
   final touristMarkerIcon = listenable<BitmapDescriptor>(
     BitmapDescriptor.defaultMarker,
   );
-
   final selectedHotelMarkerIcon = listenable<BitmapDescriptor>(
     BitmapDescriptor.defaultMarker,
   );
-
-  /// Radius around the marker in meters (default 5000 meters = 5 km)
   final radiusInMeters = listenable<double>(5000.0);
-
-  /// Visibility of the radius slider
   final isRadiusSliderVisible = listenable<bool>(false);
-
-  /// Selected marker
   final selectedMarkerPosition =
       listenable<LatLng>(const LatLng(33.5050011, 126.5277575));
-
   String? selectedHotelMarkerId;
 
   /// List of markers
-  List<Marker> get markers {
+  final markers = listenable<List<Marker>>([]);
+
+  /// Current list of destinations
+  final destinations = listenable<List<Destination>>([]);
+
+  // --- Methods ---
+
+  void onMapCreated(GoogleMapController controller) {
+    _mapController.complete(controller);
+  }
+
+  void setRadius(double newRadius) async {
+    radiusInMeters.value = newRadius;
+    await _fetchNearbyDestinations();
+  }
+
+  void toggleRadiusSlider() {
+    isRadiusSliderVisible.value = !isRadiusSliderVisible.value;
+  }
+
+  Future<void> _fetchNearbyDestinations() async {
+    try {
+      final radiusInKm = (radiusInMeters.value / 1000).toInt();
+      final position = selectedMarkerPosition.value;
+
+      final response = await _getNearbyDestinationUsecase.execute(
+        GetNearbyDestinationRequest(
+          longitude: position.longitude,
+          latitude: position.latitude,
+          radius: radiusInKm,
+        ),
+      );
+
+      destinations.value = response.destinations;
+      _updateMarkers();
+    } catch (e, s) {
+      log.error('[MapController] Error fetching nearby destinations',
+          error: e, stackTrace: s);
+    }
+  }
+
+  Future<DestinationDetail> _fetchDestinationDetail(String id) async {
+    try {
+      final response = await GetDestinationDetailUsecase().execute(
+        GetDestinationDetailRequest(id: id),
+      );
+
+      return response.destinationDetail;
+    } catch (e, s) {
+      log.error('Error fetching destination details', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  void _updateMarkers() {
+    // Clear existing markers
+    markers.value = [];
+
     // Main marker
     Marker mainMarker = Marker(
       markerId: const MarkerId('main_marker'),
@@ -86,79 +129,28 @@ class MapController extends BaseController with UseCaseProvider {
           : selectedHotelMarkerIcon.value,
     );
 
-    // Tourist Location markers
-    List<Marker> locationMarkers = touristLocationMockup.map((location) {
+    // Tourist markers from destinations
+    List<Marker> touristMarkers = destinations.value.map((destination) {
       return Marker(
-          markerId: MarkerId(location['id'].toString()),
-          position: LatLng(location['Latitude'], location['Longitude']),
-          icon: touristMarkerIcon.value,
-          onTap: () {
-            nav.showDetinationInfoSheet(
-              location: Location(
-                name: location['BusinessNameEnglish'],
-                address: location['LocationEnglish'],
-                time: location['Contact'],
-              ),
-            );
-          });
-    }).toList();
-
-    // Hotel Location markers
-    List<Marker> hotelMarkers = hotelLocationMockup.map((location) {
-      final isSelectedMarker = selectedHotelMarkerId == location['id'];
-
-      return Marker(
-        markerId: MarkerId(location['id'].toString()),
+        markerId: MarkerId(destination.id.toString()),
         position: LatLng(
-          double.parse(location['Latitude']),
-          double.parse(
-            location['Longitude'],
-          ),
+          double.parse(destination.latitude),
+          double.parse(destination.longitude),
         ),
-        icon: isSelectedMarker
-            ? selectedHotelMarkerIcon.value
-            : hotelMarkerIcon.value,
-        onTap: () {
-          setSelectedMarker(location);
-          nav.showDetinationInfoSheet(
-            location: Location(
-              name: location['BusinessNameEnglish'],
-              address: location['LocationEnglish'],
-              time: location['Contact'],
-            ),
-          );
+        icon: touristMarkerIcon.value,
+        onTap: () async {
+          final destinationDetail =
+              await _fetchDestinationDetail(destination.id);
+          nav.showDetinationInfoSheet(destination: destination);
         },
       );
     }).toList();
 
-    // Return a list containing both the main marker and the location markers
-    return [mainMarker, ...locationMarkers, ...hotelMarkers];
+    // Update markers list
+    markers.value = [mainMarker, ...touristMarkers];
   }
 
-  // --- State Computed ---
-  // --- Usecases ---
-  // --- Methods ---
-
-  void onMapCreated(GoogleMapController controller) {
-    _mapController.complete(controller);
-  }
-
-  void setRadius(double newRadius) {
-    radiusInMeters.value = newRadius;
-  }
-
-  void toggleRadiusSlider() {
-    isRadiusSliderVisible.value = !isRadiusSliderVisible.value;
-  }
-
-  void setSelectedMarker(Map<String, dynamic> hotel) {
-    selectedHotelMarkerId = hotel['id'];
-    selectedMarkerPosition.value = LatLng(
-      double.parse(hotel['Latitude']),
-      double.parse(hotel['Longitude']),
-    );
-  }
-
+  // Marker Icon Loaders
   void _loadHotelMarkerIcon() {
     BitmapDescriptor.asset(
       ImageConfiguration(
@@ -196,6 +188,22 @@ class MapController extends BaseController with UseCaseProvider {
         selectedHotelMarkerIcon.value = icon;
       },
     );
+  }
+
+  Future<void> getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    selectedMarkerPosition.value =
+        LatLng(position.latitude, position.longitude);
+
+    // Update camera position to current location
+    final controller = await _mapController.future;
+    controller
+        .animateCamera(CameraUpdate.newLatLng(selectedMarkerPosition.value));
+
+    // Fetch nearby destinations for new position
+    await _fetchNearbyDestinations();
   }
 
   @override

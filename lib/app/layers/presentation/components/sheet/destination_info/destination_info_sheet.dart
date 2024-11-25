@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_network/image_network.dart';
-import 'package:jejuya/app/common/ui/image/image_remote.dart';
 import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
@@ -166,9 +166,11 @@ class DestinationInfoSheet extends StatelessWidget
 
   Widget get _image => Builder(
         builder: (context) {
+          final ctrl = controller(context);
           return ImageNetwork(
-            image: RemoteImageRes.background,
-            height: context.height / 3.3,
+            image:
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent(ctrl.destination!.businessNameEnglish)}&key=${dotenv.env['GOOGLE_MAP']}",
+            height: context.height / 4.8,
             width: context.width,
             duration: 1500,
             curve: Curves.easeIn,

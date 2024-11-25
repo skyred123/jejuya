@@ -1,6 +1,7 @@
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
-import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
+// import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
@@ -26,9 +27,9 @@ import 'package:jejuya/app/layers/presentation/components/pages/profile_setting/
 import 'package:jejuya/app/layers/presentation/components/pages/profile_setting/profile_setting_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/search/search_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
@@ -43,6 +44,8 @@ import 'package:jejuya/app/layers/presentation/components/sheet/select_destinati
 import 'package:jejuya/app/layers/presentation/components/sheet/select_destination/select_destination_sheet.dart';
 import 'package:jejuya/core/arch/presentation/view/base_provider.dart';
 import 'package:jejuya/core/navigation/navigator.dart' as navi;
+import 'package:jejuya/app/layers/presentation/components/pages/search/search_controller.dart'
+    as JejuyaSearch;
 
 /// The [Route] class defines the names of the routes used in the application.
 class PredefinedRoute {
@@ -99,6 +102,9 @@ class PredefinedRoute {
 
   /// Create error page route.
   static const String error = '/error';
+
+  /// Create search page route.
+  static const String search = '/search';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -175,6 +181,10 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.profileSetting,
       page: () => nav.profileSetting,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.search,
+      page: () => nav.search,
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.error,
@@ -286,6 +296,12 @@ extension NavPredefined on navi.Navigator {
         ctrl: ErrorController(),
         child: ErrorPage(),
       );
+
+  /// Create search page widget.
+  Widget get search => BaseProvider(
+        ctrl: JejuyaSearch.SearchController(),
+        child: const SearchPage(),
+      );
 }
 
 /// The [ToPagePredefined] extension defines methods for navigating to
@@ -367,6 +383,11 @@ extension ToPagePredefined on navi.Navigator {
   Future<T?>? toError<T>() => toNamed(
         PredefinedRoute.error,
       );
+
+  /// Navigate to search page.
+  Future<T?>? toSearch<T>() => toNamed(
+        PredefinedRoute.search,
+      );
 }
 
 /// The [BottomSheetPredefined] extension defines methods for showing bottom
@@ -388,12 +409,10 @@ extension DialogPredefined on navi.Navigator {
 //         routeName: 'sheet-main',
 //       );
   /// Show destination info sheet
-  Future<T?>? showDetinationInfoSheet<T>(
-      {Location? location, Destination? destination}) {
+  Future<T?>? showDetinationInfoSheet<T>({Destination? destination}) {
     return bottomSheet(
       BaseProvider(
-        ctrl: DestinationInfoController(
-            location: location, destination: destination),
+        ctrl: DestinationInfoController(destination: destination),
         child: const DestinationInfoSheet(),
       ),
       routeName: PredefinedRoute.destinationInfo,

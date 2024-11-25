@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
-import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
+// import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/destination_detail_usecase.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/sheet/destination_info/enum/destination_detail_state.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
 import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
@@ -16,6 +17,7 @@ class DestinationInfoController extends BaseController with UseCaseProvider {
   DestinationInfoController({
     this.location,
     required this.destination,
+    // this.destinationDetail,
   }) {
     fetchDestinationDetail();
   }
@@ -23,6 +25,7 @@ class DestinationInfoController extends BaseController with UseCaseProvider {
   // --- Member Variables ---
   final Destination? destination;
   final Location? location;
+  // DestinationDetail? destinationDetail;
   // --- Computed Variables ---
   // --- State Variables ---
 

@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:jejuya/app/common/app_config.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
-import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
+// import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/notification/notification.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule_item.dart';
@@ -39,6 +42,18 @@ abstract class AppApiService extends BaseApiService {
   Future<DestinationDetail> fetchDestinationDetail({
     required String? destinationDetailId,
   });
+
+  Future<List<Destination>> fetchNearbyDestinations({
+    double? longitude,
+    double? latitude,
+    int? radius,
+  });
+
+  // Future<DestinationDetail> fetchDestinationDetail({String? id});
+
+  Future<List<Destination>> searchDestination({String? search});
+
+  Future<List<Destination>> fetchDestinationsByCategory({String? category});
 
   Future<void> createSchedule({
     String? name,
@@ -160,6 +175,93 @@ class AppApiServiceImpl extends AppApiService {
     );
   }
 
+  Future<List<Destination>> fetchNearbyDestinations({
+    double? longitude,
+    double? latitude,
+    int? radius,
+  }) {
+    return performGet(
+      'tourist-spot/near',
+      query: {
+        'longitude': longitude,
+        'latitude': latitude,
+        'radius': radius,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
+        }
+      },
+    );
+  }
+
+  // @override
+  // Future<DestinationDetail> fetchDestinationDetail({String? id}) {
+  //   return performGet(
+  //     'tourist-spot/detail',
+  //     query: {
+  //       'id': id,
+  //     },
+  //     decoder: (data) {
+  //       if (data is Map<String, dynamic>) {
+  //         // Ensure the data is a map and parse it to a DestinationDetail
+  //         return DestinationDetail.fromJson(data['data']);
+  //       } else {
+  //         throw Exception('Unexpected response format: expected a map.');
+  //       }
+  //     },
+  //   );
+  // }
+
+  @override
+  Future<List<Destination>> searchDestination({String? search}) {
+    return performGet(
+      'tourist-spot',
+      query: {
+        'search': search,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<List<Destination>> fetchDestinationsByCategory({String? category}) {
+    return performGet(
+      'tourist-spot/detail-category',
+      query: {
+        'category': category,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
+        }
+      },
+    );
+  }
+
+  @override
   Future<void> createSchedule({
     String? name,
     String? accommodation,
@@ -167,25 +269,23 @@ class AppApiServiceImpl extends AppApiService {
     String? endDate,
     List<ScheduleItem>? listDestination,
   }) async {
-    // print("${name} "
-    //     "${accommodation} "
-    //     "${startDate} "
-    //     "${endDate} "
-    //     "${listDestination} ");
     String? token =
         "${await fba.FirebaseAuth.instance.currentUser?.getIdToken()}";
-    // print(token);
     final authHeader = {'Authorization': 'Bearer $token'};
 
+    final requestBody = {
+      'name': name,
+      'accommodation': accommodation,
+      'startDate': startDate,
+      'endDate': endDate,
+      'listDestination': listDestination,
+    };
+
+    final requestBodyJson = jsonEncode(requestBody);
+    print("$requestBodyJson");
     return performPost(
       'user/schedule/create',
-      {
-        'name': name,
-        'accommodation': accommodation,
-        'startDate': startDate,
-        'endDate': endDate,
-        'listDestination': listDestination,
-      },
+      requestBody,
       headers: authHeader,
       decoder: (data) {
         print(data['messageEnglish']);
