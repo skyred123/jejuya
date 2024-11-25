@@ -5,6 +5,7 @@ import 'package:jejuya/app/common/app_config.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/notification/notification.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule_item.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/user/user.dart';
