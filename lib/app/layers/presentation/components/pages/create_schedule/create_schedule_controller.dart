@@ -12,6 +12,7 @@ import 'package:jejuya/app/layers/domain/usecases/destination/recommend_destinat
 import 'package:jejuya/app/layers/domain/usecases/schedule/create_schedule_usecase.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/create_schedule_state.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
+import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
 import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
@@ -167,12 +168,11 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
   void _updateDates(List<DateTime?> results) {
     final startDate = results[0];
     final endDate = results[1];
+
     final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     final formattedRange =
         '${startDate != null ? dateFormat.format(startDate) : ''} - ${endDate != null ? dateFormat.format(endDate) : ''}';
     dateController.text = formattedRange;
-    this.startDate = startDate.toString();
-    this.endDate = endDate.toString();
     this.startDate = startDate.toString();
     this.endDate = endDate.toString();
   }
@@ -208,18 +208,23 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
   Future<void> createSchedule() async {
     try {
       createState.value = CreateScheduleState.loading;
+      final adjustedStartDate =
+          destinations.value[1].startTime?.subtract(Duration(hours: 4));
+      final adjustedEndDate =
+          destinations.value.last.endTime?.add(Duration(hours: 4));
       await _createScheduleUseCase
           .execute(
             CreateScheduleRequest(
               name: nameController.value.text,
               accommodation: '1',
-              startDate: startDate,
-              endDate: endDate,
+              startDate: adjustedStartDate.toString(),
+              endDate: adjustedEndDate.toString(),
               listDestination: convertScheduleItem(),
             ),
           )
           .then((response) {});
       createState.value = CreateScheduleState.done;
+      nav.toHome();
     } catch (e, s) {
       log.error(
         '[RecommendDestinationsController] Failed to create schedule:',

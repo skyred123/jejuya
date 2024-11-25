@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:jejuya/app/common/app_config.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
@@ -147,25 +149,23 @@ class AppApiServiceImpl extends AppApiService {
     String? endDate,
     List<ScheduleItem>? listDestination,
   }) async {
-    // print("${name} "
-    //     "${accommodation} "
-    //     "${startDate} "
-    //     "${endDate} "
-    //     "${listDestination} ");
     String? token =
         "${await fba.FirebaseAuth.instance.currentUser?.getIdToken()}";
-    // print(token);
     final authHeader = {'Authorization': 'Bearer $token'};
 
+    final requestBody = {
+      'name': name,
+      'accommodation': accommodation,
+      'startDate': startDate,
+      'endDate': endDate,
+      'listDestination': listDestination,
+    };
+
+    final requestBodyJson = jsonEncode(requestBody);
+    print("$requestBodyJson");
     return performPost(
       'user/schedule/create',
-      {
-        'name': name,
-        'accommodation': accommodation,
-        'startDate': startDate,
-        'endDate': endDate,
-        'listDestination': listDestination,
-      },
+      requestBody,
       headers: authHeader,
       decoder: (data) {
         print(data['messageEnglish']);
