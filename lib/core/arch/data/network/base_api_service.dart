@@ -7,7 +7,7 @@ import 'package:worker_manager/worker_manager.dart';
 final _dio = dio.Dio(
   dio.BaseOptions(
     connectTimeout: 15.seconds,
-    receiveTimeout: 15.seconds,
+    receiveTimeout: 120.seconds,
   ),
 )
 // Enable this if you want to log all requests and responses
