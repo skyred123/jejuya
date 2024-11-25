@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -50,7 +51,7 @@ class DestinationInfoSheet extends StatelessWidget
         },
       ).paddingAll(20.rMin);
 
-  Widget get _info => Builder(
+  Widget get _info => Observer(
         builder: (context) {
           final ctrl = controller(context);
           return Column(
@@ -58,7 +59,7 @@ class DestinationInfoSheet extends StatelessWidget
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "${ctrl.destinationDetail?.businessNameEnglish}",
+                "${ctrl.destination?.businessNameEnglish}",
                 style: TextStyle(
                   fontSize: 23.spMin,
                   fontWeight: FontWeight.bold,
@@ -66,11 +67,11 @@ class DestinationInfoSheet extends StatelessWidget
               ).paddingOnly(bottom: 20.hMin),
               _iconText(
                 LocalSvgRes.desAddress,
-                "${ctrl.destinationDetail?.locationEnglish}",
+                "${ctrl.destinationDetail.value?.locationEnglish}",
               ).paddingOnly(bottom: 20.hMin),
               _iconText(
                 LocalSvgRes.desPhone,
-                "${ctrl.destinationDetail?.contact}",
+                "${ctrl.destinationDetail.value?.contact}",
               ),
             ],
           );
@@ -168,7 +169,7 @@ class DestinationInfoSheet extends StatelessWidget
           final ctrl = controller(context);
           return ImageNetwork(
             image:
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent(ctrl.destinationDetail!.businessNameEnglish)}&key=${dotenv.env['GOOGLE_MAP']}",
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent(ctrl.destination!.businessNameEnglish)}&key=${dotenv.env['GOOGLE_MAP']}",
             height: context.height / 4.8,
             width: context.width,
             duration: 1500,

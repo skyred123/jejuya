@@ -8,7 +8,13 @@ import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
 /// Controller for the home page
 class HomeController extends BaseController with GlobalControllerProvider {
   /// Home controller constructor
-  HomeController();
+  HomeController() {
+    initializeo();
+  }
+
+  void initializeo() {
+    return;
+  }
 
   // --- Member Variables ---
 

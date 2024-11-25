@@ -1,9 +1,13 @@
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
-import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/error/error.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/error/error_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/favorite/favorite_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_controller.dart';
@@ -19,8 +23,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jejuya/app/core_impl/navigation/custom_get_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/profile_setting/profile_setting_controller.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/profile_setting/profile_setting_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/search/search_page.dart';
@@ -62,7 +69,7 @@ class PredefinedRoute {
   static const String schedule = '/schedule';
 
   /// Schedule detail page route.
-  static const String scheduleDetail = '/schedule_detail';
+  static const String scheduleDetail = '/schedule_detail?.*';
 
   /// Favorite page route.
   static const String favorite = '/favorite';
@@ -77,7 +84,7 @@ class PredefinedRoute {
   static const String notificationDetail = '/notification_detail?.*';
 
   /// Desitnation detail page route.
-  static const String destinationDetail = '/destination_detail';
+  static const String destinationDetail = '/destination_detail?.*';
 
   /// Desitnation detail page route.
   static const String destinationInfo = '/destination_info';
@@ -93,6 +100,12 @@ class PredefinedRoute {
 
   /// Create search page route.
   static const String search = '/search';
+
+  /// Create profile setting page route.
+  static const String profileSetting = '/profile_setting';
+
+  /// Create error page route.
+  static const String error = '/error';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -125,7 +138,11 @@ class PredefinedPage {
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.scheduleDetail,
-      page: () => nav.scheduleDetail,
+      page: () {
+        String? id =
+            Uri.tryParse(Get.currentRoute)!.queryParameters['schedule_id']!;
+        return nav.scheduleDetail(id);
+      },
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.favorite,
@@ -144,14 +161,18 @@ class PredefinedPage {
       page: () {
         final id = num.parse(
             Uri.tryParse(Get.currentRoute)!.queryParameters['notication_id']!);
-        return nav.notificationDetail(notificationId: id);
+        return nav.notificationDetail(
+          notificationId: id,
+        );
       },
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.destinationDetail,
+      // page: () => nav.destinationDetail,
       page: () {
-        final destinationDetail = Get.arguments as DestinationDetail?;
-        return nav.destinationDetail(destinationDetail: destinationDetail);
+        final id =
+            Uri.tryParse(Get.currentRoute)!.queryParameters['destination_id']!;
+        return nav.destinationDetail(destinationId: id);
       },
     ),
     GetPageEnsureAuth(
@@ -161,6 +182,14 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.search,
       page: () => nav.search,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.profileSetting,
+      page: () => nav.profileSetting,
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.error,
+      page: () => nav.error,
     ),
   ];
 }
@@ -209,8 +238,8 @@ extension NavPredefined on navi.Navigator {
       );
 
   /// Home page widget.
-  Widget get scheduleDetail => BaseProvider(
-        ctrl: ScheduleDetailController(),
+  Widget scheduleDetail(String? scheduleId) => BaseProvider(
+        ctrl: ScheduleDetailController(scheduleId: scheduleId),
         child: const ScheduleDetailPage(),
       );
 
@@ -233,10 +262,17 @@ extension NavPredefined on navi.Navigator {
       );
 
   /// Notification page widget.
-  Widget destinationDetail({required DestinationDetail? destinationDetail}) =>
+
+  // Widget get destinationDetail => BaseProvider(
+  //       ctrl: DestinationDetailController(),
+  //       child: const DestinationDetailPage(),
+  //     );
+  Widget destinationDetail({
+    required String? destinationId,
+  }) =>
       BaseProvider(
         ctrl: DestinationDetailController(
-          destinationDetail: destinationDetail,
+          destinationId: destinationId,
         ),
         child: const DestinationDetailPage(),
       );
@@ -257,6 +293,15 @@ extension NavPredefined on navi.Navigator {
   Widget get search => BaseProvider(
         ctrl: JejuyaSearch.SearchController(),
         child: const SearchPage(),
+      );
+  Widget get profileSetting => BaseProvider(
+        ctrl: ProfileSettingController(),
+        child: ProfileSettingPage(),
+      );
+
+  Widget get error => BaseProvider(
+        ctrl: ErrorController(),
+        child: ErrorPage(),
       );
 }
 
@@ -292,8 +337,10 @@ extension ToPagePredefined on navi.Navigator {
       );
 
   /// Navigate to the schedule page.
-  Future<T?>? toScheduleDetail<T>() => toNamed(
-        PredefinedRoute.scheduleDetail,
+  Future<T?>? toScheduleDetail<T>({required String? scheduleId}) => toNamed(
+        PredefinedRoute.scheduleDetail
+            .replaceAll('.*', 'schedule_id=$scheduleId'),
+        arguments: scheduleId,
       );
 
   /// Navigate to the home page.
@@ -307,10 +354,16 @@ extension ToPagePredefined on navi.Navigator {
       );
 
   /// Navigate to the home page.
-  Future<T?>? toDestinationDetail<T>({DestinationDetail? destinationDetail}) =>
+
+  Future<T?>? toDestinationDetail<T>({
+    required String? destinationId,
+  }) =>
       toNamed(
-        PredefinedRoute.destinationDetail,
-        arguments: destinationDetail,
+        PredefinedRoute.destinationDetail.replaceAll(
+          '.*',
+          'destination_id=$destinationId',
+        ),
+        arguments: {destinationId, destinationDetail},
       );
 
   Future<T?>? toNotificationDetail<T>({required num? notificationId}) =>
@@ -328,6 +381,13 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to search page.
   Future<T?>? toSearch<T>() => toNamed(
         PredefinedRoute.search,
+      );
+  Future<T?>? toProfileSetting<T>() => toNamed(
+        PredefinedRoute.profileSetting,
+      );
+
+  Future<T?>? toError<T>() => toNamed(
+        PredefinedRoute.error,
       );
 }
 
@@ -351,10 +411,11 @@ extension DialogPredefined on navi.Navigator {
 //       );
   /// Show destination info sheet
   Future<T?>? showDetinationInfoSheet<T>(
-      {DestinationDetail? destinationDetail}) {
+      {Location? location, Destination? destination}) {
     return bottomSheet(
       BaseProvider(
-        ctrl: DestinationInfoController(destinationDetail: destinationDetail),
+        ctrl: DestinationInfoController(
+            location: location, destination: destination),
         child: const DestinationInfoSheet(),
       ),
       routeName: PredefinedRoute.destinationInfo,

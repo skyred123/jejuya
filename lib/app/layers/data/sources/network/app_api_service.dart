@@ -5,10 +5,14 @@ import 'package:jejuya/app/common/app_config.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
-import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+
+import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
+
 import 'package:jejuya/app/layers/data/sources/local/model/notification/notification.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule_item.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/user/user.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/userDetail/userDetail.dart';
 import 'package:jejuya/core/arch/data/network/base_api_service.dart';
 import 'package:jejuya/core/reactive/obs_setting.dart';
 
@@ -36,14 +40,15 @@ abstract class AppApiService extends BaseApiService {
     String? fromDate,
     String? toDate,
   });
+  Future<DestinationDetail> fetchDestinationDetail({
+    required String? destinationDetailId,
+  });
 
   Future<List<Destination>> fetchNearbyDestinations({
     double? longitude,
     double? latitude,
     int? radius,
   });
-
-  Future<DestinationDetail> fetchDestinationDetail({String? id});
 
   Future<List<Destination>> searchDestination({String? search});
 
@@ -56,6 +61,8 @@ abstract class AppApiService extends BaseApiService {
     String? endDate,
     List<ScheduleItem>? listDestination,
   });
+
+  Future<UserDetail> fetchUserDetail();
 }
 
 /// Implementation of the [AppApiService] class.
@@ -181,20 +188,14 @@ class AppApiServiceImpl extends AppApiService {
     );
   }
 
-  @override
-  Future<DestinationDetail> fetchDestinationDetail({String? id}) {
+  Future<DestinationDetail> fetchDestinationDetail(
+      {String? destinationDetailId}) {
     return performGet(
-      'tourist-spot/detail',
-      query: {
-        'id': id,
-      },
+      'tourist-spot/detail?id=$destinationDetailId',
+      // decoder: (data) =>
+      //     DestinationDetail.fromJson(data as Map<String, dynamic>),
       decoder: (data) {
-        if (data is Map<String, dynamic>) {
-          // Ensure the data is a map and parse it to a DestinationDetail
-          return DestinationDetail.fromJson(data['data']);
-        } else {
-          throw Exception('Unexpected response format: expected a map.');
-        }
+        return DestinationDetail.fromJson(data["data"] as Map<String, dynamic>);
       },
     );
   }
@@ -270,6 +271,24 @@ class AppApiServiceImpl extends AppApiService {
       decoder: (data) {
         print(data['messageEnglish']);
         nav.showSnackBar(message: data['messageEnglish']);
+      },
+    );
+  }
+
+  @override
+  Future<UserDetail> fetchUserDetail() async {
+    String? token =
+        "${await fba.FirebaseAuth.instance.currentUser?.getIdToken()}";
+    // print(token);
+    final authHeader = {'Authorization': 'Bearer $token'};
+    return performGet(
+      'user/detail',
+      headers: authHeader,
+      decoder: (data) {
+        //print(data['data']);
+        UserDetail userDetail =
+            UserDetail.fromJson(data['data'] as Map<String, dynamic>);
+        return userDetail;
       },
     );
   }
