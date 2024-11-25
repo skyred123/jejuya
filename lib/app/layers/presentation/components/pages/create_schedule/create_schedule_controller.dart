@@ -7,10 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule_item.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/recommend_destination_usecase.dart';
+import 'package:jejuya/app/layers/domain/usecases/schedule/create_schedule_usecase.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/create_schedule_state.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/enum/recommend_destination_state.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule_mockup_api.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
 import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
@@ -19,12 +20,12 @@ import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
 class CreateScheduleController extends BaseController with UseCaseProvider {
   /// Default constructor for the CreateScheduleController.
   CreateScheduleController() {
-    schedules = Schedule.fromJsonList(scheduleMockup);
+    // schedules = Schedule.fromJsonList(scheduleMockup);
     // fetchRecommendedDestinations();
   }
 
   // --- Member Variables ---
-  late List<Schedule> schedules;
+  // late List<Schedule> schedules;
 
   /// Name Controller
   final TextEditingController nameController = TextEditingController();
@@ -42,6 +43,9 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
   final TextEditingController timeEndController = TextEditingController();
 
   static const LatLng jejuIsland = LatLng(33.363646, 126.545454);
+
+  String startDate = '';
+  String endDate = '';
   // --- Computed Variables ---
   // --- State Variables ---
 
@@ -53,10 +57,12 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
 
   final fetchState =
       listenable<RecommendDestinationState>(RecommendDestinationState.none);
+  final createState = listenable<CreateScheduleState>(CreateScheduleState.none);
 
   // --- Usecases ---
   late final _recommendDestinationsUseCase =
       usecase<RecommendDestinationsUseCase>();
+  late final _createScheduleUseCase = usecase<CreateScheduleUseCase>();
 
   void updateSelectedDay(int index) {
     selectedDayIndex.value = index;
@@ -109,7 +115,7 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
   }
 
   void deleteLocation(int index) {
-    schedules[selectedDayIndex.value].locations.removeAt(index);
+    destinations.value.removeAt(index);
   }
 
   void selectDates(BuildContext context) {
@@ -165,6 +171,10 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
     final formattedRange =
         '${startDate != null ? dateFormat.format(startDate) : ''} - ${endDate != null ? dateFormat.format(endDate) : ''}';
     dateController.text = formattedRange;
+    this.startDate = startDate.toString();
+    this.endDate = endDate.toString();
+    this.startDate = startDate.toString();
+    this.endDate = endDate.toString();
   }
 
   Future<void> fetchRecommendedDestinations() async {
@@ -176,18 +186,14 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
           longitude: jejuIsland.longitude,
           latitude: jejuIsland.latitude,
           radius: 20,
-          fromDate: "2024-11-10",
-          toDate: "2024-11-11",
+          fromDate: startDate,
+          toDate: endDate,
         ),
       )
           .then((response) {
         destinations.value = response.destinations;
       });
       fetchState.value = RecommendDestinationState.done;
-
-      final locationsAtIndex1 =
-          groupDestinationsByDate(destinations.value)[1]['destinations'];
-      print(extractDestinations(1));
     } catch (e, s) {
       log.error(
         '[RecommendDestinationsController] Failed to fetch recommended destinations:',
@@ -197,6 +203,42 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
       fetchState.value = RecommendDestinationState.error;
       nav.showSnackBar(error: e);
     }
+  }
+
+  Future<void> createSchedule() async {
+    try {
+      createState.value = CreateScheduleState.loading;
+      await _createScheduleUseCase
+          .execute(
+            CreateScheduleRequest(
+              name: nameController.value.text,
+              accommodation: '1',
+              startDate: startDate,
+              endDate: endDate,
+              listDestination: convertScheduleItem(),
+            ),
+          )
+          .then((response) {});
+      createState.value = CreateScheduleState.done;
+    } catch (e, s) {
+      log.error(
+        '[RecommendDestinationsController] Failed to create schedule:',
+        error: e,
+        stackTrace: s,
+      );
+      createState.value = CreateScheduleState.error;
+      nav.showSnackBar(error: e);
+    }
+  }
+
+  List<ScheduleItem> convertScheduleItem() {
+    List<ScheduleItem> list = [];
+    for (Destination i in destinations.value) {
+      ScheduleItem scheduleItem =
+          ScheduleItem(id: i.id, startTime: i.startTime, endTime: i.endTime);
+      list.add(scheduleItem);
+    }
+    return list;
   }
 
   List<Map<String, dynamic>> groupDestinationsByDate(

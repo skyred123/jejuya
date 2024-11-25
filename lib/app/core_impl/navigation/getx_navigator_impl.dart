@@ -183,7 +183,7 @@ class GetxNavigator with GlobalControllerProvider implements nav.Navigator {
             message: parsedMessage,
             titleText: titleText,
             messageText: messageText,
-            backgroundColor: context.color.containerBackground,
+            backgroundColor: context.color.primaryColor.withValues(alpha: 0.7),
             barBlur: 10,
             icon: icon,
             onTap: (_) {
