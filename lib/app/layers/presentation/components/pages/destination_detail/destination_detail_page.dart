@@ -91,8 +91,9 @@ class DestinationDetailPage extends StatelessWidget
 
   Widget get _name => Builder(
         builder: (context) {
+          final ctrl = controller(context);
           return Text(
-            "Nohyung Supermarket",
+            ctrl.destinationDetail!.businessNameEnglish,
             style: TextStyle(
               color: context.color.black,
               fontSize: 20.spMin,
@@ -104,8 +105,9 @@ class DestinationDetailPage extends StatelessWidget
 
   Widget get _decription => Builder(
         builder: (context) {
+          final ctrl = controller(context);
           return Text(
-            "Beyond the boundary between the everyday and the extraordinary, For Garden Door, the starting point of leaving for an unknown space.",
+            ctrl.destinationDetail!.introductionEnglish,
             style: TextStyle(
               color: context.color.info,
               fontSize: 12.spMin,

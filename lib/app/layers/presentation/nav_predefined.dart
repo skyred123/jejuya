@@ -1,4 +1,5 @@
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/create_schedule/create_schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
@@ -20,9 +21,9 @@ import 'package:jejuya/app/core_impl/navigation/custom_get_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/search/search_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
@@ -37,6 +38,8 @@ import 'package:jejuya/app/layers/presentation/components/sheet/select_destinati
 import 'package:jejuya/app/layers/presentation/components/sheet/select_destination/select_destination_sheet.dart';
 import 'package:jejuya/core/arch/presentation/view/base_provider.dart';
 import 'package:jejuya/core/navigation/navigator.dart' as navi;
+import 'package:jejuya/app/layers/presentation/components/pages/search/search_controller.dart'
+    as JejuyaSearch;
 
 /// The [Route] class defines the names of the routes used in the application.
 class PredefinedRoute {
@@ -87,6 +90,9 @@ class PredefinedRoute {
 
   /// Create schedule page route.
   static const String createSchedule = '/create_schedule';
+
+  /// Create search page route.
+  static const String search = '/search';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -143,12 +149,19 @@ class PredefinedPage {
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.destinationDetail,
-      page: () => nav.destinationDetail,
+      page: () {
+        final destinationDetail = Get.arguments as DestinationDetail?;
+        return nav.destinationDetail(destinationDetail: destinationDetail);
+      },
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.createSchedule,
       page: () => nav.createSchedule,
-    )
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.search,
+      page: () => nav.search,
+    ),
   ];
 }
 
@@ -220,8 +233,11 @@ extension NavPredefined on navi.Navigator {
       );
 
   /// Notification page widget.
-  Widget get destinationDetail => BaseProvider(
-        ctrl: DestinationDetailController(),
+  Widget destinationDetail({required DestinationDetail? destinationDetail}) =>
+      BaseProvider(
+        ctrl: DestinationDetailController(
+          destinationDetail: destinationDetail,
+        ),
         child: const DestinationDetailPage(),
       );
 
@@ -235,6 +251,12 @@ extension NavPredefined on navi.Navigator {
   Widget get createSchedule => BaseProvider(
         ctrl: CreateScheduleController(),
         child: const CreateSchedulePage(),
+      );
+
+  /// Create search page widget.
+  Widget get search => BaseProvider(
+        ctrl: JejuyaSearch.SearchController(),
+        child: const SearchPage(),
       );
 }
 
@@ -285,8 +307,10 @@ extension ToPagePredefined on navi.Navigator {
       );
 
   /// Navigate to the home page.
-  Future<T?>? toDestinationDetail<T>() => toNamed(
+  Future<T?>? toDestinationDetail<T>({DestinationDetail? destinationDetail}) =>
+      toNamed(
         PredefinedRoute.destinationDetail,
+        arguments: destinationDetail,
       );
 
   Future<T?>? toNotificationDetail<T>({required num? notificationId}) =>
@@ -299,6 +323,11 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to create schedule page.
   Future<T?>? toCreateSchedule<T>() => toNamed(
         PredefinedRoute.createSchedule,
+      );
+
+  /// Navigate to search page.
+  Future<T?>? toSearch<T>() => toNamed(
+        PredefinedRoute.search,
       );
 }
 
@@ -321,10 +350,11 @@ extension DialogPredefined on navi.Navigator {
 //         routeName: 'sheet-main',
 //       );
   /// Show destination info sheet
-  Future<T?>? showDetinationInfoSheet<T>({Location? location}) {
+  Future<T?>? showDetinationInfoSheet<T>(
+      {DestinationDetail? destinationDetail}) {
     return bottomSheet(
       BaseProvider(
-        ctrl: DestinationInfoController(location: location),
+        ctrl: DestinationInfoController(destinationDetail: destinationDetail),
         child: const DestinationInfoSheet(),
       ),
       routeName: PredefinedRoute.destinationInfo,

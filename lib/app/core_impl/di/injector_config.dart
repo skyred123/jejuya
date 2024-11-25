@@ -7,7 +7,10 @@ import 'package:jejuya/app/layers/domain/repositories/destination/destination_re
 import 'package:jejuya/app/layers/domain/repositories/notification/notification_repository.dart';
 import 'package:jejuya/app/layers/domain/repositories/notification_detail/notification_detail_repository.dart';
 import 'package:jejuya/app/layers/domain/repositories/user/user_repository.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_by_category_usecase.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_detail_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/recommend_destination_usecase.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/search_destination_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification/fetch_notifications_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification/remove_notification_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification_detail/notification_detail_usecase.dart';
@@ -21,6 +24,7 @@ import 'package:jejuya/core/arch/data/network/base_api_service.dart';
 import 'package:jejuya/core/arch/domain/repository/base_repository.dart';
 import 'package:jejuya/core/arch/domain/usecase/base_usecase.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
+import '../../layers/domain/usecases/destination/get_nearby_destination_usecase.dart';
 
 /// Configuration for the dependency injection.
 class InjectorConfig {
@@ -69,5 +73,9 @@ class InjectorConfig {
     RemoveNotificationUseCase: RemoveNotificationUseCase.new,
     NotificationDetailUseCase: NotificationDetailUseCase.new,
     RecommendDestinationsUseCase: RecommendDestinationsUseCase.new,
+    GetNearbyDestinationUsecase: GetNearbyDestinationUsecase.new,
+    GetDestinationDetailUsecase: GetDestinationDetailUsecase.new,
+    SearchDestinationUsecase: SearchDestinationUsecase.new,
+    GetDestinationByCategoryUsecase: GetDestinationByCategoryUsecase.new,
   };
 }
