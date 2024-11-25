@@ -45,7 +45,7 @@ class ScheduleDetailPage extends StatelessWidget
                     height: 168.hMin,
                     onPressed: () {
                       ctrl.selectedDestinationIndex.value = index;
-                      nav.showDetinationInfoSheet(location: current[index]);
+                      //nav.showDetinationInfoSheet(location: current[index]);
                     },
                     leading: _destinationItem(current[index], index),
                   ),

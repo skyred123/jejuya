@@ -36,6 +36,18 @@ abstract class AppApiService extends BaseApiService {
     String? toDate,
   });
 
+  Future<List<Destination>> fetchNearbyDestinations({
+    double? longitude,
+    double? latitude,
+    int? radius,
+  });
+
+  Future<DestinationDetail> fetchDestinationDetail({String? id});
+
+  Future<List<Destination>> searchDestination({String? search});
+
+  Future<List<Destination>> fetchDestinationsByCategory({String? category});
+
   Future<void> createSchedule({
     String? name,
     String? accommodation,
@@ -136,6 +148,93 @@ class AppApiServiceImpl extends AppApiService {
           }
         } else {
           throw Exception('Unexpected response format: expected a map.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<List<Destination>> fetchNearbyDestinations({
+    double? longitude,
+    double? latitude,
+    int? radius,
+  }) {
+    return performGet(
+      'tourist-spot/near',
+      query: {
+        'longitude': longitude,
+        'latitude': latitude,
+        'radius': radius,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<DestinationDetail> fetchDestinationDetail({String? id}) {
+    return performGet(
+      'tourist-spot/detail',
+      query: {
+        'id': id,
+      },
+      decoder: (data) {
+        if (data is Map<String, dynamic>) {
+          // Ensure the data is a map and parse it to a DestinationDetail
+          return DestinationDetail.fromJson(data['data']);
+        } else {
+          throw Exception('Unexpected response format: expected a map.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<List<Destination>> searchDestination({String? search}) {
+    return performGet(
+      'tourist-spot',
+      query: {
+        'search': search,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<List<Destination>> fetchDestinationsByCategory({String? category}) {
+    return performGet(
+      'tourist-spot/detail-category',
+      query: {
+        'category': category,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
         }
       },
     );
