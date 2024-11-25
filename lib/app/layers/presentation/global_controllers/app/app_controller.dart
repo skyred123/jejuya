@@ -88,7 +88,10 @@ class AppController extends BaseController
 
   bool checkLoginStatus() {
     final user = FirebaseAuth.instance.currentUser;
-    if (user != null) return true;
+    if (user != null) {
+      log.info("Login at email: ${user.email}");
+      return true;
+    }
     return false;
   }
 
