@@ -56,7 +56,7 @@
                 "--web-renderer skwasm",
                 //Enable for local access via ip
                 "-d", "web-server", // Use the web-server device
-                "--web-hostname", "192.168.1.7", // Optional: Set the hostname based on local wifi ip
+                "--web-hostname", "192.168.1.14", // Optional: Set the hostname based on local wifi ip
                 "--web-port", "8080" // Optional: Set the port (default is 8080)
             ],
             "preLaunchTask": "Sync Dev",
