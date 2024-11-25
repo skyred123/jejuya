@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -67,7 +68,7 @@ class ProfilePage extends StatelessWidget
                     border: Border.all(color: context.color.primaryColor),
                   ),
                   child: Text(
-                    "Điểm đến gần nhất",
+                    tr("profile.last_visited"),
                     style: TextStyle(
                       fontSize: 12.spMin,
                       color: !ctrl.isDetination.value
@@ -88,7 +89,7 @@ class ProfilePage extends StatelessWidget
                     border: Border.all(color: context.color.primaryColor),
                   ),
                   child: Text(
-                    "Lần đặt gần nhất",
+                    tr("profile.last_reservation"),
                     style: TextStyle(
                       fontSize: 12.spMin,
                       color: ctrl.isDetination.value
@@ -115,7 +116,7 @@ class ProfilePage extends StatelessWidget
             children: [
               Expanded(
                 child: Text(
-                  "Họ Tên",
+                  "Name",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.spMin,
@@ -179,13 +180,14 @@ class ProfilePage extends StatelessWidget
                 ),
                 child: Row(
                   children: [
-                    _infoItem("Đã yêu thích", "10").paddingOnly(right: 10.wMin),
+                    _infoItem(tr("profile.favorited"), "10")
+                        .paddingOnly(right: 10.wMin),
                     Container(
                       color: Colors.black,
                       width: 1.wMin,
                       height: 40.hMin,
                     ).paddingOnly(right: 20.wMin),
-                    _infoItem("Đã đến", "10"),
+                    _infoItem(tr("profile.visited"), "10"),
                   ],
                 ).paddingOnly(
                   top: 8.hMin,
