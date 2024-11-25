@@ -188,8 +188,6 @@ class CreateScheduleController extends BaseController with UseCaseProvider {
           radius: 20,
           fromDate: startDate,
           toDate: endDate,
-          fromDate: startDate,
-          toDate: endDate,
         ),
       )
           .then((response) {
