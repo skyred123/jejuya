@@ -1,16 +1,19 @@
 import 'package:jejuya/app/layers/data/repositories_impl/destination/destination_repository_impl.dart';
 import 'package:jejuya/app/layers/data/repositories_impl/notification/notification_repository_impl.dart';
 import 'package:jejuya/app/layers/data/repositories_impl/notification_detail/notification_detail_repository_impl.dart';
+import 'package:jejuya/app/layers/data/repositories_impl/schedule/schedule_repository_impl.dart';
 import 'package:jejuya/app/layers/data/repositories_impl/user/user_repository_impl.dart';
 import 'package:jejuya/app/layers/data/sources/network/app_api_service.dart';
 import 'package:jejuya/app/layers/domain/repositories/destination/destination_repository.dart';
 import 'package:jejuya/app/layers/domain/repositories/notification/notification_repository.dart';
 import 'package:jejuya/app/layers/domain/repositories/notification_detail/notification_detail_repository.dart';
+import 'package:jejuya/app/layers/domain/repositories/schedule/schedule_repository.dart';
 import 'package:jejuya/app/layers/domain/repositories/user/user_repository.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/recommend_destination_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification/fetch_notifications_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification/remove_notification_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification_detail/notification_detail_usecase.dart';
+import 'package:jejuya/app/layers/domain/usecases/schedule/create_schedule_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/user/login_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/user/logout_usecase.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/home/home_controller.dart';
@@ -35,6 +38,7 @@ class InjectorConfig {
     NotificationRepository: NotificationRepositoryImpl.new,
     NotificationDetailRepository: NotificationDetailRepositoryImpl.new,
     DestinationRepository: DestinationRepositoryImpl.new,
+    ScheduleRepository: ScheduleRepositoryImpl.new,
   };
 
   /// Declare all the global controllers here for the dependency injection.
@@ -69,5 +73,6 @@ class InjectorConfig {
     RemoveNotificationUseCase: RemoveNotificationUseCase.new,
     NotificationDetailUseCase: NotificationDetailUseCase.new,
     RecommendDestinationsUseCase: RecommendDestinationsUseCase.new,
+    CreateScheduleUseCase: CreateScheduleUseCase.new,
   };
 }

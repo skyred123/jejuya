@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:jejuya/app/common/app_config.dart';
+import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/ls_key_predefined.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/notification/notification.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule_item.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/user/user.dart';
 import 'package:jejuya/core/arch/data/network/base_api_service.dart';
 import 'package:jejuya/core/reactive/obs_setting.dart';
@@ -29,6 +32,14 @@ abstract class AppApiService extends BaseApiService {
     int? radius,
     String? fromDate,
     String? toDate,
+  });
+
+  Future<void> createSchedule({
+    String? name,
+    String? accommodation,
+    String? startDate,
+    String? endDate,
+    List<ScheduleItem>? listDestination,
   });
 }
 
@@ -125,6 +136,41 @@ class AppApiServiceImpl extends AppApiService {
         } else {
           throw Exception('Unexpected response format: expected a map.');
         }
+      },
+    );
+  }
+
+  @override
+  Future<void> createSchedule({
+    String? name,
+    String? accommodation,
+    String? startDate,
+    String? endDate,
+    List<ScheduleItem>? listDestination,
+  }) async {
+    // print("${name} "
+    //     "${accommodation} "
+    //     "${startDate} "
+    //     "${endDate} "
+    //     "${listDestination} ");
+    String? token =
+        "${await fba.FirebaseAuth.instance.currentUser?.getIdToken()}";
+    // print(token);
+    final authHeader = {'Authorization': 'Bearer $token'};
+
+    return performPost(
+      'user/schedule/create',
+      {
+        'name': name,
+        'accommodation': accommodation,
+        'startDate': startDate,
+        'endDate': endDate,
+        'listDestination': listDestination,
+      },
+      headers: authHeader,
+      decoder: (data) {
+        print(data['messageEnglish']);
+        nav.showSnackBar(message: data['messageEnglish']);
       },
     );
   }
