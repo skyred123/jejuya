@@ -139,9 +139,6 @@ class MapController extends BaseController with UseCaseProvider {
         onTap: () async {
           final destinationDetail =
               await _fetchDestinationDetail(destination.id);
-
-          log.error(destination.id);
-          log.error(destinationDetail.businessNameEnglish);
           nav.showDetinationInfoSheet(destinationDetail: destinationDetail);
         },
       );

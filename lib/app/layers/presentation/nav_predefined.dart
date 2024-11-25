@@ -23,6 +23,7 @@ import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedul
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_page.dart';
+import 'package:jejuya/app/layers/presentation/components/pages/search/search_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_in/sign_in_page.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/sign_up/sign_up_controller.dart';
@@ -37,6 +38,8 @@ import 'package:jejuya/app/layers/presentation/components/sheet/select_destinati
 import 'package:jejuya/app/layers/presentation/components/sheet/select_destination/select_destination_sheet.dart';
 import 'package:jejuya/core/arch/presentation/view/base_provider.dart';
 import 'package:jejuya/core/navigation/navigator.dart' as navi;
+import 'package:jejuya/app/layers/presentation/components/pages/search/search_controller.dart'
+    as JejuyaSearch;
 
 /// The [Route] class defines the names of the routes used in the application.
 class PredefinedRoute {
@@ -87,6 +90,9 @@ class PredefinedRoute {
 
   /// Create schedule page route.
   static const String createSchedule = '/create_schedule';
+
+  /// Create search page route.
+  static const String search = '/search';
 }
 
 /// The [PredefinedPage] class defines the pages used in the application.
@@ -151,7 +157,11 @@ class PredefinedPage {
     GetPageEnsureAuth(
       name: PredefinedRoute.createSchedule,
       page: () => nav.createSchedule,
-    )
+    ),
+    GetPageEnsureAuth(
+      name: PredefinedRoute.search,
+      page: () => nav.search,
+    ),
   ];
 }
 
@@ -242,6 +252,12 @@ extension NavPredefined on navi.Navigator {
         ctrl: CreateScheduleController(),
         child: const CreateSchedulePage(),
       );
+
+  /// Create search page widget.
+  Widget get search => BaseProvider(
+        ctrl: JejuyaSearch.SearchController(),
+        child: const SearchPage(),
+      );
 }
 
 /// The [ToPagePredefined] extension defines methods for navigating to
@@ -307,6 +323,11 @@ extension ToPagePredefined on navi.Navigator {
   /// Navigate to create schedule page.
   Future<T?>? toCreateSchedule<T>() => toNamed(
         PredefinedRoute.createSchedule,
+      );
+
+  /// Navigate to search page.
+  Future<T?>? toSearch<T>() => toNamed(
+        PredefinedRoute.search,
       );
 }
 

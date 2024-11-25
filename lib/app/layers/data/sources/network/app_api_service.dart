@@ -39,6 +39,8 @@ abstract class AppApiService extends BaseApiService {
   });
 
   Future<DestinationDetail> fetchDestinationDetail({String? id});
+
+  Future<List<Destination>> searchDestination({String? search});
 }
 
 /// Implementation of the [AppApiService] class.
@@ -179,6 +181,27 @@ class AppApiServiceImpl extends AppApiService {
           return DestinationDetail.fromJson(data['data']);
         } else {
           throw Exception('Unexpected response format: expected a map.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<List<Destination>> searchDestination({String? search}) {
+    return performGet(
+      'tourist-spot',
+      query: {
+        'search': search,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
         }
       },
     );

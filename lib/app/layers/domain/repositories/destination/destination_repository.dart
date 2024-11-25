@@ -22,4 +22,6 @@ abstract class DestinationRepository extends BaseRepository {
   Future<DestinationDetail> fetchDestinationDetail({
     required String id,
   });
+
+  Future<List<Destination>> searchDestination({String? search});
 }

@@ -37,4 +37,8 @@ class DestinationRepositoryImpl extends DestinationRepository
   Future<DestinationDetail> fetchDestinationDetail(
           {required String id}) async =>
       apiService<AppApiService>().fetchDestinationDetail(id: id);
+
+  @override
+  Future<List<Destination>> searchDestination({String? search}) async =>
+      apiService<AppApiService>().searchDestination(search: search);
 }

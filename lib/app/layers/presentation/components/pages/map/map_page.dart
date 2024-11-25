@@ -113,12 +113,20 @@ class _MapPageState extends State<MapPage> {
         builder: (context) {
           final ctrl = widget.controller(context);
           return Expanded(
-            child: CustomSearchBar(
-              editingController: ctrl.searchController,
-              hint: "Tìm kiếm",
-              color: context.color.primaryColor,
-              fontSize: 14.spMin,
-              suffixIcon: LocalSvgRes.search,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                nav.toSearch();
+              },
+              child: IgnorePointer(
+                child: CustomSearchBar(
+                  editingController: ctrl.searchController,
+                  hint: "Tìm kiếm",
+                  color: context.color.primaryColor,
+                  fontSize: 14.spMin,
+                  suffixIcon: LocalSvgRes.search,
+                ),
+              ),
             ),
           );
         },

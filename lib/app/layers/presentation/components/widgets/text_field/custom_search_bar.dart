@@ -12,6 +12,7 @@ class CustomSearchBar extends StatelessWidget {
   final double fontSize;
   final String prefixIcon; // Path for left-side SVG icon
   final String suffixIcon; // Path for right-side SVG icon
+  final ValueChanged<String>? onChanged;
 
   const CustomSearchBar({
     super.key,
@@ -22,12 +23,14 @@ class CustomSearchBar extends StatelessWidget {
     required this.fontSize,
     this.prefixIcon = "",
     this.suffixIcon = "",
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: editingController,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hint,
         enabledBorder: OutlineInputBorder(
