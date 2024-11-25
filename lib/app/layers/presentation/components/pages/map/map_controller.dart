@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jejuya/app/common/ui/image/image_local.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
@@ -25,6 +26,7 @@ class MapController extends BaseController with UseCaseProvider {
     _loadTouristMarkerIcon();
     _loadSelectedHotelMarkerIcon();
     await _fetchNearbyDestinations();
+    //await getCurrentLocation();
     return super.initialize();
   }
 
@@ -186,6 +188,22 @@ class MapController extends BaseController with UseCaseProvider {
         selectedHotelMarkerIcon.value = icon;
       },
     );
+  }
+
+  Future<void> getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    selectedMarkerPosition.value =
+        LatLng(position.latitude, position.longitude);
+
+    // Update camera position to current location
+    final controller = await _mapController.future;
+    controller
+        .animateCamera(CameraUpdate.newLatLng(selectedMarkerPosition.value));
+
+    // Fetch nearby destinations for new position
+    await _fetchNearbyDestinations();
   }
 
   @override

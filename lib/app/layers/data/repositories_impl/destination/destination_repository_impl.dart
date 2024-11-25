@@ -41,4 +41,10 @@ class DestinationRepositoryImpl extends DestinationRepository
   @override
   Future<List<Destination>> searchDestination({String? search}) async =>
       apiService<AppApiService>().searchDestination(search: search);
+
+  @override
+  Future<List<Destination>> fetchDestinationsByCategory(
+          {String? category}) async =>
+      apiService<AppApiService>()
+          .fetchDestinationsByCategory(category: category);
 }

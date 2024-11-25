@@ -41,6 +41,8 @@ abstract class AppApiService extends BaseApiService {
   Future<DestinationDetail> fetchDestinationDetail({String? id});
 
   Future<List<Destination>> searchDestination({String? search});
+
+  Future<List<Destination>> fetchDestinationsByCategory({String? category});
 }
 
 /// Implementation of the [AppApiService] class.
@@ -192,6 +194,27 @@ class AppApiServiceImpl extends AppApiService {
       'tourist-spot',
       query: {
         'search': search,
+      },
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Destination.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<List<Destination>> fetchDestinationsByCategory({String? category}) {
+    return performGet(
+      'tourist-spot/detail-category',
+      query: {
+        'category': category,
       },
       decoder: (data) {
         // Check if the data is a Map and contains the 'data' key
