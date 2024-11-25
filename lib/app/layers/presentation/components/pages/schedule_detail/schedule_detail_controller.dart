@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule_mockup_api.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
@@ -9,13 +10,13 @@ import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
 /// Controller for the Schedule detail page
 class ScheduleDetailController extends BaseController with UseCaseProvider {
   /// Default constructor for the ScheduleDetailController.
-  ScheduleDetailController() {
+  ScheduleDetailController({required this.scheduleId}) {
     schedules = Schedule.fromJsonList(scheduleMockup);
   }
 
   // --- Member Variables ---
   late List<Schedule> schedules;
-
+  final String? scheduleId;
   // --- State Variables ---
   final selectedDayIndex = listenable<int>(0);
 

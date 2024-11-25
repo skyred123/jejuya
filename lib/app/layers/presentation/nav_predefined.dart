@@ -65,7 +65,7 @@ class PredefinedRoute {
   static const String schedule = '/schedule';
 
   /// Schedule detail page route.
-  static const String scheduleDetail = '/schedule_detail';
+  static const String scheduleDetail = '/schedule_detail?.*';
 
   /// Favorite page route.
   static const String favorite = '/favorite';
@@ -131,7 +131,11 @@ class PredefinedPage {
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.scheduleDetail,
-      page: () => nav.scheduleDetail,
+      page: () {
+        String? id =
+            Uri.tryParse(Get.currentRoute)!.queryParameters['schedule_id']!;
+        return nav.scheduleDetail(id);
+      },
     ),
     GetPageEnsureAuth(
       name: PredefinedRoute.favorite,
@@ -223,8 +227,8 @@ extension NavPredefined on navi.Navigator {
       );
 
   /// Home page widget.
-  Widget get scheduleDetail => BaseProvider(
-        ctrl: ScheduleDetailController(),
+  Widget scheduleDetail(String? scheduleId) => BaseProvider(
+        ctrl: ScheduleDetailController(scheduleId: scheduleId),
         child: const ScheduleDetailPage(),
       );
 
@@ -316,8 +320,10 @@ extension ToPagePredefined on navi.Navigator {
       );
 
   /// Navigate to the schedule page.
-  Future<T?>? toScheduleDetail<T>() => toNamed(
-        PredefinedRoute.scheduleDetail,
+  Future<T?>? toScheduleDetail<T>({required String? scheduleId}) => toNamed(
+        PredefinedRoute.scheduleDetail
+            .replaceAll('.*', 'schedule_id=$scheduleId'),
+        arguments: scheduleId,
       );
 
   /// Navigate to the home page.

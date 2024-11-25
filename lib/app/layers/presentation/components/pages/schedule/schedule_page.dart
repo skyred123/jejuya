@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule/schedule_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/dialog/custom_dialog.dart';
@@ -26,6 +28,8 @@ class SchedulePage extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final ctrl = controller(context);
+    print(ctrl.userDetail.value);
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -83,9 +87,11 @@ class SchedulePage extends StatelessWidget
 
   Widget get _listSchedule => Builder(
         builder: (context) {
+          final ctrl = controller(context);
+          List<Schedule> schedules = ctrl.userDetail.value?.schedules ?? [];
           return Expanded(
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: schedules.length,
               itemBuilder: (context, index) {
                 return _scheduleItem(index);
               },
@@ -97,6 +103,21 @@ class SchedulePage extends StatelessWidget
   Widget _scheduleItem(int id) => Observer(
         builder: (context) {
           final ctrl = controller(context);
+          String? formattedStartTime =
+              ctrl.userDetail.value?.schedules?[id].startTime != null
+                  ? DateFormat('dd/MM/yyyy').format(DateTime.parse(ctrl
+                          .userDetail.value?.schedules?[id].startTime!
+                          .toString() ??
+                      ''))
+                  : null;
+
+          String? formattedEndTime =
+              ctrl.userDetail.value?.schedules?[id].startTime != null
+                  ? DateFormat('dd/MM/yyyy').format(DateTime.parse(ctrl
+                          .userDetail.value?.schedules?[id].endTime!
+                          .toString() ??
+                      ''))
+                  : null;
           return Dismissible(
             key: Key(id.toString()),
             background: Container(
@@ -143,7 +164,11 @@ class SchedulePage extends StatelessWidget
             child: BouncesAnimatedButton(
               width: context.width.hMin,
               height: 140.hMin,
-              onPressed: () => nav.toScheduleDetail(),
+              onPressed: () {
+                //print(ctrl.userDetail.value?.schedules?[id]);
+                nav.toScheduleDetail(
+                    scheduleId: ctrl.userDetail.value?.schedules?[id].id ?? '');
+              },
               leading: Container(
                 decoration: BoxDecoration(
                   border: Border(
@@ -198,7 +223,8 @@ class SchedulePage extends StatelessWidget
                                 ),
                               ).paddingOnly(right: 10.wMin),
                               Text(
-                                "12/10/2024 - 20/10/2024",
+                                "${formattedStartTime} - ${formattedEndTime} ",
+                                // "${ctrl.userDetail.value?.schedules?[id].startTime.toString()} - ${ctrl.userDetail.value?.schedules?[id].endTime.toString()} ",
                                 style: TextStyle(
                                   color: context.color.primaryLight,
                                   fontSize: 12.spMin,
@@ -207,14 +233,16 @@ class SchedulePage extends StatelessWidget
                             ],
                           ).paddingOnly(bottom: 10.hMin),
                           Text(
-                            "Lịch trình 1",
+                            ctrl.userDetail.value?.schedules?[id].name ?? '',
                             style: TextStyle(
                               color: context.color.black,
                               fontSize: 12.spMin,
                             ),
                           ).paddingOnly(bottom: 10.hMin),
                           Text(
-                            "Hotel Honey Crown",
+                            ctrl.userDetail.value?.schedules?[id]
+                                    .accommodation ??
+                                '',
                             style: TextStyle(
                               color: context.color.black,
                               fontWeight: FontWeight.w300,
