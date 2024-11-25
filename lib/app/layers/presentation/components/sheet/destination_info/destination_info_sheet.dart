@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -195,7 +196,7 @@ class DestinationInfoSheet extends StatelessWidget
               destinationId: ctrl.destination?.id,
             ),
             leading: Text(
-              "See More >",
+              tr("destination_info_sheet.see_more"),
               style: TextStyle(
                 fontSize: 12.spMin,
               ),

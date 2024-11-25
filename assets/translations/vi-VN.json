@@ -1,1 +1,67 @@
-{}
+{
+  "sign_in": {
+    "welcome_back": "Chào mừng trở lại!",
+    "sign_in": "Đăng Nhập",
+    "email": "Email",
+    "password": "Mật Khẩu",
+    "forgot_password": "Quên mật khẩu?",
+    "dont_have_account": "Không có tài khoản?",
+    "sign_up": "Đăng Ký",
+    "user_not_found": "Không tìm thấy người dùng với email này.",
+    "wrong_password": "Mật khẩu không đúng.",
+    "have_error": "Đã xảy ra lỗi. Vui lòng thử lại."
+  },
+
+  "sign_up": {
+    "start_your_journey": "Bắt Đầu Hành Trình!",
+    "sign_in": "Đăng Nhập",
+    "email": "Email",
+    "password": "Mật Khẩu",
+    "confirm_password": "Xác nhận mật khẩu",
+    "already_have_account": "Đã có tài khoản?",
+    "next": "Tiếp theo",
+    "sign_up": "Đăng Ký"
+  },
+
+  "home": {
+    "home": "Trang Chủ",
+    "schedule": "Lịch Trình",
+    "favorite": "Yêu Thích",
+    "profile": "Profile"
+  },
+
+  "map": {
+    "search": "Tìm kiếm"
+  },
+
+  "schedule": {
+    "schedule_list": "Danh Sách Lịch Trình",
+    "search": "Tìm kiếm"
+  },
+
+  "favorite": {
+    "favorite_list": "Yêu Thích",
+    "search": "Tìm kiếm ",
+    "schedule": "Lịch trình  ",
+    "destination": "Địa điểm"
+  },
+
+  "destination_info_sheet": {
+    "see_more": "Xem thêm >"
+  },
+
+  "destination_detail": {
+    "day": "Ngày"
+  },
+
+  "create_schedule": {
+    "title": "Tạo lịch trình",
+    "schedule_name": "Tên lịch trình",
+    "accommodation": "Chỗ ở",
+    "add_new": "Thêm điểm đến mới",
+    "start_time": "Thời gian bắt đầu",
+    "end_time": "Thời gian kết thúc",
+    "type": "Danh mục",
+    "create_btn": "Thêm"
+  }
+}

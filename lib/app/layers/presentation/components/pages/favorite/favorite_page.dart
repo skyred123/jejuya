@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,7 +68,7 @@ class FavoritePage extends StatelessWidget
                     border: Border.all(color: context.color.primaryColor),
                   ),
                   child: Text(
-                    "Lịch trình",
+                    tr("favorite.schedule"),
                     style: TextStyle(
                       fontSize: 12.spMin,
                       color: ctrl.isDetination.value
@@ -88,7 +89,7 @@ class FavoritePage extends StatelessWidget
                     border: Border.all(color: context.color.primaryColor),
                   ),
                   child: Text(
-                    "Địa điểm",
+                    tr("favorite.destination"),
                     style: TextStyle(
                       fontSize: 12.spMin,
                       color: !ctrl.isDetination.value
@@ -109,7 +110,7 @@ class FavoritePage extends StatelessWidget
             children: [
               Expanded(
                 child: Text(
-                  "Yêu Thích",
+                  tr("favorite.favorite_list"),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22.spMin,
@@ -150,7 +151,7 @@ class FavoritePage extends StatelessWidget
           final ctrl = controller(context);
           return CustomSearchBar(
             editingController: ctrl.searchController,
-            hint: "Tìm kiếm",
+            hint: tr("favorite.search"),
             color: context.color.primaryColor,
             fontSize: 14.spMin,
             suffixIcon: LocalSvgRes.search,

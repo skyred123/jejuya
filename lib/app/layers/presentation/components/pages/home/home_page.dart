@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -90,7 +91,7 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                  text: 'Trang chủ',
+                  text: tr("home.home"),
                 ),
                 GButton(
                   icon: Icons.heat_pump_rounded,
@@ -103,7 +104,7 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                  text: 'Lịch Trình',
+                  text: tr("home.schedule"),
                 ),
                 GButton(
                   icon: Icons.search,
@@ -116,7 +117,7 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                  text: 'Yêu Thích',
+                  text: tr("home.favorite"),
                 ),
                 GButton(
                   icon: Icons.star,
@@ -129,7 +130,7 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
                       BlendMode.srcIn,
                     ),
                   ),
-                  text: 'Profile',
+                  text: tr("home.profile"),
                 )
               ],
               onTabChange: (index) {

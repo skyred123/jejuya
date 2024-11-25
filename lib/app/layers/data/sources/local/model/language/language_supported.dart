@@ -23,6 +23,13 @@ enum LanguageSupported {
     languageCode: 'vi',
     countryCode: 'VN',
     title: 'setting.language.options.vietnamese',
+  ),
+
+  /// Korean language option.
+  korean(
+    languageCode: 'ko',
+    countryCode: 'KR',
+    title: 'setting.language.options.korean',
   );
 
   /// Constructs a new instance of [LanguageSupported].
