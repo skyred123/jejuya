@@ -1,3 +1,4 @@
+import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule_item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'schedule.g.dart';
@@ -12,6 +13,9 @@ class Schedule {
     required this.id,
     this.startTime,
     this.endTime,
+    this.accommodation,
+    this.name,
+    this.scheduleItems,
   });
 
   /// Factory constructor for the [Destination].
@@ -29,4 +33,11 @@ class Schedule {
 
   /// Destination entity [endTime] property.
   DateTime? endTime;
+
+  List<ScheduleItem>? scheduleItems =
+      <ScheduleItem>[]; // Add the list property>
+
+  String? accommodation;
+
+  String? name;
 }

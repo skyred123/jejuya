@@ -1,3 +1,4 @@
+import 'package:jejuya/app/layers/data/sources/local/model/destinationDetail/destinationDetail.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/notification/notification.dart';
 import 'package:jejuya/app/layers/data/sources/network/app_api_service.dart';
 import 'package:jejuya/app/layers/domain/repositories/notification_detail/notification_detail_repository.dart';
@@ -12,4 +13,11 @@ class NotificationDetailRepositoryImpl extends NotificationDetailRepository
     num? notificationId,
   ) async =>
       apiService<AppApiService>().fetchNotificationDetail(notificationId!);
+
+  // @override
+  // Future<DestinationDetail> fetchDestinationDetail(
+  //   String? destinationDetailId,
+  // ) async =>
+  //     apiService<AppApiService>()
+  //         .fetchDestinationDetail(destinationDetailId: destinationDetailId!);
 }

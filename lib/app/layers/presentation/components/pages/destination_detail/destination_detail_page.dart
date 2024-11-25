@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:jejuya/app/common/ui/image/image_remote.dart';
+import 'package:jejuya/app/common/ui/svg/svg_local.dart';
 import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/destination_detail_controller.dart';
-import 'package:jejuya/app/layers/presentation/components/pages/destination_detail/enum/info_enum.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 import 'package:image_network/image_network.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'dart:js' as js;
 
 /// Page widget for the Destination detail feature
 class DestinationDetailPage extends StatelessWidget
@@ -56,12 +58,13 @@ class DestinationDetailPage extends StatelessWidget
         },
       );
 
-  Widget get _infoContainer => Builder(
+  Widget get _infoContainer => Observer(
         builder: (context) {
-          final categoryList =
-              Category.values.map((item) => item.name).toList();
-          final categoryDetailList =
-              CategoryDetail.values.map((item) => item.name).toList();
+          final ctrl = controller(context);
+          final categoryList = ctrl.categoryConvert(
+              ctrl.destinationDetail.value?.categoryEnglish ?? "");
+          final categoryDetailList = ctrl.categoryDetailConvert(
+              ctrl.destinationDetail.value?.detailedCategoryEnglish ?? "");
           return Container(
             width: context.width,
             decoration: BoxDecoration(
@@ -89,11 +92,11 @@ class DestinationDetailPage extends StatelessWidget
         },
       );
 
-  Widget get _name => Builder(
+  Widget get _name => Observer(
         builder: (context) {
           final ctrl = controller(context);
           return Text(
-            ctrl.destinationDetail!.businessNameEnglish,
+            ctrl.destinationDetail.value?.businessNameEnglish ?? "",
             style: TextStyle(
               color: context.color.black,
               fontSize: 20.spMin,
@@ -103,11 +106,11 @@ class DestinationDetailPage extends StatelessWidget
         },
       );
 
-  Widget get _decription => Builder(
+  Widget get _decription => Observer(
         builder: (context) {
           final ctrl = controller(context);
           return Text(
-            ctrl.destinationDetail!.introductionEnglish,
+            ctrl.destinationDetail.value?.introductionEnglish ?? "",
             style: TextStyle(
               color: context.color.info,
               fontSize: 12.spMin,
@@ -116,8 +119,9 @@ class DestinationDetailPage extends StatelessWidget
         },
       );
 
-  Widget get _info => Builder(
+  Widget get _info => Observer(
         builder: (context) {
+          final ctrl = controller(context);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -134,13 +138,19 @@ class DestinationDetailPage extends StatelessWidget
                   color: context.color.containerBackground,
                   borderRadius: BorderRadius.circular(15.rMin),
                 ),
-                child: ListView.builder(
-                  itemCount: InfoEnum.values.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return _infoItem(InfoEnum.values[index]);
-                  },
+                child: Column(
+                  children: [
+                    _infoItem(LocalSvgRes.address,
+                        ctrl.destinationDetail.value?.locationEnglish ?? ""),
+                    _infoItem(
+                        LocalSvgRes.time,
+                        ctrl.destinationDetail.value?.operatingHoursEnglish ??
+                            ""),
+                    _infoItem(LocalSvgRes.schedule,
+                        ctrl.destinationDetail.value?.closedDaysEnglish ?? ""),
+                    _infoItem(LocalSvgRes.phone,
+                        ctrl.destinationDetail.value?.contact ?? ""),
+                  ],
                 ).paddingOnly(
                   left: 10.wMin,
                   right: 10.wMin,
@@ -153,13 +163,13 @@ class DestinationDetailPage extends StatelessWidget
         },
       );
 
-  Widget _infoItem(InfoEnum item) => Builder(
+  Widget _infoItem(String icon, String value) => Builder(
         builder: (context) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SvgPicture.asset(
-                item.icon,
+                icon,
                 width: 16.rMin,
                 height: 16.rMin,
                 colorFilter: ColorFilter.mode(
@@ -168,7 +178,7 @@ class DestinationDetailPage extends StatelessWidget
                 ),
               ).paddingOnly(right: 15.wMin, left: 10.wMin),
               Text(
-                item.name,
+                value,
                 style: TextStyle(
                   color: context.color.black,
                   fontSize: 12.spMin,
@@ -259,10 +269,14 @@ class DestinationDetailPage extends StatelessWidget
       );
   Widget get _reservationBtn => Builder(
         builder: (context) {
+          final ctrl = controller(context);
           return Column(
             children: [
               BouncesAnimatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  js.context.callMethod(
+                      'open', [ctrl.destinationDetail.value?.reservationLink]);
+                },
                 decoration: BoxDecoration(
                   color: context.color.primaryColor,
                   borderRadius: BorderRadius.circular(15),

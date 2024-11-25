@@ -27,6 +27,8 @@ class ScheduleDetailPage extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final ctrl = controller(context);
+    print(ctrl.scheduleId);
     return Scaffold(
       body: CustomScrollView(
         slivers: [

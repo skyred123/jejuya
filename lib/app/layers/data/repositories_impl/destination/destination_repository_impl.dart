@@ -26,6 +26,12 @@ class DestinationRepositoryImpl extends DestinationRepository
       );
 
   @override
+  Future<DestinationDetail> fetchDestinationDetail({
+    String? destinationId,
+  }) async =>
+      apiService<AppApiService>()
+          .fetchDestinationDetail(destinationDetailId: destinationId!);
+
   Future<List<Destination>> fetchNearbyDestinations(
           {required double longitude,
           required double latitude,
@@ -33,10 +39,10 @@ class DestinationRepositoryImpl extends DestinationRepository
       apiService<AppApiService>().fetchNearbyDestinations(
           longitude: longitude, latitude: latitude, radius: radius);
 
-  @override
-  Future<DestinationDetail> fetchDestinationDetail(
-          {required String id}) async =>
-      apiService<AppApiService>().fetchDestinationDetail(id: id);
+  // @override
+  // Future<DestinationDetail> fetchDestinationDetail(
+  //         {required String id}) async =>
+  //     apiService<AppApiService>().fetchDestinationDetail(id: id);
 
   @override
   Future<List<Destination>> searchDestination({String? search}) async =>

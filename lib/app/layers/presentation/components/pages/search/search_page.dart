@@ -45,7 +45,8 @@ class SearchPage extends StatelessWidget
                               await ctrl.fetchDestinationDetail(
                                   ctrl.searchResults.value[index].id);
                           nav.toDestinationDetail(
-                              destinationDetail: destinationDetail);
+                              destinationId:
+                                  ctrl.searchResults.value[index].id);
                         },
                         child: _searchItem(ctrl.searchResults.value[index])
                             .paddingSymmetric(

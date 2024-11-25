@@ -24,12 +24,14 @@ class HomePage extends StatelessWidget with GlobalControllerProvider {
     final ctrl = globalController<HomeController>();
 
     final pageController = PageController(
-      initialPage: ctrl.bottomTabBarState.selectedTab.index,
-    );
+        //initialPage: ctrl.bottomTabBarState.selectedTab.index,
+        initialPage: 0);
 
     ctrl
       ..pageController = pageController
       ..bottomTabBarState.attachController(pageController);
+
+    ctrl.tabBarIndex.value = 0;
 
     return Stack(
       children: [
