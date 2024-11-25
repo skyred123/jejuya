@@ -44,5 +44,24 @@
     "search": "Tìm kiếm ",
     "schedule": "Lịch trình  ",
     "destination": "Địa điểm"
+  },
+
+  "destination_info_sheet": {
+    "see_more": "Xem thêm >"
+  },
+
+  "destination_detail": {
+    "day": "Ngày"
+  },
+
+  "create_schedule": {
+    "title": "Tạo lịch trình",
+    "schedule_name": "Tên lịch trình",
+    "accommodation": "Chỗ ở",
+    "add_new": "Thêm điểm đến mới",
+    "start_time": "Thời gian bắt đầu",
+    "end_time": "Thời gian kết thúc",
+    "type": "Danh mục",
+    "create_btn": "Thêm"
   }
 }

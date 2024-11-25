@@ -112,5 +112,24 @@
     "search": "Search",
     "schedule": "Schedules",
     "destination": "Destinations"
+  },
+
+  "destination_info_sheet": {
+    "see_more": "See More >"
+  },
+
+  "destination_detail": {
+    "day": "Day"
+  },
+
+  "create_schedule": {
+    "title": "Create a schedule",
+    "schedule_name": "Schedule name",
+    "accommodation": "Accommodation",
+    "add_new": "Add new destination",
+    "start_time": "Start time",
+    "end_time": "End time",
+    "type": "Type",
+    "create_btn": "Add"
   }
 }

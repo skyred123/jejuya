@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,15 +9,19 @@ import 'package:jejuya/app/common/utils/extension/build_context/app_color.dart';
 import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/common/utils/extension/string/string_to_color.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/language/language_supported.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/mockup/schedule.dart';
 import 'package:jejuya/app/layers/presentation/components/pages/schedule_detail/schedule_detail_controller.dart';
 import 'package:jejuya/app/layers/presentation/components/widgets/button/bounces_animated_button.dart';
+import 'package:jejuya/app/layers/presentation/global_controllers/setting/setting_controller.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/presentation/controller/controller_provider.dart';
 
 /// Page widget for the Schedule detail feature
 class ScheduleDetailPage extends StatelessWidget
-    with ControllerProvider<ScheduleDetailController> {
+    with
+        ControllerProvider<ScheduleDetailController>,
+        GlobalControllerProvider {
   /// Default constructor for the ScheduleDetailPage.
   const ScheduleDetailPage({super.key});
 
@@ -281,6 +286,11 @@ class ScheduleDetailPage extends StatelessWidget
           final ctrl = controller(context);
           final currentDate = ctrl.schedules[ctrl.selectedDayIndex.value].date;
           final formattedDay = ctrl.formatDate(currentDate);
+          final settingCtrl = globalController<SettingController>();
+
+          final dayRank = settingCtrl.language.value != LanguageSupported.korean
+              ? "${tr("destination_detail.day")} ${ctrl.selectedDayIndex.value + 1}"
+              : "${ctrl.selectedDayIndex.value + 1} ${tr("destination_detail.day")} ";
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -296,7 +306,7 @@ class ScheduleDetailPage extends StatelessWidget
                   ).paddingOnly(right: 10.rMin, left: 2.rMin),
                   Expanded(
                     child: Text(
-                      "Ngày ${ctrl.selectedDayIndex.value + 1} - ${formattedDay['dayOfWeek']}, ${formattedDay['day']}/${formattedDay['month']}/${formattedDay['year']}",
+                      "$dayRank  - ${formattedDay['dayOfWeek']}, ${formattedDay['day']}/${formattedDay['month']}/${formattedDay['year']}",
                       style: TextStyle(
                         fontSize: 12.spMin,
                         color: context.color.black,

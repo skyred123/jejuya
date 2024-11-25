@@ -42,5 +42,24 @@
     "search": "검색",
     "schedule": "스케출",
     "destination": "위치"
+  },
+
+  "destination_info_sheet": {
+    "see_more": "더 보기>"
+  },
+
+  "destination_detail": {
+    "day": "일차"
+  },
+
+  "create_schedule": {
+    "title": "스케출 만들기",
+    "schedule_name": "스케출 이름",
+    "accommodation": "숙소n",
+    "add_new": "새 목적지 추가",
+    "start_time": "시작 시간",
+    "end_time": "종료 시간",
+    "type": "카테고리",
+    "create_btn": "추가"
   }
 }
