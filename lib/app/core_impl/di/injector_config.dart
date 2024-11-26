@@ -14,6 +14,7 @@ import 'package:jejuya/app/layers/domain/repositories/user_detail/user_detail_re
 import 'package:jejuya/app/layers/domain/usecases/destination/destination_detail_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_by_category_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_detail_usecase.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_hotel_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/recommend_destination_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/search_destination_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/notification/fetch_notifications_usecase.dart';
@@ -89,5 +90,6 @@ class InjectorConfig {
     GetDestinationDetailUsecase: GetDestinationDetailUsecase.new,
     SearchDestinationUsecase: SearchDestinationUsecase.new,
     GetDestinationByCategoryUsecase: GetDestinationByCategoryUsecase.new,
+    GetHotelUsecase: GetHotelUsecase.new,
   };
 }

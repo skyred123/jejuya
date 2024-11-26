@@ -1,5 +1,6 @@
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/hotel/hotel.dart';
 import 'package:jejuya/core/arch/domain/repository/base_repository.dart';
 
 /// Repository for the destination
@@ -29,4 +30,6 @@ abstract class DestinationRepository extends BaseRepository {
   Future<List<Destination>> searchDestination({String? search});
 
   Future<List<Destination>> fetchDestinationsByCategory({String? category});
+
+  Future<List<Hotel>> fetchHotels();
 }

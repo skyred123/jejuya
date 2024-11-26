@@ -1,5 +1,6 @@
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/hotel/hotel.dart';
 import 'package:jejuya/app/layers/data/sources/network/app_api_service.dart';
 import 'package:jejuya/app/layers/domain/repositories/destination/destination_repository.dart';
 import 'package:jejuya/core/arch/data/network/api_service_provider.dart';
@@ -53,4 +54,8 @@ class DestinationRepositoryImpl extends DestinationRepository
           {String? category}) async =>
       apiService<AppApiService>()
           .fetchDestinationsByCategory(category: category);
+
+  @override
+  Future<List<Hotel>> fetchHotels() async =>
+      apiService<AppApiService>().fetchHotels();
 }
