@@ -61,27 +61,5 @@
     "end_time": "종료 시간",
     "type": "카테고리",
     "create_btn": "추가"
-  },
-
-  "profile": {
-    "favorited": "즐겨찾기",
-    "visited": "이전 목적지  ",
-    "last_visited": "가장 최근 목적지",
-    "last_reservation": "가장 최근 예약"
-  },
-
-  "setting": {
-    "title": "설정",
-    "preferences": "일반",
-    "languages": "언어",
-    "account": "계정",
-    "change_password": "비밀전호 변경",
-    "change_infomation": "개인정보 편집",
-    "Resources": "자원",
-    "contact_support": "지원팀에 문의",
-    "terms_services": "이용약솬 및 서비스",
-    "sign_out": "로그아웃",
-    "cancel": "취소",
-    "ok": "Ok"
   }
 }
