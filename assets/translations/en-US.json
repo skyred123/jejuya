@@ -5,7 +5,7 @@
     "tomorrow": "Tomorrow",
     "yesterday": "Yesterday"
   },
-  "setting": {
+  "setting1": {
     "language": {
       "title": "Language",
       "select_language": "Select Language",
@@ -131,5 +131,27 @@
     "end_time": "End time",
     "type": "Type",
     "create_btn": "Add"
+  },
+
+  "profile": {
+    "favorited": "Favorited",
+    "visited": "Visited",
+    "last_visited": "Last visited",
+    "last_reservation": "Last reservation"
+  },
+
+  "setting": {
+    "title": "Settings",
+    "preferences": "Preferences",
+    "languages": "Languages",
+    "account": "Account",
+    "change_password": "Change password",
+    "change_infomation": "Change Infomation",
+    "Resources": "Resources",
+    "contact_support": "Contact Support",
+    "terms_services": "Terms and Services",
+    "sign_out": "Sign Out",
+    "cancel": "Cancel",
+    "ok": "Ok"
   }
 }

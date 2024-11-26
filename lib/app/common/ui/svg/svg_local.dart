@@ -32,4 +32,5 @@ class LocalSvgRes {
   static const String chat = 'images/svg/ic_chat.svg';
   static const String user = 'images/svg/ic_user.svg';
   static const String logout = 'images/svg/ic_logout.svg';
+  static const String localize = 'images/svg/ic_localize.svg';
 }
