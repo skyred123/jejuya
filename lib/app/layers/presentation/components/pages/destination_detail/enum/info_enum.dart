@@ -36,3 +36,11 @@ enum CategoryDetail {
   // Constructor
   const CategoryDetail(this.name);
 }
+
+enum DestinationDetailState {
+  none,
+
+  loading,
+
+  done,
+}

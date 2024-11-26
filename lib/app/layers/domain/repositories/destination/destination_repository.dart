@@ -14,15 +14,18 @@ abstract class DestinationRepository extends BaseRepository {
     required String toDate,
   });
 
+  Future<DestinationDetail> fetchDestinationDetail({
+    required String? destinationId,
+  });
   Future<List<Destination>> fetchNearbyDestinations({
     required double longitude,
     required double latitude,
     required int radius,
   });
 
-  Future<DestinationDetail> fetchDestinationDetail({
-    required String id,
-  });
+  // Future<DestinationDetail> fetchDestinationDetail({
+  //   required String id,
+  // });
 
   Future<List<Destination>> searchDestination({String? search});
 

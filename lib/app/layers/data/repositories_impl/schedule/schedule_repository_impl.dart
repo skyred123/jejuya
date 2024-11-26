@@ -1,3 +1,4 @@
+import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/schedule/schedule_item.dart';
 import 'package:jejuya/app/layers/data/sources/network/app_api_service.dart';
 import 'package:jejuya/app/layers/domain/repositories/schedule/schedule_repository.dart';

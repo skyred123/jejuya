@@ -26,4 +26,6 @@ class LocalImageRes {
   /// The Hotel Selected Marker Icon.
   static const String hotelSelectedMarkerIcon =
       'assets/images/markers/ic_hotel_marker_selected.png';
+
+  static const String error = 'assets/images/markers/404_error.png';
 }

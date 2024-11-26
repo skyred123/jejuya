@@ -13,7 +13,7 @@ class GetDestinationDetailUsecase extends BaseUseCase<
   Future<GetDestinationDetailResponse> execute(
       GetDestinationDetailRequest request) {
     return repository<DestinationRepository>()
-        .fetchDestinationDetail(id: request.id)
+        .fetchDestinationDetail(destinationId: request.id)
         .then((destinationDetail) =>
             GetDestinationDetailResponse(destinationDetail: destinationDetail));
   }

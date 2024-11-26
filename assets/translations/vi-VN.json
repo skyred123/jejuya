@@ -63,5 +63,27 @@
     "end_time": "Thời gian kết thúc",
     "type": "Danh mục",
     "create_btn": "Thêm"
+  },
+
+  "profile": {
+    "favorited": "Đã yêu thích",
+    "visited": "Đã đến ",
+    "last_visited": "Điểm đến gần nhất",
+    "last_reservation": "Lần đặt gần nhất"
+  },
+
+  "setting": {
+    "title": "Cài đặt",
+    "preferences": "Tùy chọn",
+    "languages": "Ngôn ngữ",
+    "account": "Tài khoản",
+    "change_password": "Đổi mật khẩu",
+    "change_infomation": "Chỉnh sửa thông tin",
+    "Resources": "Tài nguyên",
+    "contact_support": "Liên hệ hỗ trợ",
+    "terms_services": "Điều khoản và Dịch vụ",
+    "sign_out": "Đăng xuất",
+    "cancel": "Hủy",
+    "ok": "Ok"
   }
 }
