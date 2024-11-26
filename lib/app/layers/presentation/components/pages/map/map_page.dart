@@ -92,6 +92,7 @@ class _MapPageState extends State<MapPage> {
               myLocationButtonEnabled: true,
               zoomControlsEnabled: true,
               mapType: MapType.normal,
+              onCameraMove: widget.controller(context).onCameraMove,
               markers:
                   Set<Marker>.from(widget.controller(context).markers.value),
               circles: {
