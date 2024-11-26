@@ -1,17 +1,22 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jejuya/app/common/ui/image/image_local.dart';
-import 'package:jejuya/app/common/utils/extension/num/adaptive_size.dart';
 import 'package:jejuya/app/core_impl/di/injector_impl.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination.dart';
 import 'package:jejuya/app/layers/data/sources/local/model/destination/destination_detail.dart';
+import 'package:jejuya/app/layers/data/sources/local/model/hotel/hotel.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/get_destination_detail_usecase.dart';
+import 'package:jejuya/app/layers/domain/usecases/destination/get_hotel_usecase.dart';
 import 'package:jejuya/app/layers/domain/usecases/destination/get_nearby_destination_usecase.dart';
 import 'package:jejuya/app/layers/presentation/nav_predefined.dart';
 import 'package:jejuya/core/arch/domain/usecase/usecase_provider.dart';
 import 'package:jejuya/core/arch/presentation/controller/base_controller.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jejuya/core/reactive/dynamic_to_obs_data.dart';
 
 class MapController extends BaseController with UseCaseProvider {
@@ -22,11 +27,8 @@ class MapController extends BaseController with UseCaseProvider {
 
   @override
   Future<void> initialize() async {
-    _loadHotelMarkerIcon();
-    _loadTouristMarkerIcon();
-    _loadSelectedHotelMarkerIcon();
+    await _fetchHotels();
     await _fetchNearbyDestinations();
-    //await getCurrentLocation();
     return super.initialize();
   }
 
@@ -55,9 +57,14 @@ class MapController extends BaseController with UseCaseProvider {
   final selectedHotelMarkerIcon = listenable<BitmapDescriptor>(
     BitmapDescriptor.defaultMarker,
   );
+  final currentMarkerIcon = listenable<BitmapDescriptor>(
+    BitmapDescriptor.defaultMarker,
+  );
   final radiusInMeters = listenable<double>(5000.0);
   final isRadiusSliderVisible = listenable<bool>(false);
   final selectedMarkerPosition =
+      listenable<LatLng>(const LatLng(33.5050011, 126.5277575));
+  final currentMarkerPosition =
       listenable<LatLng>(const LatLng(33.5050011, 126.5277575));
   String? selectedHotelMarkerId;
 
@@ -67,10 +74,16 @@ class MapController extends BaseController with UseCaseProvider {
   /// Current list of destinations
   final destinations = listenable<List<Destination>>([]);
 
+  final hotels = listenable<List<Hotel>>([]);
+
+  double _currentZoomLevel = 11.0;
+  double minZoomForMarkers = 11.0;
+
   // --- Methods ---
 
   void onMapCreated(GoogleMapController controller) {
     _mapController.complete(controller);
+    _updateMarkerIcons(_currentZoomLevel);
   }
 
   void setRadius(double newRadius) async {
@@ -103,6 +116,19 @@ class MapController extends BaseController with UseCaseProvider {
     }
   }
 
+  Future<void> _fetchHotels() async {
+    try {
+      final response = await GetHotelUsecase().execute(
+        GetHotelRequest(),
+      );
+
+      hotels.value = response.hotels;
+    } catch (e, s) {
+      log.error('[MapController] Error fetching hotels',
+          error: e, stackTrace: s);
+    }
+  }
+
   Future<DestinationDetail> _fetchDestinationDetail(String id) async {
     try {
       final response = await GetDestinationDetailUsecase().execute(
@@ -117,19 +143,49 @@ class MapController extends BaseController with UseCaseProvider {
   }
 
   void _updateMarkers() {
-    // Clear existing markers
     markers.value = [];
 
-    // Main marker
-    Marker mainMarker = Marker(
-      markerId: const MarkerId('main_marker'),
-      position: selectedMarkerPosition.value,
-      icon: selectedHotelMarkerId == null
-          ? hotelMarkerIcon.value
-          : selectedHotelMarkerIcon.value,
-    );
+    // User position marker (main marker)
+    Marker userMarker = Marker(
+        markerId: const MarkerId('user_marker'),
+        position: currentMarkerPosition.value,
+        icon: BitmapDescriptor.defaultMarker, // Use different icon for user
+        zIndex: 2,
+        onTap: () {
+          // Update the center position for radius and nearby search
+          selectedMarkerPosition.value = currentMarkerPosition.value;
+          _centerOnPosition(selectedMarkerPosition.value);
+          _fetchNearbyDestinations();
+          _updateMarkers();
+        });
 
-    // Tourist markers from destinations
+    // Hotel markers
+    List<Marker> hotelMarkers = hotels.value.map((hotel) {
+      bool isSelected = selectedHotelMarkerId == hotel.id;
+      return Marker(
+          markerId: MarkerId('hotel_${hotel.id}'),
+          position: LatLng(
+            double.parse(hotel.latitude),
+            double.parse(hotel.longitude),
+          ),
+          icon: isSelected
+              ? selectedHotelMarkerIcon.value
+              : hotelMarkerIcon.value,
+          zIndex: isSelected ? 3 : 1,
+          onTap: () {
+            selectedHotelMarkerId = hotel.id;
+            // Update the center position for radius and nearby search
+            selectedMarkerPosition.value = LatLng(
+              double.parse(hotel.latitude),
+              double.parse(hotel.longitude),
+            );
+            _centerOnPosition(selectedMarkerPosition.value);
+            _fetchNearbyDestinations();
+            _updateMarkers();
+          });
+    }).toList();
+
+    // Tourist markers remain the same
     List<Marker> touristMarkers = destinations.value.map((destination) {
       return Marker(
         markerId: MarkerId(destination.id.toString()),
@@ -138,6 +194,7 @@ class MapController extends BaseController with UseCaseProvider {
           double.parse(destination.longitude),
         ),
         icon: touristMarkerIcon.value,
+        zIndex: 1,
         onTap: () async {
           final destinationDetail =
               await _fetchDestinationDetail(destination.id);
@@ -146,48 +203,46 @@ class MapController extends BaseController with UseCaseProvider {
       );
     }).toList();
 
-    // Update markers list
-    markers.value = [mainMarker, ...touristMarkers];
+    markers.value = [userMarker, ...touristMarkers, ...hotelMarkers];
   }
 
-  // Marker Icon Loaders
-  void _loadHotelMarkerIcon() {
-    BitmapDescriptor.asset(
-      ImageConfiguration(
-        size: Size(40.wMin, 40.hMin),
-      ),
-      LocalImageRes.hotelMarkerIcon,
-    ).then(
-      (icon) {
-        hotelMarkerIcon.value = icon;
-      },
-    );
+  void _centerOnPosition(LatLng position) async {
+    final controller = await _mapController.future;
+    controller.animateCamera(CameraUpdate.newLatLng(position));
   }
 
-  void _loadTouristMarkerIcon() {
-    BitmapDescriptor.asset(
-      ImageConfiguration(
-        size: Size(40.wMin, 40.hMin),
-      ),
-      LocalImageRes.touristMarkerIcon,
-    ).then(
-      (icon) {
-        touristMarkerIcon.value = icon;
-      },
-    );
+  // Load and resize marker icons dynamically
+  Future<BitmapDescriptor> _resizeMarkerIcon(
+      String assetPath, double size) async {
+    ByteData data = await rootBundle.load(assetPath);
+    Uint8List bytes = data.buffer.asUint8List();
+    ui.Codec codec = await ui.instantiateImageCodec(bytes,
+        targetWidth: size.toInt(), targetHeight: size.toInt());
+    ui.FrameInfo frameInfo = await codec.getNextFrame();
+    final resizedBytes =
+        (await frameInfo.image.toByteData(format: ui.ImageByteFormat.png))!
+            .buffer
+            .asUint8List();
+    return BitmapDescriptor.fromBytes(resizedBytes);
   }
 
-  void _loadSelectedHotelMarkerIcon() {
-    BitmapDescriptor.asset(
-      ImageConfiguration(
-        size: Size(50.wMin, 45.hMin),
-      ),
-      LocalImageRes.hotelSelectedMarkerIcon,
-    ).then(
-      (icon) {
-        selectedHotelMarkerIcon.value = icon;
-      },
-    );
+  void _updateMarkerIcons(double zoomLevel) async {
+    double markerSize = (zoomLevel * 2).clamp(20, 40);
+
+    hotelMarkerIcon.value =
+        await _resizeMarkerIcon(LocalImageRes.hotelMarkerIcon, markerSize);
+    touristMarkerIcon.value =
+        await _resizeMarkerIcon(LocalImageRes.touristMarkerIcon, markerSize);
+    selectedHotelMarkerIcon.value =
+        await _resizeMarkerIcon(LocalImageRes.hotelSelectedMarkerIcon, 30);
+  }
+
+  void onCameraMove(CameraPosition position) {
+    double newZoomLevel = position.zoom;
+    if ((newZoomLevel - _currentZoomLevel).abs() >= 0.5) {
+      _currentZoomLevel = newZoomLevel;
+      _updateMarkerIcons(newZoomLevel);
+    }
   }
 
   Future<void> getCurrentLocation() async {
