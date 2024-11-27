@@ -93,7 +93,7 @@ class ProfileSettingPage extends StatelessWidget
                   fontWeight: FontWeight.w600,
                 ),
               ).marginOnly(top: 36.hMin),
-              languageBtn,
+              //languageBtn,
               SettingMenu(title: tr("setting.account"), list: menuAccount),
               SettingMenu(title: tr("setting.sign_out"), list: menuResource)
             ],
