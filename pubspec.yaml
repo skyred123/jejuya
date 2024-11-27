@@ -173,3 +173,4 @@ flutter:
     - assets/translations/ # Translations files
     - assets/images/tab_bar/ # Image tab bar files
     - assets/images/markers/ # Image markers files
+    - assets/images/svg/ # Image svg files
