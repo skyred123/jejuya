@@ -64,6 +64,8 @@ abstract class AppApiService extends BaseApiService {
     List<ScheduleItem>? listDestination,
   });
 
+  Future<List<Hotel>> fetchHotels();
+  
   Future<UserDetail> fetchUserDetail();
 
   Future<List<Hotel>> fetchHotels();
@@ -298,6 +300,20 @@ class AppApiServiceImpl extends AppApiService {
   }
 
   @override
+  Future<List<Hotel>> fetchHotels() {
+    return performGet(
+      'hotel/all',
+      decoder: (data) {
+        // Check if the data is a Map and contains the 'data' key
+        if (data is Map && data['data'] is List) {
+          // Map the 'data' list into Destination objects
+          return (data['data'] as List)
+              .map((item) => Hotel.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception('Unexpected response format: data is not a list.');
+        }
+        
   Future<UserDetail> fetchUserDetail() async {
     String? token =
         "${await fba.FirebaseAuth.instance.currentUser?.getIdToken()}";
