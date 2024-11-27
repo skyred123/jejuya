@@ -150,7 +150,7 @@ class MapController extends BaseController with UseCaseProvider {
         markerId: const MarkerId('user_marker'),
         position: currentMarkerPosition.value,
         icon: BitmapDescriptor.defaultMarker, // Use different icon for user
-        zIndex: 2,
+        zIndex: 3,
         onTap: () {
           // Update the center position for radius and nearby search
           selectedMarkerPosition.value = currentMarkerPosition.value;
@@ -194,10 +194,8 @@ class MapController extends BaseController with UseCaseProvider {
           double.parse(destination.longitude),
         ),
         icon: touristMarkerIcon.value,
-        zIndex: 1,
+        zIndex: 2,
         onTap: () async {
-          final destinationDetail =
-              await _fetchDestinationDetail(destination.id);
           nav.showDetinationInfoSheet(destination: destination);
         },
       );
@@ -227,7 +225,7 @@ class MapController extends BaseController with UseCaseProvider {
   }
 
   void _updateMarkerIcons(double zoomLevel) async {
-    double markerSize = (zoomLevel * 2).clamp(20, 40);
+    double markerSize = (zoomLevel * 2).clamp(25, 40);
 
     hotelMarkerIcon.value =
         await _resizeMarkerIcon(LocalImageRes.hotelMarkerIcon, markerSize);

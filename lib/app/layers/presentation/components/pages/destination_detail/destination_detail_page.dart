@@ -41,7 +41,7 @@ class DestinationDetailPage extends StatelessWidget
   Widget get _bgImage => Builder(
         builder: (context) {
           return ImageNetwork(
-            image: RemoteImageRes.background,
+            image: RemoteImageRes.test,
             height: context.height / 5,
             width: context.width,
             duration: 1500,
@@ -177,11 +177,13 @@ class DestinationDetailPage extends StatelessWidget
                   BlendMode.srcIn,
                 ),
               ).paddingOnly(right: 15.wMin, left: 10.wMin),
-              Text(
-                value,
-                style: TextStyle(
-                  color: context.color.black,
-                  fontSize: 12.spMin,
+              Expanded(
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    color: context.color.black,
+                    fontSize: 12.spMin,
+                  ),
                 ),
               ),
             ],
