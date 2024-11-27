@@ -1,19 +1,9 @@
 {
-  "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" }
-  ],
   "headers": [
     {
-      "source": "/assets/(.*)",
+      "source": "/assets/images/svg/(.*)",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/svg+xml"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }
+        { "key": "Content-Type", "value": "image/svg+xml" }
       ]
     }
   ]
