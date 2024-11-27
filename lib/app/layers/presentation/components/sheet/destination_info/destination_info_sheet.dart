@@ -168,9 +168,12 @@ class DestinationInfoSheet extends StatelessWidget
   Widget get _image => Builder(
         builder: (context) {
           final ctrl = controller(context);
+          final query = Uri.encodeComponent(
+              '${ctrl.destination!.businessNameEnglish.toLowerCase()} in jeju');
+          //"https://maps.gomaps.pro/maps/api/place/textsearch/json?query=$query&key=AlzaSyoor0pqspqqN3aQ3YU4sopqb_SYm8XjAlp"
+
           return ImageNetwork(
-            image:
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent(ctrl.destination!.businessNameEnglish)}&key=${dotenv.env['GOOGLE_MAP']}",
+            image: ctrl.imageUrl.value!,
             height: context.height / 4.8,
             width: context.width,
             duration: 1500,
