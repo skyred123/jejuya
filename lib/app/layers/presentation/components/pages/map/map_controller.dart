@@ -29,6 +29,7 @@ class MapController extends BaseController with UseCaseProvider {
   Future<void> initialize() async {
     await _fetchHotels();
     await _fetchNearbyDestinations();
+    await _getCurrentLocation();
     return super.initialize();
   }
 
@@ -243,17 +244,17 @@ class MapController extends BaseController with UseCaseProvider {
     }
   }
 
-  Future<void> getCurrentLocation() async {
+  Future<void> _getCurrentLocation() async {
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
+    currentMarkerPosition.value = LatLng(position.latitude, position.longitude);
     selectedMarkerPosition.value =
         LatLng(position.latitude, position.longitude);
-
-    // Update camera position to current location
-    final controller = await _mapController.future;
-    controller
-        .animateCamera(CameraUpdate.newLatLng(selectedMarkerPosition.value));
+    // // Update camera position to current location
+    // final controller = await _mapController.future;
+    // controller
+    //     .animateCamera(CameraUpdate.newLatLng(selectedMarkerPosition.value));
 
     // Fetch nearby destinations for new position
     await _fetchNearbyDestinations();
