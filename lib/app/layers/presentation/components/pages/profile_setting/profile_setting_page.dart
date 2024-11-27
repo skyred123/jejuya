@@ -94,8 +94,8 @@ class ProfileSettingPage extends StatelessWidget
                 ),
               ).marginOnly(top: 36.hMin),
               //languageBtn,
-              SettingMenu(title: tr("setting.account"), list: menuAccount),
-              SettingMenu(title: tr("setting.sign_out"), list: menuResource)
+              //SettingMenu(title: tr("setting.account"), list: menuAccount),
+              //SettingMenu(title: tr("setting.sign_out"), list: menuResource)
             ],
           ).paddingOnly(
             top: 20.wMin,
